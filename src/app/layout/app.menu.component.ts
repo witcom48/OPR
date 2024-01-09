@@ -144,7 +144,9 @@ export class AppMenuComponent implements OnInit {
                     { label: this.langs.get('calculatetimeCost')[this.selectlang], routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
                     { label: this.langs.get('summary')[this.selectlang], routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
+                    { label: 'รายการอนุมัติ', routerLink: ['/attendance/att-approve'], accessCode: 'ATT007' },
 
+                    
                 ]
             },
 

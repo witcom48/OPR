@@ -1,985 +1,118 @@
-// .empinfo {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr 1fr;
-//     flex-wrap: wrap;
-
-//     p-image {
-//         text-align-last: center;
-//     }
-
-//     .upload {
-//         padding: 1vw;
-//         grid-column: 2/4;
-//         align-self: flex-end;
-//         width: 25vw !important;
-//         max-width: 100%;
-//         border: none;
-//     }
-
-//     div {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 6px;
-//         padding: 1vw;
-//         min-width: 150px;
-//     }
-
-//     .radio {
-//         grid-column: 2/4;
-//         flex-direction: row;
-//         align-items: center;
-//     }
-
-//     .btnupload {
-//         grid-column: 2/4;
-//         padding: 1vw;
-//         align-self: flex-end;
-//         width: 100%;
-//         max-width: 100%;
-//         border: none;
-//         flex-direction: row;
-
-//         .upload {
-//             display: none;
-//         }
-//     }
-
-//     .uploadlabe {
-//         width: 10vw;
-//         max-width: 100%;
-//         margin-right: 20px;
-//         border: none;
-//         background: #084cdf;
-//         padding: 10px 20px;
-//         border-radius: 5px;
-//         color: #fff;
-//         cursor: pointer;
-//         transition: background .2s ease-in-out;
-//         text-align: center;
-//     }
-
-//     .uploadlabe:hover {
-//         background: #0d45a5;
-//     }
-
-//     .chosen-text {
-//         max-width: 100%;
-//         align-self: center;
-//     }
-
-// }
-
-// .empinfo2 {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr;
-//     flex-wrap: wrap;
-
-//     .horizontal {
-//         grid-column: 1/4;
-//     }
-
-
-//     div {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 6px;
-//         padding: 1vw;
-//         min-width: 150px;
-
-//         .radiotype {
-//             grid-column: 2/4;
-//             flex-direction: row;
-//             align-items: center;
-//         }
-
-//     }
-
-//     .checkresign {
-//         flex-direction: row;
-//         grid-column: 1/3;
-//     }
-
-//     .resingform {
-//         flex-direction: row;
-//     }
-
-//     .checkbb {
-//         flex-direction: row;
-//         align-self: center;
-//     }
-
-// }
-
-// .accordion {
-//     display: grid;
-//     grid-template-columns: 1fr;
-//     flex-wrap: wrap;
-
-//     div {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 6px;
-//         padding: 1vw;
-//         min-width: 150px;
-//     }
-
-//     .contact {
-//         display: grid;
-//         grid-template-columns: 1fr 1fr;
-//         flex-wrap: wrap;
-
-//         div {
-//             display: flex;
-//             flex-direction: column;
-//             gap: 6px;
-//             padding: 1vw;
-//             min-width: 150px;
-//         }
-//     }
-// }
-
-// .personal {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr 1fr;
-
-//     div {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 6px;
-//         padding: 1vw;
-//         min-width: 150px;
-//     }
-// }
-
-
-
-// .foreigner {
-//     display: grid !important;
-//     grid-template-columns: 1fr 1fr 1fr 1fr;
-//     flex-wrap: wrap;
-
-//     .horizontal {
-//         grid-column: 1/5;
-//     }
-
-//     h4 {
-//         grid-column: 1/5;
-//     }
-
-//     div {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 6px;
-//         padding: 1vw;
-//         min-width: 150px;
-//     }
-
-//     .checkresign {
-//         flex-direction: row;
-//         grid-column: 1/3;
-//     }
-
-//     .resingform {
-//         flex-direction: row;
-//     }
-// }
-
-// .checkselect {
-//     display: flex;
-//     flex-direction: row;
-//     flex-wrap: wrap;
-//     width: 100%;
-//     align-items: unset;
-
-//     .select {
-//         display: flex;
-//         flex-direction: column;
-//         width: 20vw;
-//         align-self: unset;
-//     }
-// }
-
-// @media (max-width: 700px) {
-//     .empinfo {
-//         display: flex;
-
-//         .upload {
-//             width: 100% !important;
-//         }
-
-//         div {
-//             width: 100%;
-//         }
-//     }
-
-//     .empinfo2 {
-//         display: flex;
-
-//         div {
-//             width: 100%;
-//         }
-//     }
-
-//     .personal {
-//         display: flex;
-//         flex-wrap: wrap;
-
-//         div {
-//             width: 100%;
-//         }
-//     }
-
-//     .foreigner {
-//         display: flex !important;
-//         flex-wrap: wrap;
-//     }
-
-//     .contact {
-//         display: flex !important;
-//     }
-// }
-
-// //
-// <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-// <hr>
-// <p-toast position="top-right"></p-toast>
-
-// <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
-//     key="myDialog"></p-confirmDialog>
-
-
-// <p-dialog header="{{title_lostwages[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
-//     [position]="position">
-//     <p-scrollPanel [style]="{width: '100%', height: '750px'}">
-//         <div class="formgrid grid">
-
-//             <div class="field col-12 ">
-//                 <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="project_list" optionValue="project_code"
-//                     [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-
-//             <div class="field col-12">
-//                 <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
-//                     [(ngModel)]="selectedlostwages.projob_code" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-
-//             <!-- 
-//             <input type="radio" name="resignStatus" [(ngModel)]="selectedEmployee.worker_resignstatus" value="resigned">
-//             <label for="resigned">Resigned</label>
-            
-//             <input type="radio" name="resignStatus" [(ngModel)]="selectedEmployee.worker_resignstatus" value="active">
-//             <label for="active">Active</label> -->
-
-
-//             <div class="field col-12">
-//                 <!-- // <p-checkbox name="selectedEmployee.worker_resignreason"
-//                             [(ngModel)]="selectedEmployee.worker_resignreason" [binary]="true"></p-checkbox>
-//                     <label>บุคคลภายใน</label>-->
-//                 <div class="input_radio">
-
-//                     <div class="input_radio">
-//                         <input type="radio" name="fav_job" value="Normal"
-//                             [(ngModel)]="selectedEmployee.worker_resignreason" (change)="selectJobmainType()">
-//                         <label>บุคคลภายใน</label>
-//                         &nbsp;
-
-//                         <input type="radio" name="fav_job" value="jobmain"
-//                             [(ngModel)]="selectedEmployee.worker_resignstatus" (change)="selectJobType()">
-//                         <label>บุคคลภายนอก<span style="color: red;"> *</span></label>
-//                         <div></div>
-//                     </div>
-
-
-//                     <!-- <div class="checkresign">
-//                         <p-checkbox name="selectedEmployee.worker_resignstatus"
-//                             [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
-//                         <label>บุคคลภายนอก</label>
-//                         &nbsp;
-
-//                     </div> -->
-//                     <div></div>
-//                 </div>
-//                 <!-- // -->
-//             </div>
-//             <!--  -->
-
- 
-//             <div class="grid field col-12" *ngIf="jobsub_type === 'jobmain' && jobSubListLoaded ">
-//                 <!-- <label>บุคคลภายนอกq</label><br> -->
-
-//                 <div class="center field col-3 md:col-6 custom-height">
-//                     <label for="lastname2">บัตรประชาชน</label>
-//                     <input type="text" [(ngModel)]="selectedlostwages.lostwages_cardno"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-                
-                
-            
-
-//                 <div class="center field col-3 md:col-6 custom-height">
-//                     <div>
-//                         <label for="Gender">{{title_gender[initial_current.Language]}} : </label>
-//                         <div class="radio">
-//                             <input type="radio" id="maleGender" name="Gender" value="M"
-//                                 [(ngModel)]="selectedlostwages.lostwages_gender">
-//                             <label for="maleGender">{{male_gender[initial_current.Language]}}</label>
-//                             &nbsp;&nbsp;
-//                             <input type="radio" id="femaleGender" name="Gender" value="F"
-//                                 [(ngModel)]="selectedlostwages.lostwages_gender">
-//                             <label for="femaleGender">{{female_gender[initial_current.Language]}}</label>
-//                         </div>
-//                     </div>
-//                 </div>
-                
-
-//                 <!-- <div class=" center field col-3 md:col-12 custom-height"></div> -->
-
-//                 <div class="center field col-2 md:col-2 custom-height">
-//                     <label for="selectedJobmain">คำนำหน้า</label><br>
-//                     <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="worker_initial"
-//                         [(ngModel)]="selectedlostwages.lostwages_initial" [showClear]="true"
-//                         [style]="{ width: '100%', overflow: 'visible' }">
-//                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                             {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                         </ng-template>
-//                         <ng-template let-item pTemplate="item">
-//                             {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                         </ng-template>
-//                     </p-dropdown>
-//                 </div>
- 
-
-
-//                 <div class="center field col-3 md:col-5 custom-height">
-//                     <label for="worker_code">ชื่อไทย</label>
-//                     <input type="text" id="lostwages_fname_th" [(ngModel)]="selectedlostwages.lostwages_fname_th"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class="center field col-3 md:col-5 custom-height">
-//                     <label for="worker_code">นามสกุลไทย</label>
-//                     <input type="text" id="lostwages_laname_th" [(ngModel)]="selectedlostwages.lostwages_laname_th"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class=" center field col-3 md:col-12 custom-height"></div>
-
-                
-
-
-//             </div>
-
-//             <div class="grid field col-12" *ngIf="job_type === 'Normal' && jobListLoaded ">
-
-//                 <div class="center field col-2 " style="display: flex; align-items: center; justify-content: center;">
-//                     <p-button icon="pi pi-search" (click)="open_searchemp()"></p-button>
-//                 </div>
-
-//                 <div class="center field col-3 md:col-4 custom-height">
-//                     <label for="worker_cardno">บัตรประชาชน</label>
-//                     <input type="text" id="worker_cardno" [(ngModel)]="selectedlostwages.worker_cardno"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//                 <div class="center field col-3 md:col-4 custom-height">
-//                     <label for="worker_code">{{title_empcode[initial_current.Language]}}</label>
-//                     <input type="text" id="worker_code" [(ngModel)]="selectedlostwages.worker_code"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-
-//                 <div class="center field col-3 md:col-12 custom-height">
-//                     <label for="emp_name">{{title_empname[initial_current.Language]}}</label>
-//                     <input id="emp_name" type="text" [(ngModel)]="emp_name"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//             </div>
-
-
-//             <div class="field col-12">
-//                 <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="shift_list" optionValue="shift_code" [(ngModel)]="selectedlostwages.shift_code"
-//                     [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-//             <div class="field col-12">
-//                 <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="daytype_list" optionValue="daytype_code"
-//                     [(ngModel)]="selectedlostwages.lostwages_daytype" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.daytype_name_th : item.daytype_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.daytype_name_th : item.daytype_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-
-
-//             </div>
-
-//             <div class="field col-6 ">
-//                 <label for="ppos_code">{{title_timein[initial_current.Language]}}</label>
-//                 <br>
-//                 <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm"
-//                     [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
-//             </div>
-//             <div class="field col-6 ">
-//                 <label for="ppos_code">{{title_timeout[initial_current.Language]}}</label>
-//                 <br>
-//                 <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm"
-//                     [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
-//             </div>
-
-//             <div class=" grid   field col-12">
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าแรง</label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_salary"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าล่วงเวลา </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_diligence"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าเดินทาง </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_travelexpenses"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">อื่นๆ </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_other"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//             </div>
-//             <div class="field col-12">
-//                 &nbsp;
-//             </div>
-
-//             <div class="field col-12">
-//                 <p-button label="บันทึก" icon="pi pi-save" (click)="timesheet_summit()"></p-button>
-//                 &nbsp;
-//                 <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
-//                     (click)="close_manage()"></button>
-//             </div>
-//         </div>
-//     </p-scrollPanel>
-
-// </p-dialog>
-
-// <p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
-//     <div class="grid">
-//         <div class="col-12">
-//             <app-search-emp></app-search-emp>
-//             <!-- <app-select-emp></app-select-emp> -->
-
-//         </div>
-//         <div class="col-12">
-//             <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
-//                 (click)="select_emp()"></p-button>
-//             &nbsp;
-//             <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
-//                 class="p-button-secondary" (click)="close_searchemp()"></button>
-//         </div>
-//     </div>
-// </p-dialog>
-
-// <div class="grid">
-//     <div class="col-12">
-
-//         <div class="formgrid grid align-items-end">
-//             <div class="field col-12 md:col-2 ">
-//                 <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
-
-//                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"
-//                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
-
-//             </div>
-
-//             <div class="field col-12 md:col-2 ">
-//                 <label for="ppos_shift_code">ถึงวันที่</label>
-//                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
-//                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
-//             </div>
-
-
-
-//             <div class="field col-12 md:col-2 ">
-//                 <button pButton type="button" class="p-button-secondary button-size-small btndel"
-//                     (click)="reloadPage()">
-//                     <i class="pi pi-refresh icon-small"></i>
-//                 </button>
-//             </div>
-//         </div>
-//     </div>
-
-//     <div class="col-12 md:col-12">
-//         <p-menubar [model]="menu_lostwages"></p-menubar>
-//         <p-table #dtTime [value]="lostwages_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
-//             [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-//             [(selection)]="selectedlostwages" (onRowSelect)="onRowSelectLostwages($event)" dataKey="worker_code"
-//             [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-//             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-//             [globalFilterFields]="['shift_code','lostwages_daytype', 'modified_by']">
-//             <ng-template pTemplate="header">
-//                 <tr>
-//                     <th></th>
-//                     <th>{{title_date[initial_current.Language]}}</th>
-//                     <th>{{title_jobcode[initial_current.Language]}}</th>
-//                     <th>{{title_jobname[initial_current.Language]}}</th>
-//                     <th>{{title_empcode[initial_current.Language]}}</th>
-//                     <th>{{title_empname[initial_current.Language]}}</th>
-//                     <th>{{title_shift[initial_current.Language]}}</th>
-//                     <th>{{title_daytype[initial_current.Language]}}</th>
-//                     <th>{{title_timein[initial_current.Language]}}</th>
-//                     <th>{{title_timeout[initial_current.Language]}}</th>
-//                     <th>{{title_working_before[initial_current.Language]}}</th>
-//                     <th>{{title_working[initial_current.Language]}}</th>
-//                     <th>{{title_working_after[initial_current.Language]}}</th>
-//                     <th>{{title_working_late[initial_current.Language]}}</th>
-//                     <th>{{title_working_leave[initial_current.Language]}}</th>
-//                     <th>{{title_modified_by[initial_current.Language]}}</th>
-//                     <th>{{title_modified_date[initial_current.Language]}}</th>
-
-//                 </tr>
-//             </ng-template>
-
-//             <ng-template pTemplate="body" let-lostwages>
-//                 <tr [pSelectableRow]="lostwages">
-//                     <td>
-//                         <!-- เลือกที่ละฟิล -->
-
-//                         <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
-//                             [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
-//                     </td>
-//                     <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
-//                     <td>{{lostwages.projob_code}}</td>
-//                     <td>{{doGetPolJobmainDetail(lostwages.projob_code)}}</td>
-//                     <td>{{lostwages.worker_code}}</td>
-//                     <td>{{initial_current.Language=="TH"? lostwages.worker_name_th : lostwages.worker_name_en }}</td>
-//                     <td>{{lostwages.shift_code}}</td>
-//                     <td>{{lostwages.lostwages_daytype}}</td>
-//                     <td>{{lostwages.lostwages_in}}</td>
-//                     <td>{{lostwages.lostwages_out}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_before_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
-//                     <td></td>
-//                     <td>{{lostwages.modified_by}}</td>
-//                     <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-//                 </tr>
-//             </ng-template>
-//         </p-table>
-//     </div>
-
-
-
-// </div>
-
-
-
-///
-// <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-// <hr>
-// <p-toast position="top-right"></p-toast>
-
-// <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
-//     key="myDialog"></p-confirmDialog>
-
-
-// <p-dialog header="{{title_lostwages[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
-//     [position]="position">
-//     <p-scrollPanel [style]="{width: '100%', height: '750px'}">
-//         <div class="formgrid grid">
-
-//             <div class="field col-12 ">
-//                 <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="project_list" optionValue="project_code"
-//                     [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-
-//             <div class="field col-12">
-//                 <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
-//                     [(ngModel)]="selectedlostwages.projob_code" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-
-//             <!-- 
-//             <input type="radio" name="resignStatus" [(ngModel)]="selectedEmployee.worker_resignstatus" value="resigned">
-//             <label for="resigned">Resigned</label>
-            
-//             <input type="radio" name="resignStatus" [(ngModel)]="selectedEmployee.worker_resignstatus" value="active">
-//             <label for="active">Active</label> -->
-
-
-//             <div class="field col-12">
-//                 <!-- // <p-checkbox name="selectedEmployee.worker_resignreason"
-//                             [(ngModel)]="selectedEmployee.worker_resignreason" [binary]="true"></p-checkbox>
-//                     <label>บุคคลภายใน</label>-->
-//                 <div class="input_radio">
-
-//                     <div class="input_radio">
-//                         <input type="radio" name="fav_job" value="Normal"
-//                             [(ngModel)]="selectedEmployee.worker_resignreason" (change)="selectJobmainType()">
-//                         <label>บุคคลภายใน</label>
-//                         &nbsp;
-
-//                         <input type="radio" name="fav_job" value="jobmain"
-//                             [(ngModel)]="selectedEmployee.worker_resignstatus" (change)="selectJobType()">
-//                         <label>บุคคลภายนอก<span style="color: red;"> *</span></label>
-//                         <div></div>
-//                     </div>
-
-
-//                     <!-- <div class="checkresign">
-//                         <p-checkbox name="selectedEmployee.worker_resignstatus"
-//                             [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
-//                         <label>บุคคลภายนอก</label>
-//                         &nbsp;
-
-//                     </div> -->
-//                     <div></div>
-//                 </div>
-//                 <!-- // -->
-//             </div>
-//             <!--  -->
-
- 
-//             <div class="grid field col-12" *ngIf="jobsub_type === 'jobmain' && jobSubListLoaded ">
-//                 <!-- <label>บุคคลภายนอกq</label><br> -->
-
-//                 <div class="center field col-3 md:col-6 custom-height">
-//                     <label for="lastname2">บัตรประชาชน</label>
-//                     <input type="text" [(ngModel)]="selectedlostwages.lostwages_cardno"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-                
-                
-            
-
-//                 <div class="center field col-3 md:col-6 custom-height">
-//                     <div>
-//                         <label for="Gender">{{title_gender[initial_current.Language]}} : </label>
-//                         <div class="radio">
-//                             <input type="radio" id="maleGender" name="Gender" value="M"
-//                                 [(ngModel)]="selectedlostwages.lostwages_gender">
-//                             <label for="maleGender">{{male_gender[initial_current.Language]}}</label>
-//                             &nbsp;&nbsp;
-//                             <input type="radio" id="femaleGender" name="Gender" value="F"
-//                                 [(ngModel)]="selectedlostwages.lostwages_gender">
-//                             <label for="femaleGender">{{female_gender[initial_current.Language]}}</label>
-//                         </div>
-//                     </div>
-//                 </div>
-                
-
-//                 <!-- <div class=" center field col-3 md:col-12 custom-height"></div> -->
-
-//                 <div class="center field col-2 md:col-2 custom-height">
-//                     <label for="selectedJobmain">คำนำหน้า</label><br>
-//                     <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="worker_initial"
-//                         [(ngModel)]="selectedlostwages.lostwages_initial" [showClear]="true"
-//                         [style]="{ width: '100%', overflow: 'visible' }">
-//                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                             {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                         </ng-template>
-//                         <ng-template let-item pTemplate="item">
-//                             {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
-//                         </ng-template>
-//                     </p-dropdown>
-//                 </div>
- 
-
-
-//                 <div class="center field col-3 md:col-5 custom-height">
-//                     <label for="worker_code">ชื่อไทย</label>
-//                     <input type="text" id="lostwages_fname_th" [(ngModel)]="selectedlostwages.lostwages_fname_th"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class="center field col-3 md:col-5 custom-height">
-//                     <label for="worker_code">นามสกุลไทย</label>
-//                     <input type="text" id="lostwages_laname_th" [(ngModel)]="selectedlostwages.lostwages_laname_th"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class=" center field col-3 md:col-12 custom-height"></div>
-
-                
-
-
-//             </div>
-
-//             <div class="grid field col-12" *ngIf="job_type === 'Normal' && jobListLoaded ">
-
-//                 <div class="center field col-2 " style="display: flex; align-items: center; justify-content: center;">
-//                     <p-button icon="pi pi-search" (click)="open_searchemp()"></p-button>
-//                 </div>
-
-//                 <div class="center field col-3 md:col-4 custom-height">
-//                     <label for="worker_cardno">บัตรประชาชน</label>
-//                     <input type="text" id="worker_cardno" [(ngModel)]="selectedlostwages.worker_cardno"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//                 <div class="center field col-3 md:col-4 custom-height">
-//                     <label for="worker_code">{{title_empcode[initial_current.Language]}}</label>
-//                     <input type="text" id="worker_code" [(ngModel)]="selectedlostwages.worker_code"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-
-//                 <div class="center field col-3 md:col-12 custom-height">
-//                     <label for="emp_name">{{title_empname[initial_current.Language]}}</label>
-//                     <input id="emp_name" type="text" [(ngModel)]="emp_name"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//             </div>
-
-
-//             <div class="field col-12">
-//                 <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="shift_list" optionValue="shift_code" [(ngModel)]="selectedlostwages.shift_code"
-//                     [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-//             </div>
-
-//             <div class="field col-12">
-//                 <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>
-//                 <p-dropdown placeholder="--"  [options]="daytype_list" optionValue="daytype_code"
-//                     [(ngModel)]="selectedlostwages.lostwages_daytype" [showClear]="true"
-//                     [style]="{ width: '100%', overflow: 'visible' }">
-//                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-//                         {{initial_current.Language=="TH"? item.daytype_name_th : item.daytype_name_en }}
-//                     </ng-template>
-//                     <ng-template let-item pTemplate="item">
-//                         {{initial_current.Language=="TH"? item.daytype_name_th : item.daytype_name_en }}
-//                     </ng-template>
-//                 </p-dropdown>
-
-
-//             </div>
-
-//             <div class="field col-6 ">
-//                 <label for="ppos_code">{{title_timein[initial_current.Language]}}</label>
-//                 <br>
-//                 <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm"
-//                     [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
-//             </div>
-//             <div class="field col-6 ">
-//                 <label for="ppos_code">{{title_timeout[initial_current.Language]}}</label>
-//                 <br>
-//                 <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm"
-//                     [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
-//             </div>
-
-//             <div class=" grid   field col-12">
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าแรง</label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_salary"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าล่วงเวลา </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_diligence"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">ค่าเดินทาง </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_travelexpenses"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//                 <div class=" center field col-3 md:col-3 custom-height">
-//                     <label for="lastname2">อื่นๆ </label>
-//                     <input type="number" step="0.5" [(ngModel)]="selectedlostwages.lostwages_other"
-//                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-//                 </div>
-
-
-//             </div>
-//             <div class="field col-12">
-//                 &nbsp;
-//             </div>
-
-//             <div class="field col-12">
-//                 <p-button label="บันทึก" icon="pi pi-save" (click)="process()"></p-button>
-//                 &nbsp;
-//                 <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
-//                     (click)="close_manage()"></button>
-//             </div>
-//         </div>
-//     </p-scrollPanel>
-
-// </p-dialog>
-
-// <p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
-//     <div class="grid">
-//         <div class="col-12">
-//             <app-search-emp></app-search-emp>
-//             <!-- <app-select-emp></app-select-emp> -->
-
-//         </div>
-//         <div class="col-12">
-//             <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
-//                 (click)="select_emp()"></p-button>
-//             &nbsp;
-//             <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
-//                 class="p-button-secondary" (click)="close_searchemp()"></button>
-//         </div>
-//     </div>
-// </p-dialog>
-
-// <div class="grid">
-//     <div class="col-12">
-
-//         <div class="formgrid grid align-items-end">
-//             <div class="field col-12 md:col-2 ">
-//                 <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
-
-//                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"
-//                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
-
-//             </div>
-
-//             <div class="field col-12 md:col-2 ">
-//                 <label for="ppos_shift_code">ถึงวันที่</label>
-//                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
-//                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
-//             </div>
-
-
-
-//             <div class="field col-12 md:col-2 ">
-//                 <button pButton type="button" class="p-button-secondary button-size-small btndel"
-//                     (click)="reloadPage()">
-//                     <i class="pi pi-refresh icon-small"></i>
-//                 </button>
-//             </div>
-//         </div>
-//     </div>
-
-//     <div class="col-12 md:col-12">
-//         <p-menubar [model]="menu_lostwages"></p-menubar>
-//         <p-table #dtTime [value]="lostwages_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
-//             [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-//             [(selection)]="selectedlostwages" (onRowSelect)="onRowSelectLostwages($event)" dataKey="worker_code"
-//             [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-//             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-//             [globalFilterFields]="['shift_code','lostwages_daytype', 'modified_by']">
-//             <ng-template pTemplate="header">
-//                 <tr>
-//                     <th></th>
-//                     <th>{{title_date[initial_current.Language]}}</th>
-//                     <th>{{title_jobcode[initial_current.Language]}}</th>
-//                     <th>{{title_jobname[initial_current.Language]}}</th>
-//                     <th>{{title_empcode[initial_current.Language]}}</th>
-//                     <th>{{title_empname[initial_current.Language]}}</th>
-//                     <th>{{title_shift[initial_current.Language]}}</th>
-//                     <th>{{title_daytype[initial_current.Language]}}</th>
-//                     <th>{{title_timein[initial_current.Language]}}</th>
-//                     <th>{{title_timeout[initial_current.Language]}}</th>
-//                     <th>{{title_working_before[initial_current.Language]}}</th>
-//                     <th>{{title_working[initial_current.Language]}}</th>
-//                     <th>{{title_working_after[initial_current.Language]}}</th>
-//                     <th>{{title_working_late[initial_current.Language]}}</th>
-//                     <th>{{title_working_leave[initial_current.Language]}}</th>
-//                     <th>{{title_modified_by[initial_current.Language]}}</th>
-//                     <th>{{title_modified_date[initial_current.Language]}}</th>
-
-//                 </tr>
-//             </ng-template>
-
-//             <ng-template pTemplate="body" let-lostwages>
-//                 <tr [pSelectableRow]="lostwages">
-//                     <td>
-//                         <!-- เลือกที่ละฟิล -->
-
-//                         <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
-//                             [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
-//                     </td>
-//                     <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
-//                     <td>{{lostwages.projob_code}}</td>
-//                     <td>{{doGetPolJobmainDetail(lostwages.projob_code)}}</td>
-//                     <td>{{lostwages.worker_code}}</td>
-//                     <td>{{initial_current.Language=="TH"? lostwages.worker_name_th : lostwages.worker_name_en }}</td>
-//                     <td>{{lostwages.shift_code}}</td>
-//                     <td>{{lostwages.lostwages_daytype}}</td>
-//                     <td>{{lostwages.lostwages_in}}</td>
-//                     <td>{{lostwages.lostwages_out}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_before_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
-//                     <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
-//                     <td></td>
-//                     <td>{{lostwages.modified_by}}</td>
-//                     <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-//                 </tr>
-//             </ng-template>
-//         </p-table>
-//     </div>
-
-
-
-// </div>
-/// 
+.table_head{
+    border-collapse: collapse;
+}
+
+.table_head td{
+    padding: 5px;
+    border: 0px solid #ccc;
+    height: 100px;
+    width: 100%;
+    background-color: #152047;
+    color: #FFFFFF;
+}
+
+.table_head td h4, a{
+    margin-left: 20px;
+    margin-right: 20px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+
+.table_head b{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.table_head small{
+    font-size: 12px;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #152047;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+.spn_title_edit{
+    margin: 10px 0px 10px 15px;    
+    font-weight: bold;
+    font-size: 15px;    
+}
+
+.td_amount{
+    text-align: right;
+    padding-right: 10px;
+}
+
+::ng-deep .input-styling input {
+    width: 40px !important;
+  }
+
+  textarea{
+    width: 100%;
+  }
+
+  .p-dialog-contents::ng-deep {
+    overflow-y: hidden;
+    padding: 1px 0.5rem 4rem 0.5rem;
+    
+  }
+  .hovered {
+    background-color: #f34646 !important;
+  }
+  .gray-button {
+    background-color: #73737333;
+     border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  
+
+  
+.checkselect {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px;
+
+    .select {
+        // display: flex;
+        // flex-wrap: wrap;
+        // flex-direction: column;
+        display: grid;
+        grid-template-columns: 145px 1fr;
+        gap: 5px;
+        
+        // align-self: center;s
+    }
+
+    .resign {
+        align-self: center;
+        display: flex;
+    }
+}
+::ng-deep .summary {
+    span {
+        input {
+            font-weight: 700;
+        }
+    }
+
+}

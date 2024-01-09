@@ -13,6 +13,10 @@ export class LostwagesModel {
     projob_code: string = "";
     // 
     lostwages_status: string = "";
+    //
+    lostwages_type: string = "";
+
+    //
     lostwages_salary: string = "";
     lostwages_diligence: string = "";
     lostwages_travelexpenses: string = "";

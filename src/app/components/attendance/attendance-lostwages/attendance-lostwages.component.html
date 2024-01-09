@@ -43,12 +43,12 @@
             <div class="field col-12">
                 <div class="input_radio">
                     <div class="input_radio">
-                        <input type="radio" name="fav_job" value="0" [(ngModel)]="selectedlostwages.lostwages_status"
+                        <input type="radio" name="fav_job" value="0" [(ngModel)]="selectedlostwages.lostwages_type"
                             (change)="selectJobmainType()">
                         <label>{{internal_person[initial_current.Language]}}</label>
                         &nbsp;
 
-                        <input type="radio" name="fav_job" value="1" [(ngModel)]="selectedlostwages.lostwages_status"
+                        <input type="radio" name="fav_job" value="1" [(ngModel)]="selectedlostwages.lostwages_type"
                             (change)="selectJobType()">
                         <label>{{external_person[initial_current.Language]}}<span style="color: red;"> *</span></label>
                     </div>
@@ -60,7 +60,7 @@
 
 
             <div class="grid field col-12" *ngIf="external_employees === '1' && jobSubListLoaded ">
-                 <div class="center field col-3 md:col-6 custom-height">
+                <div class="center field col-3 md:col-6 custom-height">
                     <label for="lastname2">{{title_cardno[initial_current.Language]}}</label>
                     <input type="text" [(ngModel)]="selectedlostwages.lostwages_cardno"
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
@@ -279,6 +279,8 @@
                 <tr>
                     <th></th>
                     <th>{{title_date[initial_current.Language]}}</th>
+                    <th>{{title_status[initial_current.Language]}}</th>
+
                     <th>{{title_jobcode[initial_current.Language]}}</th>
                     <th>{{title_jobname[initial_current.Language]}}</th>
 
@@ -303,13 +305,25 @@
                 </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-lostwages>
+            <ng-template pTemplate="body" let-lostwages let-i="rowIndex">
                 <tr [pSelectableRow]="lostwages">
                     <td>
                         <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
                             [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
                     </td>
                     <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
+
+
+                    <td>
+                        <p>{{ doGetStatusDetail(lostwages?.lostwages_status) }}</p>
+
+                        <p-tag [value]="doGetStatusDetail(lostwages?.lostwages_status)"
+                            [severity]="getSeverity(lostwages?.lostwages_status)">
+                        </p-tag>
+                    </td>
+
+                    <!-- <td>{{lostwages.lostwages_status}}</td> -->
+
                     <td>{{lostwages.projob_code}}</td>
                     <td>{{doGetPolJobmainDetail2(lostwages.projob_code)}}</td>
                     <!--  -->

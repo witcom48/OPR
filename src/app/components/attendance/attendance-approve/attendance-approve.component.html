@@ -1,0 +1,214 @@
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
+
+<table class="table_summary_">
+    <tr>
+        <td>
+            <div class="main_div">
+                <span class="spn_value">{{total_transfer}}</span>
+                <div class="sub_div">
+                    <span class="spn_title">พนักงาน</span>
+                </div>
+            </div>
+        </td>
+
+
+    </tr>
+</table>
+
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+
+<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
+    [style]="{width: '800vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
+        <div class="formgrid grid">
+
+            <div class="field col-12 ">
+
+            </div>
+
+        </div>
+    </p-scrollPanel>
+</p-dialog>
+
+ 
+
+
+<p-dialog header="{{title_notapprove[initial_current.Language]}}" [(visible)]="displayApproveNoteemp"
+    styleClass="dialog-overflow" [style]="{width: '27vw'}" [position]="position">
+
+    <p-scrollPanel [style]="{width: '25vw', height: '150px'}">
+        <div class="formgrid grid">
+
+            <div class="field col-12 ">
+                <textarea [rows]="3" id="approve_note" [(ngModel)]="approveNoteemp " [cols]="60" pInputTextarea
+                    [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    styleClass="p-button-raised p-button-secondary" (click)=" confirm_notapproveemp()"></p-button>
+            </div>
+        </div>
+    </p-scrollPanel>
+</p-dialog>
+
+<p-dialog header="{{title_popup_approve[initial_current.Language]}}" [(visible)]="displayApprove"
+    styleClass="dialog-overflow" [style]="{width: '40vw'}" [position]="position">
+
+    <div class="formgrid grid">
+        <div class="field col-12 ">
+            <p-table #dtApprove [value]="approve_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '35vw'}"
+                [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single"
+                [(selection)]="selectedApprove" dataKey="approve_by">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_username[initial_current.Language]}}</th>
+                        <th>{{title_status[initial_current.Language]}}</th>
+                        <th>{{title_approve_date[initial_current.Language]}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-approve>
+                    <tr [pSelectableRow]="approve">
+                        <td>{{approve.approve_by}}</td>
+                        <td>{{approve.approve_status}}</td>
+                        <td>
+                            <div *ngIf="approve.approve_status != '-'">{{approve.approve_date | date:'dd/MM/yyyy
+                                HH:mm'}}</div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p-dialog header="{{title_popup_approve[initial_current.Language]}}" [(visible)]="displayApproveemp"
+    styleClass="dialog-overflow" [style]="{width: '40vw'}" [position]="position">
+
+    <div class="formgrid grid">
+        <div class="field col-12 ">
+            <p-table #dtApprove [value]="approveemp_list" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '35vw'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true"
+                selectionMode="single" [(selection)]="selectedApproveemp" dataKey="approve_by">
+                <ng-template pTemplate="header">
+                    <tr>
+ 
+
+                        <th>{{title_username[initial_current.Language]}}</th>
+                        <th>{{title_status[initial_current.Language]}}</th>
+                        <th>{{title_approve_date[initial_current.Language]}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-approve>
+                    <tr [pSelectableRow]="approve">
+
+
+
+                        <td>{{approve.approve_by}}</td>
+                        <td>{{approve.approve_status}}</td>
+                        <td>
+                            <div *ngIf="approve.approve_status != '-'">{{approve.approve_date | date:'dd/MM/yyyy
+                                HH:mm'}}</div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p></p>
+ 
+
+
+
+<p-accordion>
+    <p-accordionTab header="{{title_total_transfer[initial_current.Language]}} " >
+        <p-menubar [model]="menu_projobemp"></p-menubar>
+
+        <p-table #dtJobemp [value]="Lostwages_list" selectionMode="single" [(selection)]="selectedLostwages" [rows]="12"
+            (onRowSelect)="onRowSelectProjobemp($event)" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+
+
+            <ng-template pTemplate="caption">
+                <div class="flex">
+
+
+
+                    <div class="col-6 md:col-3">
+                        <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
+                                        { label: title_approved[initial_current.Language], value: 'F' },
+                                        { label: title_notApprove[initial_current.Language], value: 'C' }]"
+                            optionLabel="label" optionValue="value" [showClear]="false"
+                            [(ngModel)]="selectedstatusLostwages" (onChange)="doGetProjobempFillter()"
+                            [style]="{ width: '100%', overflow: 'visible', 'max-width': '150px' }">
+                        </p-dropdown>
+                    </div>
+
+                    <span class="p-input-icon-left ml-auto search-input">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  
+                            placeholder="{{title_search[initial_current.Language]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th></th>
+                    <th>{{title_jobcode[initial_current.Language]}}</th>
+                    <th>{{title_jobname[initial_current.Language]}}</th>
+
+                    <th>{{internal_person[initial_current.Language]}}</th>
+                    <th>{{external_person[initial_current.Language]}}</th>
+
+                    <th>{{title_staff_empname[initial_current.Language]}}</th>
+
+                    <th>{{title_staff_status[initial_current.Language]}}</th>
+
+                    <th>{{title_view_approve[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-lostwages>
+                <tr >
+                    <td>
+                        <p-tableCheckbox *ngIf="lostwages.lostwages_status === 'W'" [value]="lostwages"></p-tableCheckbox>
+                    </td>
+                    <td>{{lostwages.project_code}}</td>
+                    <td>{{lostwages.projob_code}}</td>
+
+                    <td>{{ lostwages.worker_code || '-' }}</td><!--รหัสพนักงาน  -->
+                    <td>{{ lostwages.lostwages_cardno || '-' }}</td><!--รหัสพนักงาน  -->
+
+                    <td>
+                        {{ initial_current.Language == "TH" ? (lostwages.lostwages_fname_th + ' ' +
+                        lostwages.lostwages_laname_th) : lostwages.lostwages_laname_th }}
+                        {{ initial_current.Language == "TH" ? lostwages.worker_name_th : lostwages.worker_name_en }}
+                    </td>
+
+                    <!-- <td>{{doGetEmployeeDetail(lostwages.projobemp_emp)}}</td> -->
+ 
+                    <td>{{getFullStatus(lostwages.lostwages_status)}}</td>
+
+                    <td>
+                        <p-button icon="pi pi-user" (click)="doLoadApproveemp(lostwages.project_code,'PRO_NEW')" label=""
+                            styleClass="p-button-text"></p-button>
+                    </td>
+                    <td>{{lostwages.modified_by}}</td>
+                    <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>

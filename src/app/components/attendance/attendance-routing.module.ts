@@ -35,6 +35,7 @@ import { AttendanceSummaryComponent } from './attendance-summary/attendance-summ
 import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
 import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/attendance-shift.component';
  import { AttendanceLostwagesComponent } from './attendance-lostwages/attendance-lostwages.component';
+import { AttendanceApproveComponent } from './attendance-approve/attendance-approve.component';
 
 
 @NgModule({
@@ -75,7 +76,9 @@ import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/a
         { path: 'summary', component: AttendanceSummaryComponent },
 
         { path: 'lostwages', component: AttendanceLostwagesComponent },
+        { path: 'att-approve', component: AttendanceApproveComponent },
 
+        
         
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

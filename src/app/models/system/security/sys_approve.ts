@@ -10,4 +10,6 @@ export class TRSysApproveModel {
     approve_date: Date = new Date();
     project_code: string = "";
 
+    approve_cardno: string = "";
+
 }

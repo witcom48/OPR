@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Router } from '@angular/router';
-
+ 
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
@@ -134,6 +134,7 @@ export class AttendanceLostwagesComponent implements OnInit {
   title_OT: { [key: string]: string } = { EN: "OT", TH: "ค่าล่วงเวลา" };
   title_travel_expenses: { [key: string]: string } = { EN: "Travel Expenses", TH: "ค่าเดินทาง" };
   title_others: { [key: string]: string } = { EN: "Others", TH: "อื่นๆ" };
+  title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
 
   constructor(
     private router: Router,
@@ -221,7 +222,7 @@ export class AttendanceLostwagesComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.clearManage();
-            
+
             this.new_lostwages = true;
             this.selectedlostwages = new LostwagesModel();
             this.selectedProjobmain = new ProjectModel();
@@ -255,7 +256,7 @@ export class AttendanceLostwagesComponent implements OnInit {
 
         }
       }
- 
+
     ];
 
   }
@@ -442,7 +443,7 @@ export class AttendanceLostwagesComponent implements OnInit {
     return '';
   }
 
- 
+
 
   process() {
     this.result_list = [];
@@ -464,8 +465,7 @@ export class AttendanceLostwagesComponent implements OnInit {
         //  this.selectedlostwages.emp_data = this.selectEmp.selectedEmployee.worker_code;
         this.selectedlostwages.emp_data = [this.selectEmp.selectedEmployee];
 
-        this.selectedlostwages.lostwages_status = this.selectedlostwages.lostwages_status;
-        console.log(this.selectedlostwages.lostwages_status, 'lostwages_status')
+        this.selectedlostwages.lostwages_type = this.selectedlostwages.lostwages_type;
 
 
         this.selectedlostwages.projob_code = this.selectedlostwages.projob_code;
@@ -495,7 +495,7 @@ export class AttendanceLostwagesComponent implements OnInit {
             this.edit_data = true;
             this.displayManage = false
             this.edit_lostwages = false
- 
+
             setTimeout(() => {
               this.doLoadLostwages()
 
@@ -542,18 +542,36 @@ export class AttendanceLostwagesComponent implements OnInit {
   close_searchemp() {
     this.searchEmp = false
   }
-
-
+  doGetStatusDetail(status: string): any {
+    if (status == "W") {
+      return this.initial_current.Language == "EN" ? "Wait" : "รออนุมัติ"
+    }
+    else if (status == "F") {
+      return this.initial_current.Language == "EN" ? "Approved" : "อนุมัติแล้ว"
+    }
+    else if (status == "C") {
+      return this.initial_current.Language == "EN" ? "Not Approve" : "ไม่อนุมัติ"
+    }
+  }
+  getSeverity(status: string): any {
+    switch (status) {
+      case 'F':
+        return 'success';
+      case 'W':
+        return 'Info';
+      case 'C':
+        return 'danger';
+    }
+     
+  }
 
   /////
   version_selected: string = "";
 
   reloadPage() {
     this.doLoadPolJobmain()
-    this.doLoadEmployee()
     this.doLoadPolJobmain2()
     this.doLoadLostwages()
-    this.doLoadProject()
   }
   reloadPages() {
     this.doLoadPolJobmain()
@@ -634,8 +652,8 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.timein = "00:00"
       this.timeout = "00:00"
       this.showManage();
-     } else {
-  
+    } else {
+
       this.jobListLoaded = false;
       this.jobSubListLoaded = false;
     }
@@ -651,7 +669,7 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.timein = "00:00"
       this.timeout = "00:00"
       this.showManage();
- 
+
     } else {
       this.jobSubListLoaded = false;
       this.jobListLoaded = false;
