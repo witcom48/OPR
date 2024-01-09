@@ -108,7 +108,7 @@ export class AttendanceApproveComponent implements OnInit {
   title_manage: { [key: string]: string } = { EN: "Manage", TH: "จัดการข้อมูล" }
 
   title_total_project: { [key: string]: string } = { EN: "New Project", TH: "โครงการใหม่" }
-  title_total_transfer: { [key: string]: string } = { EN: "Transfer Emp.", TH: "โอนย้ายพนักงาน" }
+  title_total_transfer: { [key: string]: string } = { EN: "lostwages", TH: "ค่าแรงขาด" }
 
   title_username: { [key: string]: string } = { EN: "Username", TH: "ผู้อนุมัติ" }
   title_approve_date: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }
@@ -122,7 +122,7 @@ export class AttendanceApproveComponent implements OnInit {
   title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
 
-  title_approve_list: { [key: string]: string } = { EN: "Approve List", TH: "รายการอนุมัติโครงการ" }
+  title_approve_list: { [key: string]: string } = { EN: "Approve List", TH: "รายการอนุมัติ" }
 
   title_Project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
 
