@@ -40,7 +40,6 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
-import { ProequipmentReqModel } from '../../../models/project/project_equipment';
 
 import { InitialModel } from '../../../models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
@@ -88,12 +87,26 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
-import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProjectMTDocattModel } from 'src/app/models/project/project_docatt';
 import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
 import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
+import { EmpUniformModel } from 'src/app/models/employee/manage/empuniform';
+import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
+import { PaytranAccModel } from 'src/app/models/payroll/paytranacc';
+import { PaytranService } from 'src/app/services/payroll/paytran.service';
+import { PeriodsModels } from 'src/app/models/payroll/periods';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+
+interface Result {
+  worker: string;
+  policy: string;
+  modified_by: string;
+  modified_date: string;
+}
+
+
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -453,6 +466,20 @@ export class ProjectManageComponent implements OnInit {
   title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
   title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
   //
+  title_uniformtype: { [key: string]: string } = { EN: "Req. Type", TH: "รูปแบบการเบิก" };
+  title_uniformamount: { [key: string]: string } = { EN: "Quantity", TH: "จำนวน" };
+  title_uniformproject: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  title_uniformjob: { [key: string]: string } = { EN: "Job", TH: "ประเภทงาน" };
+  title_uniformwith: { [key: string]: string } = { EN: "Req. by", TH: "ผู้ขอเบิก" };
+  title_uniformpayperiod: { [key: string]: string } = { EN: "Installment Period", TH: "ผ่อนชำระ(จำนวนงวด)" };
+  title_uniformpayamount: { [key: string]: string } = { EN: "Installment Amount", TH: "ผ่อนชำระ(จำนวนเงิน)" };
+  title_uniformstart: { [key: string]: string } = { EN: "First Installment", TH: "งวดที่เริ่มตัดเงิน" };
+  title_description: { [key: string]: string } = { EN: "Description'", TH: "หมายเหตุ" };
+  title_uniformprice: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
+  title_withdrawal_date: { [key: string]: string } = { EN: "Withdrawal Date'", TH: "วันที่เบิก" };
+  title_supplyqty: { [key: string]: string } = { EN: "Quantity'", TH: "จำนวน" };
+  title_total: { [key: string]: string } = { EN: "Total'", TH: "ทั้งหมด" };
+  title_uniformname: { [key: string]: string } = { EN: "Uniform'", TH: "Uniform" };
   //#endregion "Language"
 
   constructor(
@@ -480,6 +507,9 @@ export class ProjectManageComponent implements OnInit {
     private yearServices: YearService,
     private provinceService: ProvinceService,
     private emptypeService: EmptypeService,
+    private empdetailService: EmpDetailService,
+    private paytranService: PaytranService,
+    private periodsService: PeriodsServices,
 
 
 
@@ -511,7 +541,17 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadresponsibleareaList();
     //
 
+    //
 
+    this.doFillter(this.project_code);
+    this.doLoadProject1(this.project_code);
+    this.doLoadPolJobmain(this.project_code);
+    this.doLoadPolJobmain2(this.project_code);
+    this.doPeriod();
+    this.doLoadProequipmentreq();
+    this.calculateInstallment();
+    this.calculateTotalAmount();
+    //
     setTimeout(() => {
       this.doLoadMenu()
     }, 100);
@@ -1600,8 +1640,8 @@ export class ProjectManageComponent implements OnInit {
           this.clearManage()
           this.new_proequipmentreq = true
           var ref = this.proequipmentreq_list.length + 100
-          this.selectedProequipmentreq = new ProequipmentreqModel()
-          this.selectedProequipmentreq.proequipmentreq_id = ref.toString()
+          this.selectedProequipmentreq = new EmpUniformModel()
+          this.selectedProequipmentreq.empuniform_id = ref.toString()
           this.showManage()
         }
       }
@@ -1664,15 +1704,11 @@ export class ProjectManageComponent implements OnInit {
       },
     ];
   }
-
-
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject() {
     var project_list: ProjectModel[] = [];
-
     this.projectService.project_get(this.initial_current.CompCode, this.project_code).then(async (res) => {
       project_list = await res;
-
       if (project_list.length > 0) {
         this.selectedProject = project_list[0]
 
@@ -1686,7 +1722,6 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProresponsible()
           this.doLoadProtimepol()
           this.doLoadProjobversion()
-          //this.doLoadProjobsub()
           this.doGetFilePro()
           this.doLoadProjobemp()
           this.doLoadProtimepol()
@@ -2327,7 +2362,7 @@ export class ProjectManageComponent implements OnInit {
         element.procontract_todate = new Date(element.procontract_todate)
         element.procontract_date = new Date(element.procontract_date)
 
-        
+
       })
       this.procontract_list = await res;
       if (this.procontract_list.length > 0) {
@@ -2336,7 +2371,7 @@ export class ProjectManageComponent implements OnInit {
     })
   }
 
-   
+
   onRowSelectProcontract(event: Event) {
   }
   procontract_summit() {
@@ -2403,7 +2438,7 @@ export class ProjectManageComponent implements OnInit {
   selectedProresponsible: ProresponsibleModel = new ProresponsibleModel();
   doLoadProresponsible() {
     this.projectDetailService.proresponsible_get(this.project_code).then(async (res) => {
-       await res.forEach((element: ProresponsibleModel) => {
+      await res.forEach((element: ProresponsibleModel) => {
         element.proresponsible_fromdate = new Date(element.proresponsible_fromdate)
         element.proresponsible_todate = new Date(element.proresponsible_todate)
       })
@@ -2640,15 +2675,15 @@ export class ProjectManageComponent implements OnInit {
     this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
       this.projobversion_list = await res;
       if (this.projobversion_list.length > 0) {
-        this.selectedProjobversion = this.projobversion_list[0];  
+        this.selectedProjobversion = this.projobversion_list[0];
         this.printVersion();
-       }
+      }
     });
     setTimeout(() => {
       this.doLoadProjobmain();
     }, 1000);
   }
-  
+
   onSelectProjobversion(event: any) {
 
     setTimeout(() => {
@@ -2713,18 +2748,84 @@ export class ProjectManageComponent implements OnInit {
 
 
   //-- Project jobmain
- 
+  //
+  //10/01/2024
+  project_list2: ProjectModel[] = [];
+  selectedProject_fillter: ProjectModel = new ProjectModel();
+  version: string = "";
+  jobmain_list: ProjobmainModel[] = [];
+  selectedProjobmain2: ProjectModel = new ProjectModel();
+  selectedJobmain: RadiovalueModel = new RadiovalueModel();
+  result_list: Result[] = [];
+  internal_staff: string = "0";
+  external_employees: string = "1";
+
+  // ปรับเปลี่ยนฟังก์ชัน doLoadProject1 เพื่อรับ project_code เข้ามา
+  doLoadProject1(project_code: string) {
+    this.project_list2 = [];
+    this.projectService.project_get(this.initial_current.CompCode, project_code).then(async (res) => {
+      this.project_list2 = await res;
+      this.doLoadPolJobmain(project_code);  // ส่ง project_code เพื่อโหลดข้อมูล projobmain
+    });
+  }
+
+  async doLoadPolJobmain(project_code: string) {
+    try {
+      this.jobmain_list = [];
+      const allProjobmain = await this.projectDetailService.projobversion_get(project_code);
+      if (allProjobmain && allProjobmain.length > 0) {
+        const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
+        const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, project_code, "", this.initial_current.PR_FromDate, this.initial_current.PR_ToDate);
+        this.jobmain_list = res as ProjobmainModel[];
+      }
+    } catch (error) { }
+  }
+
+  doGetPolJobmainDetail(code: string): string {
+    for (let i = 0; i < this.jobmain_list.length; i++) {
+      if (this.jobmain_list[i].projobmain_code === code) {
+        return this.initial_current.Language === 'TH' ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en;
+      }
+    }
+    return '';
+  }
+
+  jobmain_list2: ProjobmainModel[] = [];
+
+  // ปรับเปลี่ยนฟังก์ชัน doLoadPolJobmain2 เพื่อรับ project_code เข้ามา
+  doLoadPolJobmain2(project_code: string) {
+    this.jobmain_list2 = [];
+    this.projectDetailService.projobmain_get("", project_code, "", this.initial_current.PR_FromDate, this.initial_current.PR_ToDate).then(async (res) => {
+      this.jobmain_list2 = await res;
+    });
+  }
+
+  doGetPolJobmainDetail2(code: string): string {
+    for (let i = 0; i < this.jobmain_list2.length; i++) {
+      if (this.jobmain_list2[i].projobmain_code === code) {
+        return this.initial_current.Language === 'TH' ? this.jobmain_list2[i].projobmain_name_th : this.jobmain_list2[i].projobmain_name_en;
+      }
+    }
+    return '';
+  }
+
+  // ปรับเปลี่ยน doFillter ให้รับ project_code เพื่อโหลดข้อมูล projobmain
+  doFillter(project_code: string) {
+    this.doLoadPolJobmain(project_code);
+  }
+
+  //
+
 
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
-       await res.forEach((element: ProjobmainModel) => {
+      await res.forEach((element: ProjobmainModel) => {
         element.projobmain_fromdate = new Date(element.projobmain_fromdate)
         element.projobmain_todate = new Date(element.projobmain_todate)
       })
       this.projobmain_list = await res;
-      console.log(res,'kk')
       setTimeout(() => {
         this.projobmain_summary()
         this.projobmain_loadtran()///
@@ -2735,7 +2836,7 @@ export class ProjectManageComponent implements OnInit {
 
 
 
-  
+
 
   doGetProjobmainDetail(code: string): string {
     for (let i = 0; i < this.projobmain_list.length; i++) {
@@ -3784,18 +3885,18 @@ export class ProjectManageComponent implements OnInit {
 
   doLoadProjobemp() {
     this.projectDetailService.projobemp_get(this.project_code).then(async (res) => {
-       await res.forEach((element: ProjobempModel) => {
+      await res.forEach((element: ProjobempModel) => {
         element.projobemp_fromdate = new Date(element.projobemp_fromdate)
         element.projobemp_todate = new Date(element.projobemp_todate)
       })
       this.projobemp_list = await res;
-       
+
     })
   }
 
 
 
- 
+
   onRowSelectProjobemp(event: Event) {
     this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
   }
@@ -4278,15 +4379,15 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  //-- 26/09/2023
+  //-- 12/01/2024
   //-- Project equipment request
-  proequipmentreq_list: ProequipmentreqModel[] = [];
-  selectedProequipmentreq: ProequipmentreqModel = new ProequipmentreqModel();
+  proequipmentreq_list: EmpUniformModel[] = [];
+  selectedProequipmentreq: EmpUniformModel = new EmpUniformModel();
   doLoadProequipmentreq() {
-    this.projectDetailService.proequipmentreq_get(this.project_code).then(async (res) => {
-       await res.forEach((element: ProequipmentreqModel) => {
-        element.proequipmentreq_date = new Date(element.proequipmentreq_date)
-       })
+    this.empdetailService.getworker_uniform(this.initial_current.CompCode, this.project_code).then(async (res) => {
+      await res.forEach((element: EmpUniformModel) => {
+        element.empuniform_issuedate = new Date(element.empuniform_issuedate)
+      })
       this.proequipmentreq_list = await res;
       if (this.proequipmentreq_list.length > 0) {
         this.selectedProequipmentreq = this.proequipmentreq_list[0]
@@ -4294,8 +4395,8 @@ export class ProjectManageComponent implements OnInit {
     })
   }
 
-  
-  
+
+
   onRowSelectProequipmentreq(event: Event) {
   }
   proequipmentreq_summit() {
@@ -4306,7 +4407,7 @@ export class ProjectManageComponent implements OnInit {
 
   }
   proequipmentreq_remove() {
-    this.selectedProequipmentreq.proequipmentreq_id = "9999";
+    this.selectedProequipmentreq.empuniform_id = "9999";
     this.proequipmentreq_addItem(this.selectedProequipmentreq)
     this.new_proequipmentreq = false
     this.edit_proequipmentreq = false
@@ -4316,10 +4417,10 @@ export class ProjectManageComponent implements OnInit {
     this.new_proequipmentreq = false
     this.displayManage = false
   }
-  proequipmentreq_addItem(model: ProequipmentreqModel) {
-    const itemNew: ProequipmentreqModel[] = [];
+  proequipmentreq_addItem(model: EmpUniformModel) {
+    const itemNew: EmpUniformModel[] = [];
     for (let i = 0; i < this.proequipmentreq_list.length; i++) {
-      if (this.proequipmentreq_list[i].proequipmentreq_id == model.proequipmentreq_id) {
+      if (this.proequipmentreq_list[i].empuniform_id == model.empuniform_id) {
         //-- Notting
       }
       else {
@@ -4327,30 +4428,70 @@ export class ProjectManageComponent implements OnInit {
       }
     }
     //-- 9999 for delete
-    if (model.proequipmentreq_id != "9999") {
+    if (model.empuniform_id != "9999") {
       itemNew.push(model);
     }
     this.proequipmentreq_list = [];
     this.proequipmentreq_list = itemNew;
-    this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.proequipmentreq_id) - parseInt(b.proequipmentreq_id); })
+    this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.empuniform_id) - parseInt(b.empuniform_id); })
 
   }
+
+  totalAmount: number = 0;
+  numberOfInstallments: number = 0;
+  installmentAmount: number = 0;
+
+  saveInstallment(event: number) {
+    this.selectedProequipmentreq.empuniform_payamount = event.toString();
+  }
+
+  calculateTotalAmount() {
+    const amount1 = parseFloat(this.selectedProequipmentreq.empuniform_amount);
+    const quantity1 = parseFloat(this.selectedProequipmentreq.empuniform_qauntity);
+
+    if (!isNaN(amount1) && !isNaN(quantity1)) {
+      const result = amount1 * quantity1;
+      this.selectedProequipmentreq.empuniform_total = result.toFixed(2);
+      this.proequipmenttype_record();
+    } else {
+      this.selectedProequipmentreq.empuniform_total = '0.00';
+    }
+  }
+
+
+
+
+  calculateInstallment() {
+    const amount = parseFloat(this.selectedProequipmentreq.empuniform_total);
+    const payPeriod = parseInt(this.selectedProequipmentreq.empuniform_payperiod);
+
+    if (!isNaN(amount) && !isNaN(payPeriod) && amount > 0 && payPeriod > 0) {
+      this.installmentAmount = amount / payPeriod;
+      this.proequipmenttype_record();
+    } else {
+      this.installmentAmount = 0;
+    }
+  }
+
   proequipmenttype_record() {
     if (this.proequipmentreq_list.length == 0) {
       this.proequipmentreq_delete();
+    } else {
+      this.selectedProequipmentreq.empuniform_payamount = this.installmentAmount.toString();
+      this.empdetailService.record_empuniform(this.selectedProject.project_code, this.proequipmentreq_list).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
     }
-    this.projectDetailService.proequipmentreq_record(this.selectedProject.project_code, this.proequipmentreq_list).then((res) => {
-      let result = JSON.parse(res);
-
-      if (result.success) {
-      }
-      else {
-      }
-    });
   }
+
+
   proequipmentreq_delete() {
-    var tmp: ProequipmentreqModel = new ProequipmentreqModel();
-    this.projectDetailService.proequipmentreq_delete(this.selectedProject.project_code, tmp).then((res) => {
+    var tmp: EmpUniformModel = new EmpUniformModel();
+    tmp.worker_code = this.selectedProequipmentreq.worker_code
+    this.empdetailService.delete_empuniform(tmp).then((res) => {
       let result = JSON.parse(res);
     });
   }
@@ -4496,6 +4637,44 @@ export class ProjectManageComponent implements OnInit {
   reloadPage() {
     this.doGetFilePro();
     this.doLoadProjobversion();
+  }
+
+
+
+
+  paytranTaxTotal: number = 0;
+  paytranAccList: PaytranAccModel[] = [];
+  paytranDetailAcc: PaytranAccModel = new PaytranAccModel();
+  //Accumalate
+  doLoadPaytranAcc(paydate: Date) {
+    this.paytranTaxTotal = 0;
+    this.paytranDetailAcc = new PaytranAccModel();
+    this.paytranAccList = [];
+
+    this.paytranService.paytranacc_get(this.initial_current.CompCode, "", this.initial_current.PR_Year, paydate).then((res) => {
+      this.paytranAccList = res;
+    })
+  }
+  periods_list: PeriodsModels[] = [];
+  periods_select: PeriodsModels = new PeriodsModels();
+  doPeriod() {
+    this.periods_list = [];
+    var tmp = new PeriodsModels();
+    tmp.year_code = this.initial_current.PR_Year;
+    tmp.company_code = this.initial_current.CompCode;
+    tmp.emptype_code = this.initial_current.EmpType;
+    tmp.year_code = this.initial_current.PR_Year;
+    this.periodsService.period_get(tmp).then(async (res) => {
+      res.forEach((obj: PeriodsModels) => {
+        obj.period_name_en = this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
+        obj.period_name_th = this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
+      });
+      this.periods_list = await res;
+      this.periods_select = await res[0]
+    });
+  }
+  selectperiod() {
+    this.doLoadPaytranAcc(this.periods_select.period_payment);
   }
 
 

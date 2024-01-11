@@ -126,9 +126,16 @@ import { ProjobmainModel } from 'src/app/models/project/project_jobmain';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
 import { ProequipmentTypeModel } from 'src/app/models/project/project_equipment';
+import { RadiovalueModel } from 'src/app/models/project/radio_value';
+import { ProjobsubModel } from 'src/app/models/project/project_jobsub';
 
 
-
+interface Result {
+  worker: string;
+  policy: string;
+  modified_by: string;
+  modified_date: string;
+}
 
 
 interface Taxmethod {
@@ -380,7 +387,9 @@ export class EmployeeManageComponent implements OnInit {
     private referralService: ReferralService,
     private projectService: ProjectService,
     private projobService: ProjectDetailService,
-    private proequimenttype: ProgenaralService
+    private proequimenttype: ProgenaralService,
+    private projectDetailService: ProjectDetailService,
+
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -442,6 +451,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doGetInitialCurrent();
 
     this.doLoadLanguage();
+    this.calculateInstallment();
+    this.calculateTotalAmount();
     // Dropdown
     this.doLoadReason();
     this.doLoadReasonResign();
@@ -489,6 +500,9 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadForetypeList();
 
+    this.doLoadProject();
+    this.doLoadPolJobmain();
+    this.doLoadPolJobmain2();
     this.doLoadReferralList();
     this.doLoadUniformProList();
     this.doLoadUniformJobList();
@@ -508,7 +522,13 @@ export class EmployeeManageComponent implements OnInit {
       }
 
     }, 400);
+    setTimeout(() => {
 
+      if (this.empuniformList.length > 0) {
+        this.selectedEmpUniform = this.empuniformList[0]
+
+      }
+    }, 800);
     setTimeout(() => {
       this.doLoadResignall();
       this.doLoadEmpbankAll();
@@ -676,6 +696,8 @@ export class EmployeeManageComponent implements OnInit {
   title_educationstart: string = "Start Date";
   title_educationend: string = "Graduation Date";
   title_supplyissue: string = "Issue Date";
+  title_withdrawal_date: string = "Withdrawal Date";
+
   title_supplyename: string = "Supply";
   title_amount: string = "Amount";
   title_return: string = "Return";
@@ -834,14 +856,15 @@ export class EmployeeManageComponent implements OnInit {
   title_referpo: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
   title_referdate: { [key: string]: string } = { EN: "Date", TH: "วันที่เริ่ม" };
 
-  title_uniformtype: { [key: string]: string } = { EN: "รูปแบบการเบิก", TH: "รูปแบบการเบิก" };
+  title_uniformtype: { [key: string]: string } = { EN: "Req. Type", TH: "รูปแบบการเบิก" };
   title_uniformamount: { [key: string]: string } = { EN: "Quantity", TH: "จำนวน" };
   title_uniformproject: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
   title_uniformjob: { [key: string]: string } = { EN: "Job", TH: "ประเภทงาน" };
-  title_uniformwith: { [key: string]: string } = { EN: "ผู้ขอเบิก", TH: "ผู้ขอเบิก" };
-  title_uniformpayperiod: { [key: string]: string } = { EN: "ผ่อนชำระ(จำนวนงวด)", TH: "ผ่อนชำระ(จำนวนงวด)" };
-  title_uniformpayamount: { [key: string]: string } = { EN: "ผ่อนชำระ(จำนวนเงิน)", TH: "ผ่อนชำระ(จำนวนเงิน)" };
-  title_uniformstart: { [key: string]: string } = { EN: "งวดที่เริ่มตัดเงิน'", TH: "งวดที่เริ่มตัดเงิน" };
+  title_uniformwith: { [key: string]: string } = { EN: "Req. by", TH: "ผู้ขอเบิก" };
+  title_uniformpayperiod: { [key: string]: string } = { EN: "Installment Period", TH: "ผ่อนชำระ(จำนวนงวด)" };
+  title_uniformpayamount: { [key: string]: string } = { EN: "Installment Amount", TH: "ผ่อนชำระ(จำนวนเงิน)" };
+  title_uniformstart: { [key: string]: string } = { EN: "First Installment", TH: "งวดที่เริ่มตัดเงิน" };
+  title_total: { [key: string]: string } = { EN: "Total'", TH: "ทั้งหมด" };
 
   title_supplyqty: { [key: string]: string } = { EN: "Quantity'", TH: "จำนวน" };
 
@@ -994,6 +1017,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_educationstart = "วันที่เริ่ม";
       this.title_educationend = "วันที่จบ";
       this.title_supplyissue = "วันที่เบิก";
+      this.title_withdrawal_date = "วันที่เบิก";
       this.title_supplyename = "ชื่ออุปกรณ์";
       this.title_amount = "เงินค่าแนะนำ";
       this.title_return = "คืนอุปกรณ์";
@@ -2959,23 +2983,110 @@ export class EmployeeManageComponent implements OnInit {
       this.uniformList = res;
     })
   }
+  //10/01/2024
+  project_list: ProjectModel[] = [];
+  selectedProject_fillter: ProjectModel = new ProjectModel()
+  selectedDate_fillter: Date = new Date()
+  selectedToDate_fillter: Date = new Date()
+
+  doLoadProject() {
+    this.project_list = []
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+      this.project_list = await res;
+
+    });
+  }
+
+  version: string = "";
+  jobmain_list: ProjobmainModel[] = [];
+
+  selectedProjobmain: ProjectModel = new ProjectModel();
+
+  selectedJobmain: RadiovalueModel = new RadiovalueModel();
+  projobsub_list: ProjobsubModel[] = [];
+  selectedProjobsub: ProjobsubModel = new ProjobsubModel();
+  result_list: Result[] = [];
+  internal_staff: string = "0";
+  external_employees: string = "1";
+
+  async doLoadPolJobmain() {
+    try {
+      this.jobmain_list = [];
+      const allProjobmain = await this.projectDetailService.projobversion_get(this.selectedEmpUniform.project_code);
+      if (allProjobmain && allProjobmain.length > 0) {
+        const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
+        const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, this.selectedEmpUniform.project_code, "", this.initial_current.PR_FromDate, this.initial_current.PR_ToDate);
+        this.jobmain_list = res as ProjobmainModel[];
+
+      }
+    } catch (error) { }
+  }
+
+  doGetPolJobmainDetail(code: string): string {
+    for (let i = 0; i < this.jobmain_list.length; i++) {
+      if (this.jobmain_list[i].projobmain_code === code) {
+        return this.initial_current.Language === 'TH' ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en;
+      }
+    }
+    return '';
+  }
+
+  jobmain_list2: ProjobmainModel[] = [];
+
+  doLoadPolJobmain2() {
+    this.jobmain_list2 = []
+    this.projectDetailService.projobmain_get("", this.selectedEmpUniform.project_code, "", this.initial_current.PR_FromDate, this.initial_current.PR_ToDate).then(async (res) => {
+      this.jobmain_list2 = await res;
+
+    });
+  }
+
+  doGetPolJobmainDetail2(code: string): string {
+    for (let i = 0; i < this.jobmain_list2.length; i++) {
+      if (this.jobmain_list2[i].projobmain_code === code) {
+        return this.initial_current.Language === 'TH' ? this.jobmain_list2[i].projobmain_name_th : this.jobmain_list2[i].projobmain_name_en;
+      }
+    }
+    return '';
+  }
+
+  doFillter() {
+    this.doLoadPolJobmain()
+
+  }
+
+  totalAmount: number = 0;
+  numberOfInstallments: number = 0;
+  installmentAmount: number = 0;
+
+  saveInstallment(event: number) {
+    this.selectedEmpUniform.empuniform_payamount = event.toString();
+  }
+  
+  
+
+
+
+  //
   uniformProList: ProjectModel[] = [];
+  // selectedProject_fillter: ProjectModel = new ProjectModel()
+
   uniformJobList: ProjobmainModel[] = [];
   selectedProject: string = "";
-  doLoadUniformProList(){
-    this.projectService.project_get(this.initial_current.CompCode,'').then((res)=>{
+  doLoadUniformProList() {
+    this.projectService.project_get(this.initial_current.CompCode, '').then((res) => {
       this.uniformProList = res;
     })
   }
-  doLoadUniformJobList(){
-    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
+  doLoadUniformJobList() {
+    this.projobService.projobmain_get('', this.selectedProject, '', this.initial_current.PR_FromDate, this.initial_current.PR_ToDate).then(async (res) => {
       this.uniformJobList = await res
     })
   }
   uniformTypeList: ProequipmentTypeModel[] = [];
-  doLoadUniformTypeList(){
+  doLoadUniformTypeList() {
     var tmp = new ProequipmentTypeModel();
-    this.proequimenttype.proequipmenttype_get(tmp).then((res)=>{
+    this.proequimenttype.proequipmenttype_get(tmp).then((res) => {
       this.uniformTypeList = res;
     })
   }
@@ -4004,6 +4115,7 @@ export class EmployeeManageComponent implements OnInit {
         this.selectedEmpUniform = this.empuniformList[0];
       }
     })
+
   }
   onRowSelectEmpUniform(event: Event) { }
   empuniform_summit() {
@@ -4049,20 +4161,56 @@ export class EmployeeManageComponent implements OnInit {
     this.empuniformList = itemNew;
     this.empuniformList.sort(function (a, b) { return parseInt(a.empuniform_id) - parseInt(b.empuniform_id); })
   }
+  calculateTotalAmount() {
+    const amount1 = parseFloat(this.selectedEmpUniform.empuniform_amount);
+    const quantity1 = parseFloat(this.selectedEmpUniform.empuniform_qauntity);
+  
+    if (!isNaN(amount1) && !isNaN(quantity1)) {
+      const result = amount1 * quantity1;
+      this.selectedEmpUniform.empuniform_total = result.toFixed(2); 
+      this.record_empuniform();
+    } else {
+      this.selectedEmpUniform.empuniform_total = '0.00';  
+    }
+  }
+  calculateInstallment() {
+    const amount = parseFloat(this.selectedEmpUniform.empuniform_total);
+    const payPeriod = parseInt(this.selectedEmpUniform.empuniform_payperiod);
+    
+    if (!isNaN(amount) && !isNaN(payPeriod) && amount > 0 && payPeriod > 0) {
+      this.installmentAmount = amount / payPeriod;
+      this.record_empuniform();  
+    } else {
+      this.installmentAmount = 0;
+    }
+  }
+  
   record_empuniform() {
     if (this.empuniformList.length == 0) {
       this.empuniform_delete();
     } else {
+      this.selectedEmpUniform.empuniform_payamount = this.installmentAmount.toString();  
       this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
-        }
-        else {
+        } else {
         }
       });
     }
-
   }
+  // record_empuniform() {
+  //   if (this.empuniformList.length == 0) {
+  //     this.empuniform_delete();
+  //   } else {
+  //     this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
+  //       let result = JSON.parse(res);
+  //       if (result.success) {
+  //       }
+  //       else {
+  //       }
+  //     });
+  //   }
+  // }
 
   //emp suggest
   empsuggestList: EmpSuggestModel[] = [];
@@ -4983,7 +5131,7 @@ export class EmployeeManageComponent implements OnInit {
         },
         key: "myDialog"
       });
-    } else if (this.empbankList[0] && this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
+    } else if (this.empbankList[0] && this.checkbankaccount(this.empbankList[0].bank_account || "") == this.empbankList[0].bank_account) {
       this.confirmationService.confirm({
         message: this.title_confirmbankacc[this.initial_current.Language],
         header: this.title_confirm,
@@ -5024,7 +5172,6 @@ export class EmployeeManageComponent implements OnInit {
       // }
     });
   }
-
   doRecordEmployee() {
 
     this.employeeService.worker_recordall(this.selectedEmployee).then((res) => {
@@ -5050,6 +5197,9 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empeducation();
         this.record_empsupply();
         this.record_empuniform();
+
+
+
         this.record_empsuggest();
         this.record_emptraining();
         this.record_empassessment();
@@ -5574,152 +5724,152 @@ export class EmployeeManageComponent implements OnInit {
     }
   }
 
-    clearManage() {
-      this.new_emplocation = false; this.edit_emplocation = false;
-      this.new_empbranch = false; this.edit_empbranch = false;
-      this.new_empaddress = false; this.edit_empaddress = false;
-      this.new_card = false; this.edit_empcard = false;
-      this.new_bank = false; this.edit_empbank = false;
-      this.new_family = false; this.edit_empfamily = false;
-      this.new_hospital = false; this.edit_emphospital = false;
-      this.new_foreigner = false; this.edit_empforeigner = false;
-      this.new_dep = false; this.edit_empdep = false;
-      this.new_position = false; this.edit_empposition = false;
-      this.new_group = false; this.edit_empgroup = false;
-      this.new_education = false; this.edit_empeducation = false;
-      this.new_supply = false; this.edit_empsupply = false;
-      this.new_uniform = false; this.edit_empuniform = false;
-      this.new_suggest = false; this.edit_empsuggest = false;
-      this.new_training = false; this.edit_emptraining = false;
-      this.new_assessment = false; this.edit_empassessment = false;
-      this.new_criminal = false; this.edit_empcriminal = false;
-      this.new_salary = false; this.edit_empsalary = false;
-      this.new_provident = false; this.edit_empprovident = false;
-      this.new_benefit = false; this.edit_empbenefit = false;
-      this.new_reduce = false; this.edit_empreduce = false;
-      this.new_accumalate = false; this.edit_empaccumalate = false;
-      this.new_tranfer = false; this.edit_emptranfer = false;
-    }
+  clearManage() {
+    this.new_emplocation = false; this.edit_emplocation = false;
+    this.new_empbranch = false; this.edit_empbranch = false;
+    this.new_empaddress = false; this.edit_empaddress = false;
+    this.new_card = false; this.edit_empcard = false;
+    this.new_bank = false; this.edit_empbank = false;
+    this.new_family = false; this.edit_empfamily = false;
+    this.new_hospital = false; this.edit_emphospital = false;
+    this.new_foreigner = false; this.edit_empforeigner = false;
+    this.new_dep = false; this.edit_empdep = false;
+    this.new_position = false; this.edit_empposition = false;
+    this.new_group = false; this.edit_empgroup = false;
+    this.new_education = false; this.edit_empeducation = false;
+    this.new_supply = false; this.edit_empsupply = false;
+    this.new_uniform = false; this.edit_empuniform = false;
+    this.new_suggest = false; this.edit_empsuggest = false;
+    this.new_training = false; this.edit_emptraining = false;
+    this.new_assessment = false; this.edit_empassessment = false;
+    this.new_criminal = false; this.edit_empcriminal = false;
+    this.new_salary = false; this.edit_empsalary = false;
+    this.new_provident = false; this.edit_empprovident = false;
+    this.new_benefit = false; this.edit_empbenefit = false;
+    this.new_reduce = false; this.edit_empreduce = false;
+    this.new_accumalate = false; this.edit_empaccumalate = false;
+    this.new_tranfer = false; this.edit_emptranfer = false;
+  }
 
-    //-- Aeb add 10/07/2023
-    benefit_list: any[] = [];
+  //-- Aeb add 10/07/2023
+  benefit_list: any[] = [];
 
-    doLoadItemsList() {
-      var tmp = new ItemsModel();
-      this.itemService.item_get(tmp).then(async (res) => {
-        await res.forEach((element: ItemsModel) => {
+  doLoadItemsList() {
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then(async (res) => {
+      await res.forEach((element: ItemsModel) => {
 
-          this.doAddOption(this.benefit_list, element)
-        });
+        this.doAddOption(this.benefit_list, element)
       });
+    });
 
-    }
+  }
 
-    doAddOption(list: any[], element: ItemsModel) {
-      list.push(
-        {
-          name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
-          code: element.item_code
-        }
-      )
-    }
+  doAddOption(list: any[], element: ItemsModel) {
+    list.push(
+      {
+        name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
+        code: element.item_code
+      }
+    )
+  }
 
-    // myURL: any
-    // onURLinserted() {
-    //   this.getImage(this.myURL).subscribe(data => {
-    //     this.createImageFromBlob(data);
-    //   }, error => {
-    //     console.log("Error occured", error);
-    //   });
-    // }
+  // myURL: any
+  // onURLinserted() {
+  //   this.getImage(this.myURL).subscribe(data => {
+  //     this.createImageFromBlob(data);
+  //   }, error => {
+  //     console.log("Error occured", error);
+  //   });
+  // }
 
-    // getImage(imageUrl: string): Observable<File> {
-    //   let headers = { responseType: ResponseContentType.Blob }
-    //   return this.http
-    //     .get(imageUrl)
-    //     .pipe(map((res:any) => res.blob()))
-    //     // .map((res: Response) => res.blob());
-    // }
+  // getImage(imageUrl: string): Observable<File> {
+  //   let headers = { responseType: ResponseContentType.Blob }
+  //   return this.http
+  //     .get(imageUrl)
+  //     .pipe(map((res:any) => res.blob()))
+  //     // .map((res: Response) => res.blob());
+  // }
 
-    // createImageFromBlob(image: Blob) {
-    //   let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
-    //   reader.addEventListener("load", () => {
-    //     this.base64Image = reader.result; // here is the result you got from reader
-    //   }, false);
+  // createImageFromBlob(image: Blob) {
+  //   let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
+  //   reader.addEventListener("load", () => {
+  //     this.base64Image = reader.result; // here is the result you got from reader
+  //   }, false);
 
-    //   if (image) {
-    //     reader.readAsDataURL(image);
-    //   }
-    // }
-
-
-    @ViewChild('tablelocation') dtemplocation: ElementRef | any = null;
-    @ViewChild('tablebranch') dtempbranch: ElementRef | any = null;
-    @ViewChild('tablesuggest') dtempsuggest: ElementRef | any = null;
-    @ViewChild('tableaddress') dtempaddress: ElementRef | any = null;
-    @ViewChild('tablecard') dtempcard: ElementRef | any = null;
-    @ViewChild('tablebank') dtempbank: ElementRef | any = null;
-    @ViewChild('tablefamily') dtempfamily: ElementRef | any = null;
-    @ViewChild('tablehospital') dtemphospital: ElementRef | any = null;
-    @ViewChild('tabledep') dtempdep: ElementRef | any = null;
-    @ViewChild('tableposition') dtempposition: ElementRef | any = null;
-    @ViewChild('tablegroup') dtempgroup: ElementRef | any = null;
-    @ViewChild('tableeducation') dtempeducation: ElementRef | any = null;
-    @ViewChild('tablesupply') dtempsupply: ElementRef | any = null;
-    @ViewChild('tableuniform') dtempuniform: ElementRef | any = null;
-    @ViewChild('tabletraining') dtemptraining: ElementRef | any = null;
-    @ViewChild('tableappraisal') dtempappraisal: ElementRef | any = null;
-    @ViewChild('tablecriminal') dtempcriminal: ElementRef | any = null;
-    @ViewChild('tablesalary') dtempsalary: ElementRef | any = null;
-    @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
-    @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
-    @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
-    @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
-    @ViewChild('tableexperience') dtempexperience: ElementRef | any = null;
+  //   if (image) {
+  //     reader.readAsDataURL(image);
+  //   }
+  // }
 
 
-    exportAsExcel(table: ElementRef, name: string) {
-      // console.log(this.selectedEmpLocation)
-      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
+  @ViewChild('tablelocation') dtemplocation: ElementRef | any = null;
+  @ViewChild('tablebranch') dtempbranch: ElementRef | any = null;
+  @ViewChild('tablesuggest') dtempsuggest: ElementRef | any = null;
+  @ViewChild('tableaddress') dtempaddress: ElementRef | any = null;
+  @ViewChild('tablecard') dtempcard: ElementRef | any = null;
+  @ViewChild('tablebank') dtempbank: ElementRef | any = null;
+  @ViewChild('tablefamily') dtempfamily: ElementRef | any = null;
+  @ViewChild('tablehospital') dtemphospital: ElementRef | any = null;
+  @ViewChild('tabledep') dtempdep: ElementRef | any = null;
+  @ViewChild('tableposition') dtempposition: ElementRef | any = null;
+  @ViewChild('tablegroup') dtempgroup: ElementRef | any = null;
+  @ViewChild('tableeducation') dtempeducation: ElementRef | any = null;
+  @ViewChild('tablesupply') dtempsupply: ElementRef | any = null;
+  @ViewChild('tableuniform') dtempuniform: ElementRef | any = null;
+  @ViewChild('tabletraining') dtemptraining: ElementRef | any = null;
+  @ViewChild('tableappraisal') dtempappraisal: ElementRef | any = null;
+  @ViewChild('tablecriminal') dtempcriminal: ElementRef | any = null;
+  @ViewChild('tablesalary') dtempsalary: ElementRef | any = null;
+  @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
+  @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
+  @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
+  @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
+  @ViewChild('tableexperience') dtempexperience: ElementRef | any = null;
 
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
+  exportAsExcel(table: ElementRef, name: string) {
+    // console.log(this.selectedEmpLocation)
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
 
-    }
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
+
+  }
 
 
-    hasAccessMenu(accessCode: string): boolean {
-      return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
-    }
+  hasAccessMenu(accessCode: string): boolean {
+    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
 
-    age: string = "";
-    CalculateAge() {
-      if (this.selectedEmployee.worker_birthdate) {
-        let timeDiff = Math.abs(Date.now() - this.selectedEmployee.worker_birthdate.getTime());
-        let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
-        if (this.initial_current.Language == 'TH') {
-          this.age = agediff + " ปี"
-        } else {
-          this.age = agediff + " Year"
-        }
+  age: string = "";
+  CalculateAge() {
+    if (this.selectedEmployee.worker_birthdate) {
+      let timeDiff = Math.abs(Date.now() - this.selectedEmployee.worker_birthdate.getTime());
+      let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+      if (this.initial_current.Language == 'TH') {
+        this.age = agediff + " ปี"
+      } else {
+        this.age = agediff + " Year"
       }
     }
-    // CalculatePFAge(date: Date) {
-    //   return "";
-    // }
+  }
+  // CalculatePFAge(date: Date) {
+  //   return "";
+  // }
 
-    ///ทำตรงนี้ 06/10/2023
-    PFAge: string = "";
-  async CalculatePFAge(date: Date): Promise < string > {
-      const incrementDate = (inputDate: Date) => {
-        const newDate = new Date(inputDate);
-        newDate.setDate(newDate.getDate() + 1);
-        return newDate;
-      }
+  ///ทำตรงนี้ 06/10/2023
+  PFAge: string = "";
+  async CalculatePFAge(date: Date): Promise<string> {
+    const incrementDate = (inputDate: Date) => {
+      const newDate = new Date(inputDate);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate;
+    }
 
-    if(this.selectedEmpprovident.empprovident_start) {
+    if (this.selectedEmpprovident.empprovident_start) {
       let currentDate = new Date(this.selectedEmpprovident.empprovident_start);
       let daysCount = 0;
       while (true) {

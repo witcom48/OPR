@@ -153,7 +153,7 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    
+
 
 
                     <!-- Dep2 -->
@@ -163,9 +163,10 @@
                         </div>
                         <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
                             [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
-                            [style]="{ width: '100%', overflow: 'visible' }">
-                            <ng-template let-item pTemplate="selectedItem"
-                            [filter]="true" filterBy="dep_code,dep_name_th,dep_name_en">
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="dep_code,dep_name_th,dep_name_en">
+                            <ng-template let-item pTemplate="selectedItem">
+
                                 {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">

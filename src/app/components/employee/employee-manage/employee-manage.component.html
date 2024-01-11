@@ -1222,7 +1222,7 @@
                                             currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th>{{title_uniformissue}}</th>
+                                                    <th>{{title_withdrawal_date}}</th>
                                                     <th>{{title_uniformname}}</th>
                                                     <th>{{title_uniformprice}}</th>
                                                     <th>{{title_uniformamount[initial_current.Language]}}</th>
@@ -2474,7 +2474,7 @@
 
     <!-- Form Emp Uniform -->
     <div class="formatt" *ngIf="edit_empuniform==true || new_uniform==true">
-        <label>{{title_supplyissue}}</label>
+        <label>{{title_withdrawal_date}}</label>
         <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpUniform.empuniform_issuedate"><input
                 type="text"></p-calendar>
 
@@ -2484,11 +2484,11 @@
             [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
             filterBy="prouniform_code,prouniform_name_th,prouniform_name_en">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th 
+                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th
                 : item.prouniform_code+" - "+item.prouniform_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th 
+                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th
                 : item.prouniform_code+" - "+item.prouniform_name_en}}
             </ng-template>
         </p-dropdown>
@@ -2515,55 +2515,41 @@
 
         <label>{{title_uniformamount[initial_current.Language]}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
-            [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
+            [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="0" [maxFractionDigits]="0">
         </p-inputNumber>
+ 
+        <!-- <label>{{title_total[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+            [(ngModel)]="selectedEmpUniform.empuniform_total" [minFractionDigits]="2" [maxFractionDigits]="2">
+        </p-inputNumber> -->
 
+        <div  (click)="calculateTotalAmount()">
+            <label>{{title_total[initial_current.Language]}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                [(ngModel)]="selectedEmpUniform.empuniform_total" [minFractionDigits]="2"
+                [maxFractionDigits]="2">
+            </p-inputNumber>
+        </div>
         
 
-        <label>{{title_uniformproject[initial_current.Language]}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="uniformProList" optionValue="project_code"
-            [showClear]="true" [(ngModel)]="selectedEmpUniform.project_code"
-            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadUniformJobList()" 
-            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
-                : item.project_code+" - "+item.project_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
-                : item.project_code+" -"+item.project_name_en}}
-            </ng-template>
-        </p-dropdown>
 
-        <label>{{title_uniformjob[initial_current.Language]}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="uniformJobList" optionValue="projobmain_code"
-            [showClear]="true" [(ngModel)]="selectedEmpUniform.projob_code"
-            [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-            </ng-template>
-        </p-dropdown>
 
-        <label>{{title_uniformwith[initial_current.Language]}}</label>
-        <textarea [(ngModel)]="selectedEmpUniform.empuniform_by" pInputTextarea [autoResize]="true"></textarea>
 
         <div class="unipay">
-            <div>
+            <div (click)="calculateInstallment()">
                 <label>{{title_uniformpayperiod[initial_current.Language]}}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
-                    [(ngModel)]="selectedEmpUniform.empuniform_payperiod" [minFractionDigits]="2"
-                    [maxFractionDigits]="2">
+                    [(ngModel)]="selectedEmpUniform.empuniform_payperiod" [minFractionDigits]="0"
+                    [maxFractionDigits]="0">
                 </p-inputNumber>
             </div>
-            <div>
-                <label>{{title_uniformpayamount[initial_current.Language]}}</label>
+
+            <!--  -->
+            <div (click)="calculateInstallment()">
+                <label>{{ title_uniformpayamount[initial_current.Language] }}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
-                    [(ngModel)]="selectedEmpUniform.empuniform_payamount" [minFractionDigits]="2"
-                    [maxFractionDigits]="2">
+                    [ngModel]="selectedEmpUniform.empuniform_payamount || installmentAmount" [minFractionDigits]="2"
+                    [maxFractionDigits]="2" (ngModelChange)="saveInstallment($event)">
                 </p-inputNumber>
             </div>
         </div>
@@ -2581,9 +2567,43 @@
                 item.period_name_en}}
             </ng-template>
         </p-dropdown>
+        <!-- // -->
+        <!--  -->
+        <label>{{title_uniformproject[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
+            [(ngModel)]="selectedEmpUniform.project_code" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()" [filter]="true"
+            filterBy="project_code,project_name_th,project_name_en">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
+                : item.project_code+" - "+item.project_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
+                : item.project_code+" -"+item.project_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_uniformjob[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
+            [(ngModel)]="selectedEmpUniform.projob_code" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
+            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+            </ng-template>
+        </p-dropdown>
+
+        <!--  -->
+
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpUniform.empuniform_note" pInputTextarea [autoResize]="true"></textarea>
+        <label>{{title_uniformwith[initial_current.Language]}}</label>
+        <textarea [(ngModel)]="selectedEmpUniform.empuniform_by" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"

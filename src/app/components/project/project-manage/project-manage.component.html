@@ -507,8 +507,8 @@
             <div class="field col-12 ">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" [showIcon]="true" appendTo="body" dateFormat="dd/mm/yy"
-                    inputId="projobemp_fromdate"></p-calendar>
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" [showIcon]="true" appendTo="body"
+                    dateFormat="dd/mm/yy" inputId="projobemp_fromdate"></p-calendar>
             </div>
             <div class="field col-12 ">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
@@ -602,8 +602,9 @@
             <!--  -->
             <div class=" center field col-12 md:col-5 custom-height">
                 <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
-                <input type="number" step="0.1"[min]="0" [max]="12" [(ngModel)]="selectedProjobshift.projobshift_hrsperday"
-                    name="hrs_perday" id="minmax-buttons" [min]="0" [max]="12"
+                <input type="number" step="0.1" [min]="0" [max]="12"
+                    [(ngModel)]="selectedProjobshift.projobshift_hrsperday" name="hrs_perday" id="minmax-buttons"
+                    [min]="0" [max]="12"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
 
@@ -831,7 +832,7 @@
                 </p-dropdown>
 
             </div>
-          
+
 
             <div class="field col-12 ">
                 <label for="projobmain_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
@@ -884,92 +885,155 @@
         </div>
 
         <!-- Equipment Request -->
+        <!-- Form Uniform -->
         <div class="formgrid grid" *ngIf="edit_proequipmentreq==true || new_proequipmentreq==true">
             <h3 for="proequipmentreq">{{title_equipment[initial_current.Language]}}</h3>
 
-
             <div class="field col-12">
-                <label for="proequipmentreq_name">{{title_jobmain[initial_current.Language]}}</label><br>
-                <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code"
-                    [(ngModel)]="selectedProequipmentreq.projob_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
-                    filterBy="projobmain_code ,projobmain_name_th,projobmain_name_en">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-                    </ng-template>
-                </p-dropdown>
-                <!-- <p-dropdown placeholder="พนักงานทำความสะอาด">
-                </p-dropdown> -->
+                <label>{{title_withdrawal_date[initial_current.Language]}}</label>
+                <p-calendar dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedProequipmentreq.empuniform_issuedate"><input type="text"></p-calendar>
             </div>
-
-            <div class="field col-12 ">
-                <label for="proequipmentreq_date">{{title_equipment_date[initial_current.Language]}}</label>
-                <br>
-                <p-calendar [(ngModel)]="selectedProequipmentreq.proequipmentreq_date" dateFormat="dd/mm/yy"
-                    [showIcon]="true" inputId="proresponsible_fromdate"></p-calendar>
-            </div>
-
             <div class="field col-12">
                 <label for="proequipmentreq_name">{{title_equipment_name[initial_current.Language]}}</label><br>
-
-                <p-dropdown placeholder="--" [options]="poluniform_list" optionValue="prouniform_code"
-                    [(ngModel)]="selectedProequipmentreq.prouniform_code" [showClear]="true"
+                <p-dropdown appendTo="body" placeholder="--" [options]="poluniform_list" optionValue="prouniform_code"
+                    [showClear]="true" [(ngModel)]="selectedProequipmentreq.empuniform_code"
                     [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
-                    filterBy="prouniform_code ,prouniform_name_th,prouniform_name_en">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                    filterBy="prouniform_code,prouniform_name_th,prouniform_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th
+                        : item.prouniform_code+" - "+item.prouniform_name_en}}
                     </ng-template>
                     <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                        {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th
+                        : item.prouniform_code+" - "+item.prouniform_name_en}}
                     </ng-template>
-
                 </p-dropdown>
-
-                <!-- <p-dropdown placeholder="UNI001:ชุดพาดขาว">
-                </p-dropdown> -->
             </div>
             <div class="field col-12">
-                <label for="proequipmentreq_name">{{title_equipment_type[initial_current.Language]}}</label><br>
-
-                <p-dropdown placeholder="--" [options]="Proequipmenttype_list" optionValue="proequipmenttype_code"
-                    [(ngModel)]="selectedProequipmentreq.proequipmenttype_code" [showClear]="true"
+                <label>{{title_uniformtype[initial_current.Language]}}</label>
+                <p-dropdown appendTo="body" placeholder="--" [options]="Proequipmenttype_list"
+                    optionValue="proequipmenttype_code" [showClear]="true"
+                    [(ngModel)]="selectedProequipmentreq.proequipmenttype_code"
                     [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
-                    filterBy="proequipmenttype_code ,proequipmenttype_name_th,proequipmenttype_name_en">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.proequipmenttype_name_th :
-                        item.proequipmenttype_name_en}}
+                    filterBy="proequipmenttype_code,proequipmenttype_name_th,proequipmenttype_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.proequipmenttype_code+" - "+item.proequipmenttype_name_th
+                        :
+                        item.proequipmenttype_code+" - "+item.proequipmenttype_name_en}}
                     </ng-template>
                     <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.proequipmenttype_name_th :
-                        item.proequipmenttype_name_en}}
+                        {{initial_current.Language=="TH"? item.proequipmenttype_code+" - "+item.proequipmenttype_name_th
+                        :
+                        item.proequipmenttype_code+" - "+item.proequipmenttype_name_en}}
                     </ng-template>
-
                 </p-dropdown>
             </div>
-
             <div class="field col-12">
-                <label for="minmax-buttons">{{title_equipment_qty[initial_current.Language]}}</label><br>
-                <p-inputNumber [(ngModel)]="selectedProequipmentreq.proequipmentreq_qty" mode="decimal"
-                    [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="100">
+
+                <label>{{title_uniformprice[initial_current.Language]}}</label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                    [(ngModel)]="selectedProequipmentreq.empuniform_amount" [minFractionDigits]="2"
+                    [maxFractionDigits]="2">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12"(click)="calculateTotalAmount()">
+
+                <label>{{title_uniformamount[initial_current.Language]}}</label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+                    [(ngModel)]="selectedProequipmentreq.empuniform_qauntity" [minFractionDigits]="0"
+                    [maxFractionDigits]="0">
                 </p-inputNumber>
             </div>
 
-            <div class="field col-12 ">
-                <label for="proequipmentreq_by">{{title_equipment_by[initial_current.Language]}}</label>
-                <input type="text" id="proequipmentreq_by" [(ngModel)]="selectedProequipmentreq.proequipmentreq_by"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+            <div class="field col-12" (click)="calculateTotalAmount()">
+                <label>{{title_total[initial_current.Language]}}</label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                    [(ngModel)]="selectedProequipmentreq.empuniform_total" [minFractionDigits]="2"
+                    [maxFractionDigits]="2">
+                </p-inputNumber>
+            </div>
+            
+
+            <div class="field col-6 unipay">
+                <div (click)="calculateInstallment()">
+                    <label>{{title_uniformpayperiod[initial_current.Language]}}</label>
+                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                        [(ngModel)]="selectedProequipmentreq.empuniform_payperiod" [minFractionDigits]="0"
+                        [maxFractionDigits]="0">
+                    </p-inputNumber>
+                </div>
             </div>
 
+            <div class=" field col-6 unipay">
+                <div (click)="calculateInstallment()">
+                    <label>{{ title_uniformpayamount[initial_current.Language] }}</label>
+                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                        [ngModel]="selectedProequipmentreq.empuniform_payamount || installmentAmount"
+                        [minFractionDigits]="2" [maxFractionDigits]="2" (ngModelChange)="saveInstallment($event)">
+                    </p-inputNumber>
+                </div>
+            </div>
             <div class="field col-12">
-                <label for="ppos_name_en">{{title_equipment_note[initial_current.Language]}}</label>
-                <textarea [rows]="2" id="equipment_note" [cols]="30" pInputTextarea [autoResize]="true"
-                    [(ngModel)]="selectedProequipmentreq.proequipmentreq_note"></textarea>
+                <label>{{title_uniformstart[initial_current.Language]}}</label>
+                <p-dropdown appendTo="body" placeholder="--" [options]="periods_list" optionValue="period_payment"
+                    [showClear]="true" [(ngModel)]="selectedProequipmentreq.empuniform_period"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.period_name_th :
+                        item.period_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.period_name_th :
+                        item.period_name_en}}
+                    </ng-template>
+                </p-dropdown>
             </div>
+            <div class="field col-12">
+                <label>{{title_uniformproject[initial_current.Language]}}</label>
+                <p-dropdown [options]="project_list2" optionValue="project_code"
+                    [(ngModel)]="selectedProequipmentreq.project_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="project_code,project_name_th,project_name_en" [disabled]="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH" ? item.project_code + " - " + item.project_name_th
+                        : item.project_code + " - " + item.project_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH" ? item.project_code + " - " + item.project_name_th
+                        : item.project_code + " -" + item.project_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label>{{title_uniformjob[initial_current.Language]}}</label>
+                <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
+                    [(ngModel)]="selectedProequipmentreq.projob_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <!--  -->
+            <div class="field col-12">
+                <label>{{title_description[initial_current.Language]}}</label>
 
+                <textarea [(ngModel)]="selectedProequipmentreq.empuniform_note" pInputTextarea
+                    [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12">
 
+                <label>{{title_uniformwith[initial_current.Language]}}</label>
+                <textarea [(ngModel)]="selectedProequipmentreq.empuniform_by" pInputTextarea
+                    [autoResize]="true"></textarea>
+            </div>
+            <br>
             <div class="field col-12">
                 <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="proequipmentreq_summit()"></p-button>
@@ -978,10 +1042,8 @@
                     class="p-button-outlined p-button-secondary" (click)="proequipmentreq_cancel()"></button>
             </div>
         </div>
-
-
+        <!-- / -->
     </p-scrollPanel>
-
 </p-dialog>
 
 
@@ -1463,43 +1525,78 @@
             <br>
 
             <p-accordion>
+                <!--  -->
+                <!-- <div class="field col-12">
+                    <p-accordion>
+                        <p-accordionTab header="{{title_equipment[initial_current.Language]}}" *ngIf="hasAccessMenu('EMP002-016')">
+                            <p-menubar [model]="menu_empuniform"></p-menubar>
+                            <div #tableuniform>
+                                <p-table #dtempuniform [value]="empuniformList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                    scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [(selection)]="selectedEmpUniform"
+                                    (onRowSelect)="onRowSelectEmpUniform($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                    [paginator]="true"
+                                    currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{title_uniformissue}}</th>
+                                            <th>{{title_uniformname}}</th>
+                                            <th>{{title_uniformprice}}</th>
+                                            <th>{{title_uniformamount[initial_current.Language]}}</th>
+                                            <th>{{title_description}}</th>
+                                            <th>{{title_modified_by}}</th>
+                                            <th>{{title_modified_date}}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empuniform>
+                                        <tr [pSelectableRow]="empuniform">
+                                            <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
+                                            <td>{{empuniform.empuniform_amount}}</td>
+                                            <td>{{empuniform.empuniform_qauntity}}</td>
+                                            <td>{{empuniform.empuniform_note}}</td>
+                                            <td>{{empuniform.modified_by}}</td>
+                                            <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div> -->
+                <!--  -->
 
                 <p-accordionTab header="{{title_equipment[initial_current.Language]}}">
                     <p-menubar [model]="menu_proequipmentreq"></p-menubar>
+
                     <p-table #dtEquipment [value]="proequipmentreq_list" styleClass="p-datatable-sm"
                         [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="500px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProequipmentreq"
-                        dataKey="proequipmentreq_id" [rows]="10" [showCurrentPageReport]="true"
-                        [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                        (onRowSelect)="onRowSelectProequipmentreq($event)"
                         currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>{{title_no[initial_current.Language]}}</th>
-
-                                <th>{{title_jobmain[initial_current.Language]}}</th>
-                                <th>{{title_equipment_date[initial_current.Language]}}</th>
-                                <th>{{title_jobmain_poluniform[initial_current.Language]}}</th>
-                                <th>{{title_equipment_type[initial_current.Language]}}</th>
-                                <th>{{title_equipment_qty[initial_current.Language]}}</th>
-                                <th>{{title_equipment_by[initial_current.Language]}}</th>
-                                <th>{{title_equipment_note[initial_current.Language]}}</th>
-
+                                <th>{{title_withdrawal_date[initial_current.Language]}}</th>
+                                <th>{{title_equipment_name[initial_current.Language]}}</th>
+                                <th>{{title_uniformprice[initial_current.Language]}} </th>
+                                <th>{{title_uniformamount[initial_current.Language]}}</th>
+                                <th>{{title_description[initial_current.Language]}}</th>
                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                 <th>{{title_modified_date[initial_current.Language]}}</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-proequipment let-i="rowIndex">
-                            <tr [pSelectableRow]="proequipment">
-                                <td style="text-align: center;">{{i+1}}</td>
-                                <td>{{proequipment.projob_code}}</td>
-                                <td>{{proequipment.proequipmentreq_date | date:'dd/MM/yyyy'}}</td>
-                                <td>{{proequipment.prouniform_code}}</td>
-                                <td>{{proequipment.proequipmenttype_code}}</td>
-                                <td>{{proequipment.proequipmentreq_qty}}</td>
-                                <td>{{proequipment.proequipmentreq_by}}</td>
-                                <td>{{proequipment.proequipmentreq_note}}</td>
-                                <td>{{proequipment.modified_by}}</td>
-                                <td>{{proequipment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <ng-template pTemplate="body" let-empuniform>
+                            <tr [pSelectableRow]="empuniform">
+                                <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
+                                <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
+                                <td>{{empuniform.empuniform_amount}}</td>
+                                <td>{{empuniform.empuniform_qauntity}}</td>
+                                <td>{{empuniform.empuniform_note}}</td>
+                                <td>{{empuniform.modified_by}}</td>
+                                <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -1667,7 +1764,7 @@
                             <th>{{title_jobmain_emp_total[initial_current.Language]}}</th>
 
 
-                           
+
                             <!-- <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
                         <th>{{title_jobmain_polslip[initial_current.Language]}}</th>
                         <th>{{title_jobmain_poluniform[initial_current.Language]}}</th> -->
@@ -1700,10 +1797,10 @@
                                     {{projobmain.projobmain_name_en}}
                                 </div>
                             </td>
-                           
+
 
                             <td>{{projobmain.protype_name}}</td>
-                            
+
                             <td>{{projobmain.projobmain_fromdate | date:'dd/MM/yyyy HH:mm'}}</td>
                             <td>{{projobmain.projobmain_todate | date:'dd/MM/yyyy HH:mm'}}</td>
 

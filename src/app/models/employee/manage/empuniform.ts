@@ -7,6 +7,8 @@ export class EmpUniformModel {
     empuniform_code: string = "";
     empuniform_qauntity: string = "";
     empuniform_amount: string = "";
+    empuniform_total: string = "";
+
     empuniform_issuedate!: Date;
     empuniform_note: string="";
   

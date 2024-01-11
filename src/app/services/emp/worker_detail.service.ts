@@ -1872,6 +1872,8 @@ export class EmpDetailService {
 
       item_data = item_data + ",\"empuniform_qauntity\":\"" + list[i].empuniform_qauntity + "\"";
       item_data = item_data + ",\"empuniform_amount\":\"" + list[i].empuniform_amount + "\"";
+      item_data = item_data + ",\"empuniform_total\":\"" + list[i].empuniform_total + "\"";
+
       item_data = item_data + ",\"empuniform_issuedate\":\"" + this.datePipe.transform(list[i].empuniform_issuedate) + "\"";
       item_data = item_data + ",\"empuniform_note\":\"" + list[i].empuniform_note + "\"";
 
