@@ -49,8 +49,10 @@
         flex-direction: column;
     ">
         <h2>Two-Factor Authentication</h2>
-        <p-inputNumber mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [maxlength]="6"
-            [(ngModel)]="twofactor" class="text2fa" pAutoFocus #input (keyup.enter)="submitForm()"> </p-inputNumber>
+        <input class="text2fa" [(ngModel)]="twofactor" type="text" pInputText pAutoFocus #input [maxlength]="6"
+            (keyup.enter)="submitForm()" />
+        <!-- <input mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [maxlength]="6"
+            [(ngModel)]="twofactor" class="text2fa" pAutoFocus #input (keyup.enter)="submitForm()"> </input> -->
         <button style="padding-top: 10px;" type="button" pButton label="Submit" class="p-button-primary"
             (click)="submitForm()"></button>
     </div>

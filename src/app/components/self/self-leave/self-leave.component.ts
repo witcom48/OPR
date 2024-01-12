@@ -374,6 +374,8 @@ export class SelfLeaveComponent implements OnInit {
   }
   selectLeaveType() {
     this.selectedtrtimeleave.leave_code = this.selectedleave_type.leave_code;
+    this.selectedtrtimeleave.timeleave_deduct = this.selectedleave_type.leave_deduct;
+    this.selectedtrtimeleave.timeleave_incholiday = this.selectedleave_type.leave_incholiday;
     this.day = Math.floor(this.selectedleave_type.empleaveacc_remain)
     this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8
   }
@@ -451,6 +453,8 @@ export class SelfLeaveComponent implements OnInit {
         } else {
           this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
         }
+        this.selectedtrtimeleave.timeleave_deduct = this.selectedleave_type.leave_deduct;
+        this.selectedtrtimeleave.timeleave_incholiday = this.selectedleave_type.leave_incholiday;
         this.doRecordTimeleave([this.selectedtrtimeleave])
       },
       reject: () => {

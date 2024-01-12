@@ -16,4 +16,6 @@ export class cls_TRleave {
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
+    leave_incholiday: boolean = false;
+    leave_deduct: boolean = false;
 }

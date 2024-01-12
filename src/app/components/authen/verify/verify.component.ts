@@ -42,7 +42,7 @@ export class VerifyComponent implements OnInit {
   displaygroupManage: boolean = false;
   display: boolean = false;
   loading: boolean = true;
-  twofactor: any;
+  twofactor: string = "";
   token: string = "";
   user: string = "";
   pass: string = "";
@@ -145,7 +145,7 @@ export class VerifyComponent implements OnInit {
               this.displayManage = false;
               this.display = true;
               setTimeout(() => {
-                this.elm.input.nativeElement.focus();
+                this.elm.nativeElement.focus();
               }, 100);
 
               // window.location.href = "";
