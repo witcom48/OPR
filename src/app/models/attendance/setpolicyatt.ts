@@ -13,4 +13,9 @@ export class SetPolicyAttModels {
     modified_by: string = ""
     modified_date!: Date;
     flag: boolean = false;
+
+    worker_code: string = ""
+    emppolatt_policy_code: string = ""
+    emppolatt_policy_note: string = ""
+    emppolatt_policy_type: string = ""
 }

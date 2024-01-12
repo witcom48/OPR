@@ -104,7 +104,8 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="result_list" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}} {totalRecords} {{langs.get('entries')[selectlang]}}">
+                [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}} {totalRecords} {{langs.get('entries')[selectlang]}}">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -120,6 +121,7 @@
                         <th>{{langs.get('no')[selectlang]}}</th>
                         <th>{{langs.get('worker_code')[selectlang]}}</th>
                         <th>{{langs.get('type')[selectlang]}}</th>
+                        <th>{{langs.get('code')[selectlang]}}</th>
                         <th>{{langs.get('modified_by')[selectlang]}}</th>
                         <th>{{langs.get('modified_date')[selectlang]}}</th>
                     </tr>
@@ -129,6 +131,7 @@
                     <tr [pSelectableRow]="data">
                         <td>{{i+1}}</td>
                         <td>{{data.worker}}</td>
+                        <td>{{data.type}}</td>
                         <td>{{data.policy}}</td>
                         <td>{{data.modied_by}}</td>
                         <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>

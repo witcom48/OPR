@@ -798,6 +798,7 @@ var setpolicy = new Map([
     ["of", { TH: "จาก", EN: "of" }],
     ["entries", { TH: "รายการ", EN: "entries" }],
     ["search", { TH: "ค้นหา", EN: "search" }],
+    ["code", { TH: "รหัส", EN: "Code" }],
 ]);
 
 var workflow = new Map([

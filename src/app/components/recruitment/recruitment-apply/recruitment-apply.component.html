@@ -1943,14 +1943,14 @@
     <form #Form="ngForm">
         <div class="formatt" *ngIf="edit_reqforeigner==true || new_foreigner==true">
             <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
-            <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
+            <p-dropdown placeholder="--" [options]="foretype_List" optionValue="foretype_code" [showClear]="true"
                 [(ngModel)]="selectedReqforeigner.foreigner_type" [style]="{ width: '100%', overflow: 'visible' }"
                 name="foreigner_type" #foreigner_type="ngModel" [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                    {{initial_current.Language=="TH"? item.foretype_name_th : item.foretype_name_en}}
                 </ng-template>
                 <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                    {{initial_current.Language=="TH"? item.foretype_name_th : item.foretype_name_en}}
                 </ng-template>
             </p-dropdown>
 

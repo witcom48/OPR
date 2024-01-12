@@ -31,9 +31,10 @@ interface Policy {
 }
 interface Result {
   worker: string,
+  type : string,
   policy: string,
   modied_by: string,
-  modied_date: string,
+  modied_date: Date,
 }
 interface Year {
   name: string,
@@ -118,6 +119,8 @@ export class SetuppolicyComponent implements OnInit {
     this.doLoadLate();
     this.doLoadPlanleave();
     this.doLoadPlanAllowance();
+
+    this.doLoadResult();
   }
   doLoadPlanholiday() {
     this.initial_current.loading = true;
@@ -289,6 +292,7 @@ export class SetuppolicyComponent implements OnInit {
           await this.SetShift();
         } else {
           this.initial_current.loading = false;
+          this.doLoadResult();
           this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('selectyear')[this.selectlang] });
         }
         // console.log("setting shift");
@@ -410,4 +414,23 @@ export class SetuppolicyComponent implements OnInit {
     }
   }
 
+  doLoadResult(){
+    this.initial_current.loading = true;
+    var tmp = new SetPolicyAttModels;
+    this.setPolicyAttService.SetPolicyAtt_get(tmp).then(async(res)=>{
+      console.log(res)
+      await res.forEach((element: SetPolicyAttModels)=>{
+        this.result_list.push(
+          {
+            worker: element.worker_code,
+            type : element.emppolatt_policy_type,
+            policy: element.emppolatt_policy_code,
+            modied_by: element.modified_by,
+            modied_date: element.modified_date,
+          }
+        )
+      });
+      this.initial_current.loading = false;
+    });
+  }
 }
