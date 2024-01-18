@@ -508,7 +508,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut6.datasets[0].backgroundColor = randomSoftColors;
 
       this.doughnut6.labels = [this.title_Male[this.initial_current.Language] + ' ' + '(' + regularWorkers + ')' + ' ' + this.title_Person[this.initial_current.Language], this.title_Female[this.initial_current.Language] + ' ' + '(' + temporaryWorkers + ')' + ' ' + this.title_Person[this.initial_current.Language]];
-      this.doughnut6.datasets[0].data = [regularWorkers, temporaryWorkers];
+      this.doughnut6.datasets[0].data = [regularWorkers, temporaryWorkers].filter(count => count > 0);
       this.updateChart6();
     });
   }
@@ -591,7 +591,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut7.datasets[0].backgroundColor = randomSoftColors;
 
       this.doughnut7.labels = labelsWithData;
-      this.doughnut7.datasets[0].data = [age18_30, age31_40, age41_55];
+      this.doughnut7.datasets[0].data = [age18_30, age31_40, age41_55].filter(count => count > 0);
       this.updateChart7();
     });
   }
@@ -627,7 +627,7 @@ export class EmployeeMonitorComponent implements OnInit {
       let age3_5: number = 0; // อายุ 3-5
       let age6_10: number = 0; // อายุ 6-10
       let age11_15: number = 0; // อายุ 11-15
-      let age11_16: number = 0; // อายุ 16
+      let age16: number = 0; // อายุ 16
 
       for (let i = 0; i < this.workerList.length; i++) {
         const workerAge = parseInt(this.workerList[i].work_age, 10);
@@ -642,7 +642,7 @@ export class EmployeeMonitorComponent implements OnInit {
           } else if (workerAge >= 11 && workerAge <= 15) {
             age11_15++;
           } else if (workerAge >= 16) {
-            age11_16++;
+            age16++;
           }
         }
       }
@@ -660,8 +660,8 @@ export class EmployeeMonitorComponent implements OnInit {
       if (age11_15 > 0) {
         labelsWithData.push('11-15 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age11_15 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
       }
-      if (age11_16 > 0) {
-        labelsWithData.push(this.title_morethan[this.initial_current.Language] + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age11_16 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      if (age16 > 0) {
+        labelsWithData.push(this.title_morethan[this.initial_current.Language] + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age16 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
       }
       const getRandomSoftColor = () => {
         const letters = '0123456789ABCDEF';
@@ -681,8 +681,9 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut8.datasets[0].backgroundColor = randomSoftColors;
 
       this.doughnut8.labels = labelsWithData;
-      this.doughnut8.datasets[0].data = [age0_2, age3_5, age6_10, age11_15, age11_16];
-      this.updateChart8();
+      this.doughnut8.datasets[0].data = [age0_2, age3_5, age6_10, age11_15, age16].filter(count => count > 0);
+
+       this.updateChart8();
     });
   }
 

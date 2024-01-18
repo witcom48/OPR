@@ -299,7 +299,7 @@ export class ProjectTimesheetComponent implements OnInit {
       // }
     });
     this.doLoadPolJobmain()
-
+    this.doLoadProjobsub()
 
   }
 
@@ -406,6 +406,7 @@ export class ProjectTimesheetComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter);
         this.jobmain_list = res as ProjobmainModel[];
+ 
       }
     } catch (error) { }
   }
@@ -446,7 +447,7 @@ export class ProjectTimesheetComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobsubModel, current: ProjobsubModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobsub_get(latestProjobmain.version, this.selectedProject_fillter.project_code);
         this.projobsub_list = res as ProjobsubModel[];
-      }
+       }
     } catch { }
   }
   doGetDetail(code: string): string {
@@ -454,6 +455,7 @@ export class ProjectTimesheetComponent implements OnInit {
       if (this.projobsub_list[i].projobsub_code == code) {
         return this.initial_current.Language == "TH" ? this.projobsub_list[i].projobsub_name_th : this.projobsub_list[i].projobsub_name_th;
       }
+      
     }
     return "";
   }
@@ -663,6 +665,8 @@ export class ProjectTimesheetComponent implements OnInit {
 
       selectedDataArray.length = 0;
       this.doLoadPolJobmain();
+      this.doLoadProjobsub()
+
       this.reloadPage();
       this.displayManage = false;
     } catch (error) {
