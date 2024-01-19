@@ -3153,8 +3153,8 @@ export class RecruitmentApplyComponent implements OnInit {
 
                     this.record_reqaddress();
                     this.record_reqcard();
-                    // this.record_reqforeigner();
-                    this.record_reqforeignercard();
+                    this.record_reqforeigner();
+                    // this.record_reqforeignercard();
 
                     this.record_reqeducation();
                     this.record_reqtraining();
