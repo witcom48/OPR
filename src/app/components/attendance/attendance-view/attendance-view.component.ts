@@ -42,6 +42,7 @@ import { DocApproveServices } from 'src/app/services/attendance/docapprove.servi
 import { TimeinputModel } from 'src/app/models/attendance/timeinput';
 import { PeriodsModels } from 'src/app/models/payroll/periods';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 @Component({
   selector: 'app-attendance-view',
@@ -209,19 +210,49 @@ export class AttendanceViewComponent implements OnInit {
   worker_index: number = 0;
   worker_code: string = "";
   worker_name: string = "";
-  doLoadEmployee() {
-    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
-      this.worker_list = await res;
+  fillterIncludeResign: boolean = false;
+ 
+    doLoadEmployee() {
+        var fillter: FillterEmpModel = new FillterEmpModel;
 
-      setTimeout(() => {
+        fillter.worker_resignstatus = this.fillterIncludeResign;
+        if (this.fillterSearchemp) {
+            fillter.searchemp = this.selectedSearchemp;
+        } else {
+            fillter.searchemp = "";
+        }
+        this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+            this.worker_list = res;
+            setTimeout(() => {
 
-        this.worker_index = 0;
-        this.doSetDetailWorker();
+              this.worker_index = 0;
+              this.doSetDetailWorker();
+      
+            }, 500);
+        });
+    }
+      //-- Emp master
+      selectedSearchemp: string = "";
+      fillterSearchemp: boolean = false;
+      doChangeSearchemp(event: any) {
+          if (this.fillterSearchemp) {
+              this.doLoadEmployee();
+              this.doSetDetailWorker();
+          }
+      }
+  // doLoadEmployee() {
+  //   this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+  //     this.worker_list = await res;
 
-      }, 500);
+  //     setTimeout(() => {
 
-    });
-  }
+  //       this.worker_index = 0;
+  //       this.doSetDetailWorker();
+
+  //     }, 500);
+
+  //   });
+  // }
 
   doNextWorker() {
     if (this.worker_index < this.worker_list.length - 1) {
@@ -240,11 +271,12 @@ export class AttendanceViewComponent implements OnInit {
   doSetDetailWorker() {
     this.workerDetail = this.worker_list[this.worker_index];
     this.worker_code = this.workerDetail.worker_code;
-    if (this.initial_current.Language == "EN") {
-      this.worker_name = this.workerDetail.worker_fname_en + " " + this.workerDetail.worker_lname_en;
-    }
-    else {
-      this.worker_name = this.workerDetail.worker_fname_th + " " + this.workerDetail.worker_lname_th;
+    if (this.initial_current.Language === 'EN') {
+        this.worker_name =
+            this.workerDetail.worker_fname_en + ' ' + this.workerDetail.worker_lname_en;
+    } else {
+        this.worker_name =
+            this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
     }
 
     setTimeout(() => {

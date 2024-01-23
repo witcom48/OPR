@@ -6,8 +6,7 @@ import { AttendanceSelfComponent } from './attendance-self/attendance-self.compo
 import { AttendanceImportComponent } from './attendance-import/attendance-import.component';
 import { AttendanceProcessComponent } from './attendance-process/attendance-process.component';
 import { AttendanceCalculateComponent } from './attendance-calculate/attendance-calculate.component';
-import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
-import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
+ import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
@@ -36,6 +35,7 @@ import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolic
 import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/attendance-shift.component';
  import { AttendanceLostwagesComponent } from './attendance-lostwages/attendance-lostwages.component';
 import { AttendanceApproveComponent } from './attendance-approve/attendance-approve.component';
+import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 
 
 @NgModule({
