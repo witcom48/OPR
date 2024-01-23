@@ -69,6 +69,7 @@ export class PayrollPolicyComponent implements OnInit {
     title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" }
     title_reduce: { [key: string]: string } = { EN: "Reduce ", TH: "กำหนดค่าลดหย่อน" }
     title_refer: { [key: string]: string } = { EN: "Referral Program ", TH: "ค่าแนะนำ" }
+    title_closeperiod: { [key: string]: string } = { EN: "Close Period", TH: "ปิดงวด" }
 
     // นโยบายค่าลดหย่อน
 
@@ -136,6 +137,11 @@ export class PayrollPolicyComponent implements OnInit {
                 title: this.title_refer[this.initial_current.Language],
                 link: 'pay-refer',
                 accessCode: 'PAY001-009'
+            },
+            {
+                title: this.title_closeperiod[this.initial_current.Language],
+                link: 'close-period',
+                accessCode: 'PAY001-001'
             },
            
             // ... other setup menu items ...

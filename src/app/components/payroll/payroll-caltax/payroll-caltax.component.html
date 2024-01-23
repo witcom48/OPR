@@ -18,7 +18,7 @@
                 <app-select-emp></app-select-emp>
             </div>            
             <div class="field col-12">
-                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" [disabled]="hasTruePeriodCloseta"(click)="process()"></p-button>
             </div>
             
         </div>

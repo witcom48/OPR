@@ -190,10 +190,10 @@
                             <input type="text"></p-calendar> -->
                             <div style="text-align: right;">
                                 <button pButton type="button" class="button-size p-button-secondary"
-                                    label="{{title_save}}" icon="pi pi-save" (click)="Save()"></button>
+                                    label="{{title_save}}" icon="pi pi-save" [disabled]="hasTruePeriodCloseta" (click)="Save()"></button>
                                 &nbsp;
                                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}"
-                                    icon="pi pi-trash" class="btndel button-size" (click)="Delete()"></button>
+                                    icon="pi pi-trash" class="btndel button-size"[disabled]="hasTruePeriodCloseta" (click)="Delete()"></button>
                             </div>
                         </div>
                     </p-dialog>
@@ -502,7 +502,7 @@
             <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
         </label> -->
         <ng-template pTemplate="footer">
-            <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
+            <p-button icon="pi pi-upload" [disabled]="hasTruePeriodCloseta" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
         </ng-template>
     </p-dialog>
     <div *ngIf="displayUpload" style="z-index: 1084;"

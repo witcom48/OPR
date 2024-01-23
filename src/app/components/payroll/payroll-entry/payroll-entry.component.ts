@@ -21,6 +21,7 @@ import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.comp
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 
 
 interface Type {
@@ -62,6 +63,9 @@ export class PayrollEntryComponent implements OnInit {
         //Service
         private payitemService: PayitemService,
         private itemService: ItemService,
+        private periodsService: PeriodsServices,
+
+
     ) { }
     @ViewChild(SelectEmpComponent) selectEmp: any;
 
@@ -94,7 +98,7 @@ export class PayrollEntryComponent implements OnInit {
         this.doGetInitialCurrent();
         this.doLoadLanguage();
         this.doLoadMenu();
-
+        this.Periodclosed();
         // dropdown
         this.doLoadItemsINList();
         this.doLoadItemsDEList();
@@ -134,8 +138,8 @@ export class PayrollEntryComponent implements OnInit {
     title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
     title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
-    title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
-    title_adjust: {[key: string]: string} = {  EN: "ปรับปรุงยอด",  TH: "ปรับปรุงยอด"}
+    title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" }
+    title_adjust: { [key: string]: string } = { EN: "ปรับปรุงยอด", TH: "ปรับปรุงยอด" }
 
 
     title_page: string = 'Geanral';
@@ -283,12 +287,14 @@ export class PayrollEntryComponent implements OnInit {
                 icon: 'pi-plus',
                 command: (event) => {
                     if (this.accessData.accessdata_new) {
-                        this.showManage();
-                        this.payitems = new PayitemModel();
-                        this.new_data = true;
-                        this.edit_data = false;
-                    } else {
-                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                        if (!this.hasTruePeriodCloseta) {
+                            this.showManage();
+                            this.payitems = new PayitemModel();
+                            this.new_data = true;
+                            this.edit_data = false;
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                        }
                     }
 
 
@@ -308,24 +314,7 @@ export class PayrollEntryComponent implements OnInit {
                     this.doLoadPayitem()
                 }
             }
-            // ,
-            // {
-            //     label: this.title_edit,
-            //     icon: 'pi pi-fw pi-pencil',
-            //     command: (event) => {
-            //         this.showManage();
-            //         this.new_data = true;
-            //         this.edit_data = false;
-            //     },
-            // },
-            // {
-            //     label: this.title_delete,
-            //     icon: 'pi pi-fw pi-trash',
-            //     command: (event) => {
-            //         this.Delete();
-            //         this.doSetDetailWorker();
-            //     },
-            // }
+
             ,
             {
                 label: this.title_import,
@@ -460,38 +449,42 @@ export class PayrollEntryComponent implements OnInit {
         }
         this.doSummaryByEmp();
     }
+    isConfirmationDialogVisible: boolean = false;
+
     async doRecordPayitem(data: PayitemModel) {
         data.worker_code = this.workerDetail.worker_code;
         data.payitem_date = this.initial_current.PR_PayDate;
-
-        try {
-            const res = await this.payitemService.payitem_record(data);
-            if (res.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: res.message,
-                });
-                await this.doLoadPayitem();
-                this.doSetDetailWorker();
-            } else {
+        if (!this.hasTruePeriodCloseta) {
+            this.isConfirmationDialogVisible = true;
+            try {
+                const res = await this.payitemService.payitem_record(data);
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: res.message,
+                    });
+                    await this.doLoadPayitem();
+                    this.doSetDetailWorker();
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: res.message,
+                    });
+                }
+            } catch (error) {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: res.message,
+                    detail: 'An error occurred while recording payitem.',
                 });
             }
-        } catch (error) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'An error occurred while recording payitem.',
-            });
-        }
 
-        this.new_data = false;
-        this.edit_data = false;
-        this.displayManage = false;
+            this.new_data = false;
+            this.edit_data = false;
+            this.displayManage = false;
+        }
     }
 
     doSummaryByEmp() {
@@ -514,33 +507,36 @@ export class PayrollEntryComponent implements OnInit {
         // this.byemp_netpay = Math.abs(this.byemp_netpay);
     }
     async doDeletePayitem(data: PayitemModel) {
-        try {
-            const res = await this.payitemService.payitem_delete(data);
-            if (res.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: res.message,
-                });
-                await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
+        if (!this.hasTruePeriodCloseta) {
+            this.isConfirmationDialogVisible = true;
+            try {
+                const res = await this.payitemService.payitem_delete(data);
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: res.message,
+                    });
+                    await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
 
-                this.new_data = false;
-                this.edit_data = false;
-                this.displayManage = false;
+                    this.new_data = false;
+                    this.edit_data = false;
+                    this.displayManage = false;
 
-            } else {
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: res.message,
+                    });
+                }
+            } catch (error) {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: res.message,
+                    detail: 'An error occurred while deleting payitem',
                 });
             }
-        } catch (error) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'An error occurred while deleting payitem',
-            });
         }
     }
 
@@ -587,24 +583,27 @@ export class PayrollEntryComponent implements OnInit {
     }
     Uploadfile() {
         if (this.fileToUpload) {
-            this.confirmationService.confirm({
-                message: 'Confirm Upload file : ' + this.fileToUpload.name,
-                header: 'Import File',
-                icon: 'pi pi-exclamation-triangle',
-                accept: () => {
-                    this.displayUpload = false;
-                    this.doUploadPayitem();
-                },
-                reject: () => {
-                    this.displayUpload = false;
-                },
-            });
-        } else {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'File',
-                detail: 'Please choose a file.',
-            });
+            if (!this.hasTruePeriodCloseta) {
+                this.isConfirmationDialogVisible = true;
+                this.confirmationService.confirm({
+                    message: 'Confirm Upload file : ' + this.fileToUpload.name,
+                    header: 'Import File',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: () => {
+                        this.displayUpload = false;
+                        this.doUploadPayitem();
+                    },
+                    reject: () => {
+                        this.displayUpload = false;
+                    },
+                });
+            } else {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'File',
+                    detail: 'Please choose a file.',
+                });
+            }
         }
     }
     close() {
@@ -731,6 +730,32 @@ export class PayrollEntryComponent implements OnInit {
 
         this.doSetDetailWorker();
 
+    }
+
+    //เช็คชข้อมูลเมื่อมีการปิดงวด
+    hasTruePeriodCloseta: boolean = false;
+    async Periodclosed() {
+        try {
+            const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+            if (res && res.length > 0) {
+                for (const element of res) {
+                    element.period_from = new Date(element.period_from);
+                    element.period_to = new Date(element.period_to);
+                    element.period_payment = new Date(element.period_payment);
+                }
+                this.hasTruePeriodCloseta = res.some((item: { period_closepr: boolean }) => item.period_closepr === true);
+                if (this.hasTruePeriodCloseta) {
+                    this.confirmationService.confirm({
+                        message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
+                        header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                        },
+                        rejectVisible: false,
+                    });
+                }
+            }
+        } catch { }
     }
 
 }

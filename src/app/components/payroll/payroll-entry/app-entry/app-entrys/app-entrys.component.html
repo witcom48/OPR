@@ -148,12 +148,7 @@
                     <label>{{title_note}}</label>
                     <input class="field  md:col-12" pInputText type="text" [(ngModel)]="payitems.payitem_note" />
 
-                    <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
-
-                    <!-- <label>{{title_date}}</label> -->
-                    <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-                        [(ngModel)]="payitems.payitem_date">
-                        <input type="text"></p-calendar> -->
+                   
 
                 </div>
             </div>
@@ -162,10 +157,10 @@
         <br>
         <div style="text-align: right;">
             <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
-                (click)="process()"></button>
+            [disabled]="hasTruePeriodCloseta" (click)="process()"></button>
             &nbsp;
             <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                class="p-button-secondary button-size" (click)="Delete()"></button>
+                class="p-button-secondary button-size" [disabled]="hasTruePeriodCloseta"(click)="Delete()"></button>
             <!-- --------------End form Input Data ------------------ -->
         </div>
     </p-dialog>
@@ -204,7 +199,7 @@
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label> -->
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
+        <p-button icon="pi pi-upload" [disabled]="hasTruePeriodCloseta"(click)="Uploadfile()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 <div *ngIf="displayUpload" style="z-index: 1084;"

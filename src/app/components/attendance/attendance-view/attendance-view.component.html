@@ -219,7 +219,7 @@
         </div>
          
         <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="timecard_summit()"></p-button>  
+            <p-button label="{{title_save[initial_current.Language]}}"icon="pi pi-save"[disabled]="hasTruePeriodCloseta"(click)="timecard_summit()"></p-button>
             &nbsp;
             <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-secondary" (click)="timecard_cancel()"></button>            
         </div>

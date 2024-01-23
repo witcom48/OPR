@@ -34,6 +34,7 @@ import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolic
 import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
 import { TransferProvidentComponent } from './payroll-transfer/transfer-provident/transfer-provident.component';
 import { ReferralComponent } from './payroll-policy/referral/referral.component';
+import { CloseperiodComponent } from './payroll-policy/closeperiod/closeperiod.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { ReferralComponent } from './payroll-policy/referral/referral.component'
 
         { path: 'pay-refer', component: ReferralComponent },
 
+        { path: 'close-period', component: CloseperiodComponent },
 
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },

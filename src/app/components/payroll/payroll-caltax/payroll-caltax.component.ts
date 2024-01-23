@@ -13,6 +13,7 @@ import { TaskModel } from '../../../models/task';
 import { TaskDetailModel } from '../../../models/task_detail';
 import { TaskWhoseModel } from '../../../models/task_whose';
 import { TaskService } from '../../../services/task.service'
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 
 @Component({
   selector: 'app-payroll-caltax',
@@ -50,13 +51,16 @@ export class PayrollCaltaxComponent implements OnInit {
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router: Router
+    private router: Router,
+    private periodsService : PeriodsServices
   ) { }
 
   ngOnInit(): void {
 
     this.doLoadLanguage()
     this.doGetInitialCurrent()
+    this.Periodclosed()
+
     this.itemslike = [{ label: this.title_CalculateTax[this.initial_current.Language], styleClass: 'activelike' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -82,10 +86,12 @@ export class PayrollCaltaxComponent implements OnInit {
   public task: TaskModel = new TaskModel();
   public taskDetail: TaskDetailModel = new TaskDetailModel();
   public taskWhoseList: TaskWhoseModel[] = [];
+  isConfirmationDialogVisible: boolean = false;
 
   process() {
 
-
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
     let process = "";
 
     if (this.selectEmp.employee_dest.length == 0) {
@@ -152,11 +158,35 @@ export class PayrollCaltaxComponent implements OnInit {
       },
       key: "myDialog"
     });
-  }
+  }}
 
   doLoadTask() {
     this.taskView.taskType = "CAL_TAX";
     this.taskView.doLoadTask();
   }
-
+//เช็คชข้อมูลเมื่อมีการปิดงวด
+hasTruePeriodCloseta: boolean = false;
+async Periodclosed() {
+  try {
+    const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+    if (res && res.length > 0) {
+      for (const element of res) {
+        element.period_from = new Date(element.period_from);
+        element.period_to = new Date(element.period_to);
+        element.period_payment = new Date(element.period_payment);
+      }
+      this.hasTruePeriodCloseta = res.some((item: { period_closepr: boolean }) => item.period_closepr === true);
+      if (this.hasTruePeriodCloseta) {
+        this.confirmationService.confirm({
+          message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
+          header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+          },
+          rejectVisible: false,
+        });
+      }
+    }
+  } catch { }
+}
 }

@@ -15,6 +15,13 @@ export class PeriodsModels {
     period_to!: Date;
     period_payment!: Date;
     period_dayonperiod: string = "";
+
+    period_closeta : string = "";
+    period_closepr : string = "";
+    changestatus_date!: Date;
+    changestatus_by: string = "";
+
+
     created_by: string = "";
     created_date: string = "";
     modified_by: string = "";

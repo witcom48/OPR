@@ -21,6 +21,7 @@ import { SelectEmpComponent } from '../../../usercontrol/select-emp/select-emp.c
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SearchItemComponent } from 'src/app/components/usercontrol/search-item/search-item.component';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 declare var reason: any;
 interface Type {
   name: string;
@@ -57,6 +58,7 @@ export class AppEntryComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
+    private periodsService: PeriodsServices,
 
     //Service
     private payitemService: PayitemService,
@@ -112,6 +114,7 @@ export class AppEntryComponent implements OnInit {
   selectedType: Type = { code: 'EMP', name: 'resignreq' };
   ngOnInit(): void {
     this.doGetInitialCurrent();
+    this.Periodclosed();
 
     this.doLoadLanguage();
     this.doLoadMenuItems();
@@ -151,8 +154,8 @@ export class AppEntryComponent implements OnInit {
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
-  title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
-  title_adjust: {[key: string]: string} = {  EN: "ปรับปรุงยอด",  TH: "ปรับปรุงยอด"}
+  title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" }
+  title_adjust: { [key: string]: string } = { EN: "ปรับปรุงยอด", TH: "ปรับปรุงยอด" }
 
   title_page: string = 'Geanral';
   title_new: string = 'New';
@@ -412,24 +415,27 @@ export class AppEntryComponent implements OnInit {
 
     this.loading = true;
     await this.payitemService.setpayitems_record(this.initial_current.CompCode, data).then((res) => {
-      if (res.success) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: res.message,
-        });
-        this.doLoaditem();
-        this.doSetDetailItem();
+      if (!this.hasTruePeriodCloseta) {
+        this.isConfirmationDialogVisible = true;
+        if (res.success) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: res.message,
+          });
+          this.doLoaditem();
+          this.doSetDetailItem();
 
-        this.edit_data = false;
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: res.message,
-        });
+          this.edit_data = false;
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: res.message,
+          });
+        }
+        this.loading = false;
       }
-      this.loading = false;
     });
   }
   doSummaryByEmp() {
@@ -470,24 +476,17 @@ export class AppEntryComponent implements OnInit {
         icon: 'pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
-            this.payitems = new PayitemModel();
-            this.displayaddholiday = true;
-            this.displayeditholiday = false;
-            this.showManage();
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+            if (!this.hasTruePeriodCloseta) {
+              this.payitems = new PayitemModel();
+              this.displayaddholiday = true;
+              this.displayeditholiday = false;
+              this.showManage();
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+            }
           }
         },
       },
-      // {
-      //   label: this.title_template[this.initial_current.Language],
-      //   icon: 'pi-download',
-      //   command: (event) => {
-      //     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
-      //   }
-      // },
-
-      
 
 
       {
@@ -504,29 +503,27 @@ export class AppEntryComponent implements OnInit {
           }
         },
       },
-      
+
       {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          this.Delete();
+          if (!this.hasTruePeriodCloseta) {
+            this.Delete();
+          }
         },
       },
-      // {
-      //   label: this.title_import,
-      //   icon: 'pi-file-import',
-      //   command: (event) => {
-      //     this.showUpload();
-      //   },
-      // },
+
       {
         label: this.title_addcopy[this.initial_current.Language],
         icon: 'pi pi-fw pi-copy',
         command: (event) => {
-          this.displayaddholiday = true;
-          this.displayeditholiday = false;
-          this.showManage();
-          this.doLoaditem();
+          if (!this.hasTruePeriodCloseta) {
+            this.displayaddholiday = true;
+            this.displayeditholiday = false;
+            this.showManage();
+            this.doLoaditem();
+          }
         },
       },
       {
@@ -550,25 +547,28 @@ export class AppEntryComponent implements OnInit {
   }
 
   Uploadfile() {
-    if (this.fileToUpload) {
-      this.confirmationService.confirm({
-        message: 'Confirm Upload file : ' + this.fileToUpload.name,
-        header: 'Import File',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.displayUpload = false;
-          this.doUploadPayitem();
-        },
-        reject: () => {
-          this.displayUpload = false;
-        },
-      });
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'File',
-        detail: 'Please choose a file.',
-      });
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
+      if (this.fileToUpload) {
+        this.confirmationService.confirm({
+          message: 'Confirm Upload file : ' + this.fileToUpload.name,
+          header: 'Import File',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.displayUpload = false;
+            this.doUploadPayitem();
+          },
+          reject: () => {
+            this.displayUpload = false;
+          },
+        });
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'File',
+          detail: 'Please choose a file.',
+        });
+      }
     }
   }
   close() {
@@ -601,35 +601,41 @@ export class AppEntryComponent implements OnInit {
   Delete() {
     this.doDeleteLate(this.payitems);
   }
+  isConfirmationDialogVisible: boolean = false;
+
   async doDeleteLate(data: PayitemModel) {
-    try {
-      this.loading = true;
-      const res = await this.payitemService.payitem_delete(data);
-      if (res.success) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: res.message,
-        });
-        await this.doLoaditem();
-        this.doSetDetailItem();
-        this.edit_data = false;
-        this.new_data = false;
-      } else {
+
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
+      try {
+        this.loading = true;
+        const res = await this.payitemService.payitem_delete(data);
+        if (res.success) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: res.message,
+          });
+          await this.doLoaditem();
+          this.doSetDetailItem();
+          this.edit_data = false;
+          this.new_data = false;
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: res.message,
+          });
+        }
+      } catch (error) {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: res.message,
+          detail: 'An error occurred while deleting payitem.',
         });
+      } finally {
+        this.loading = false;
       }
-    } catch (error) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'An error occurred while deleting payitem.',
-      });
-    } finally {
-      this.loading = false;
     }
   }
 
@@ -706,6 +712,21 @@ export class AppEntryComponent implements OnInit {
 
   }
 
+  //เช็คชข้อมูลเมื่อมีการปิดงวด
+  hasTruePeriodCloseta: boolean = false;
+  async Periodclosed() {
+    try {
+      const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+      if (res && res.length > 0) {
+        for (const element of res) {
+          element.period_from = new Date(element.period_from);
+          element.period_to = new Date(element.period_to);
+          element.period_payment = new Date(element.period_payment);
+        }
+        this.hasTruePeriodCloseta = res.some((item: { period_closepr: boolean }) => item.period_closepr === true);
+      }
+    } catch { }
+  }
 
 }
 

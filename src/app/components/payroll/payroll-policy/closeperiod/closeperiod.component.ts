@@ -1,0 +1,471 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
+import * as XLSX from 'xlsx';
+import { InitialCurrent } from 'src/app/config/initial_current';
+import { AppConfig } from 'src/app/config/config';
+import { Router } from '@angular/router';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { DatePipe } from '@angular/common';
+import { YearService } from 'src/app/services/system/policy/year.service';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+import { PeriodsModels } from 'src/app/models/payroll/periods';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+declare var timeperiod: any;
+declare var langcalendarth: any;
+declare var langcalendaren: any;
+interface Year {
+  name: string,
+  code: string
+}
+@Component({
+  selector: 'app-closeperiod',
+  templateUrl: './closeperiod.component.html',
+  styleUrls: ['./closeperiod.component.scss']
+})
+export class CloseperiodComponent implements OnInit {
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private periodsService: PeriodsServices,
+    private yearServices: YearService,
+    private config: PrimeNGConfig,
+    private router: Router,
+    private datePipe: DatePipe,) { }
+
+  @ViewChild('TABLE') table: ElementRef | any = null;
+
+  yaerList: Year[] = [];
+  selectedyear!: Year;
+  emptype: string = "M"
+  home: any;
+  itemslike: MenuItem[] = [];
+
+  new_data: boolean = false
+  edit_data: boolean = false
+
+  fileToUpload: File | any = null;
+  displayUpload: boolean = false;
+
+  items: MenuItem[] = [];
+
+
+  periods_list: PeriodsModels[] = [];
+  selectedPeriods: PeriodsModels = new PeriodsModels()
+
+  public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('login');
+    }
+    this.selectlang = this.initial_current.Language;
+    if (this.initial_current.Language == "TH") {
+      this.config.setTranslation(langcalendarth)
+    } else {
+      this.config.setTranslation(langcalendaren)
+    }
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
+  }
+
+
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
+
+  title_hourly: { [key: string]: string } = { EN: "Hourly ", TH: "รายชั่วโมง" }
+
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+
+  
+  labperiod_closeta: { [key: string]: string } = { EN: "Close Attendance", TH: "ปิดการเข้าปฏิบัติงาน" }
+  labperiod_closepr: { [key: string]: string } = { EN: "Close Payroll", TH: "ปิดงวดการจ่าย" }
+  labchangestatusBy: { [key: string]: string } = { EN: "Change Status by", TH: "ผู้เปลี่ยนสถานะ" }
+  labchangestatus_date: { [key: string]: string } = { EN: "Change Status Date", TH: "วันที่เปลี่ยนรายการ" }
+
+  title_payroll: string = 'Payroll';
+
+  title_policy: string = 'Set Policy';
+  title_page: string = 'Close Period';
+  title_new: string = 'New';
+  title_type: string = 'Type';
+  title_no: string = 'No';
+
+
+  title_monthly: string = 'Monthly';
+  title_daily: string = 'Daily';
+  title_date: string = 'Date';
+  title_payment: string = 'Payment';
+  title_fromdate: string = 'Fromdate';
+  title_todate: string = 'Todate';
+  title_day_pay: string = 'Days on Period';
+  title_Drop: string = 'Drop files here';
+
+
+
+
+  title_edit: string = 'Edit';
+  title_delete: string = 'Delete';
+  title_import: string = 'Import';
+  title_export: string = 'Export';
+  title_save: string = 'Save';
+  title_code: string = 'Code';
+  title_name_th: string = 'Name (Thai)';
+  title_name_en: string = 'Name (Eng.)';
+  title_detail_en: string = 'Description(Eng)';
+  title_detail_th: string = 'Description(Thai)';
+  title_modified_by: string = 'Edit by';
+  title_modified_date: string = 'Edit date';
+  title_search: string = 'Search';
+  title_upload: string = 'Upload';
+
+  title_page_from: string = 'Showing';
+  title_page_to: string = 'to';
+  title_page_total: string = 'of';
+  title_page_record: string = 'entries';
+
+  title_confirm: string = 'Are you sure?';
+  title_confirm_record: string = 'Confirm to record';
+  title_confirm_delete: string = 'Confirm to delete';
+  title_confirm_yes: string = 'Yes';
+  title_confirm_no: string = 'No';
+
+  title_confirm_cancel: string = 'You have cancelled';
+  title_system_payroll: string = 'Policy Payroll';
+
+  doLoadLanguage() {
+    if (this.initial_current.Language == 'TH') {
+      this.title_system_payroll = 'นโยบาย';
+
+      this.title_payroll = 'บัญชี';
+      this.title_policy = 'กำหนดนโยบาย';
+      this.title_page = 'ปิดงวด';
+      this.title_new = 'เพิ่ม';
+      this.title_type = 'ประเภท';
+
+      this.title_monthly = 'รายเดือน';
+      this.title_daily = 'รายวัน';
+      this.title_date = 'วันที่จ่าย';
+      this.title_payment = 'วันที่ชำระเงิน'
+      this.title_fromdate = 'จากวันที่'
+      this.title_todate = 'ถึงวันที่';
+      this.title_day_pay = 'จำนวนวันตามงวด';
+      this.title_Drop = 'วางไฟล์ที่นี้';
+      this.title_no = 'ลำดับ';
+
+
+
+      this.title_edit = 'แก้ไข';
+      this.title_delete = 'ลบ';
+      this.title_import = 'นำเข้า';
+      this.title_export = 'ส่งออกไฟล์';
+      this.title_save = 'บันทึก';
+      this.title_code = 'รหัส';
+      this.title_name_th = 'ชื่อไทย';
+      this.title_name_en = 'ชื่ออังกฤษ';
+      this.title_detail_en = 'รายละเอียด อังกฤษ';
+      this.title_detail_th = 'รายละเอียด ไทย';
+      this.title_modified_by = 'ผู้ทำรายการ';
+      this.title_modified_date = 'วันที่ทำรายการ';
+      this.title_search = 'ค้นหา';
+      this.title_upload = 'อัปโหลด';
+
+      this.title_page_from = 'แสดง';
+      this.title_page_to = 'ถึง';
+      this.title_page_total = 'จาก';
+      this.title_page_record = 'รายการ';
+
+      this.title_confirm = 'ยืนยันการทำรายการ';
+      this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
+      this.title_confirm_delete = 'คุณต้องการลบรายการ';
+
+      this.title_confirm_yes = 'ใช่';
+      this.title_confirm_no = 'ยกเลิก';
+      this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+    }
+  }
+
+
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doLoadYear();
+
+    this.doLoadLanguage();
+    this.doLoadMenu();
+    this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
+  reloadPage() {
+    this.doLoadYear()
+  }
+  doLoadYear() {
+    this.yaerList = [];
+    var tmp = new YearPeriodModels();
+    tmp.year_group = "TAX"
+
+    this.yearServices.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
+        this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
+      });
+      await this.doLoadPeriod();
+    });
+
+  }
+  async doLoadPeriod() {
+    this.new_data = false;
+    this.edit_data = false;
+    this.periods_list = [];
+    this.selectedPeriods = new PeriodsModels();
+    var tmp = new PeriodsModels();
+    tmp.emptype_code = this.emptype
+    if (this.selectedyear) {
+      tmp.year_code = this.selectedyear.code || "";
+    } else {
+      tmp.year_code = this.yaerList[0].code
+      this.selectedyear = this.yaerList[0]
+    }
+    await this.periodsService.period_get(tmp).then(async (res) => {
+      await res.forEach((element: PeriodsModels) => {
+        element.period_from = new Date(element.period_from)
+        element.period_to = new Date(element.period_to)
+        element.period_payment = new Date(element.period_payment)
+      });
+      this.periods_list = await res;
+    });
+  }
+  async doRecordPeriod(data: PeriodsModels) {
+    await this.periodsService.period_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPeriod()
+        this.new_data = false;
+        this.edit_data = false;
+        this.displayManage = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    // this.new_data = false;
+    // this.edit_data = false;
+  }
+  async doDeletePeriods(data: PeriodsModels) {
+    await this.periodsService.period_delete(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: res.message,
+        });
+        this.doLoadPeriod();
+        this.new_data = false;
+        this.edit_data = false;
+        this.displayManage = false;
+
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: res.message,
+        });
+      }
+    });
+
+
+  }
+  //
+  confirmDelete(data: PeriodsModels) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePeriods(data);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+ 
+
+  doUploadPeriod() {
+    const filename = "PERIOD_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.periodsService.period_import(this.fileToUpload, filename, filetype).then((res) => {
+      // console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPeriod();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
+  }
+ 
+  selectedFileName: string = '';
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
+  }
+
+
+  doLoadMenu() {
+
+    this.items = [
+      {
+        label: this.title_new,
+        icon: 'pi-plus',
+        command: (event) => {
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedPeriods = new PeriodsModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
+        }
+      }
+      ,
+      {
+        label: this.title_template[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Periods.xlsx', '_blank');
+        }
+      }
+      ,
+      {
+        label: this.title_import,
+        icon: 'pi-file-import',
+        command: (event) => {
+          this.showUpload()
+
+        }
+      }
+      ,
+      {
+        label: this.title_export,
+        icon: 'pi-file-export',
+        command: (event) => {
+          this.exportAsExcel()
+
+        }
+      }
+    ];
+  }
+  showUpload() {
+    this.displayUpload = true;
+  }
+  Uploadfile() {
+    if (this.fileToUpload) {
+      this.confirmationService.confirm({
+        message: 'Confirm Upload file : ' + this.fileToUpload.name,
+        header: 'Import File',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.displayUpload = false;
+          this.doUploadPeriod()
+        },
+        key: "myDialog",
+        reject: () => {
+          this.displayUpload = false;
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+    }
+  }
+  close() {
+    this.new_data = false
+    this.selectedPeriods = new PeriodsModels()
+  }
+  Save() {
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.selectedPeriods.emptype_code = this.emptype;
+        this.selectedPeriods.year_code = this.selectedyear.code;
+        this.doRecordPeriod(this.selectedPeriods)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+      }
+    });
+
+
+  }
+
+  Delete() {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePeriods(this.selectedPeriods);
+
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+      }
+    });
+
+
+  }
+  selectYear() {
+    this.doLoadPeriod()
+  }
+  onRowSelect(event: any) {
+    this.new_data = true;
+    this.edit_data = true;
+    this.displayManage = true;
+
+  }
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true;
+  }
+  exportAsExcel() {
+    const fileToExport = this.periods_list.map((items: any) => {
+      return {
+        "period_no": items?.period_no,
+        "period_name_th": items?.period_name_th,
+        "period_name_en": items?.period_name_en,
+        "period_from": items?.period_from,
+        "period_to": items?.period_to,
+        "period_payment": items?.period_payment,
+        "period_dayonperiod": items?.period_dayonperiod,
+        "period_closeta": items?.period_closeta,
+        "period_closepr": items?.period_closepr,
+
+      }
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'Export_Period.xlsx');
+  }
+}

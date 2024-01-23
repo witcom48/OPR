@@ -53,7 +53,7 @@
             </div>
 
             <div class="field col-12 md:col-6">
-                <p-button label="{{title_proces[initial_current.Language]}}" (click)="process()"></p-button>
+                <p-button label="{{title_proces[initial_current.Language]}}" [disabled]="hasTruePeriodCloseta" (click)="process()"></p-button>
             </div>
            
         </div>

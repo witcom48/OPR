@@ -40,6 +40,7 @@ import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from '../../usercontrol/task/task.component';
 import { ProjobsubModel } from 'src/app/models/project/project_jobsub';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 
 interface Result {
   worker: string;
@@ -135,7 +136,8 @@ export class ProjectTimesheetComponent implements OnInit {
     private shiftServices: ShiftServices,
     private projectService: ProjectService,
     private timecardService: TimecardService,
-    private projectDetailService: ProjectDetailService
+    private projectDetailService: ProjectDetailService,
+    private periodsService: PeriodsServices
   ) {
   }
 
@@ -149,6 +151,8 @@ export class ProjectTimesheetComponent implements OnInit {
     this.doLoadPolJobmain2()
     this.doLoadProjobsub2()
     this.doLoadTimecard()
+    this.Periodclosed()
+
     // this.selectJobmainType();
     // this.selectJobType();
     setTimeout(() => {
@@ -227,20 +231,22 @@ export class ProjectTimesheetComponent implements OnInit {
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
-            this.clearManage();
-   
-            this.new_timecard = true;
-            this.selectedTimecard = new TimecardsModel();
-            this.selectedProjobmain = new ProjectModel();
-            this.selectedJobmain = new RadiovalueModel();
-            this.selectedProjobsub = new ProjobsubModel();
-            this.timein = "00:00"
-            this.timeout = "00:00"
-            this.showManage();
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
-          }
+            if (!this.hasTruePeriodCloseta) {
+              this.clearManage();
 
+              this.new_timecard = true;
+              this.selectedTimecard = new TimecardsModel();
+              this.selectedProjobmain = new ProjectModel();
+              this.selectedJobmain = new RadiovalueModel();
+              this.selectedProjobsub = new ProjobsubModel();
+              this.timein = "00:00"
+              this.timeout = "00:00"
+              this.showManage();
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+            }
+
+          }
         }
       }
       ,
@@ -256,11 +262,12 @@ export class ProjectTimesheetComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          this.confirmDelete(this.selectedDataArray)
-
+          if (!this.hasTruePeriodCloseta) {
+            this.confirmDelete(this.selectedDataArray)
+          }
         }
       }
-     
+
     ];
 
   }
@@ -293,7 +300,7 @@ export class ProjectTimesheetComponent implements OnInit {
         element.timecard_after_min_app = Number(element.timecard_after_min_app);
         element.timecard_late_min_app = Number(element.timecard_late_min_app);
       });
-       this.timecard_list = await res;
+      this.timecard_list = await res;
       // if (this.timecard_list.length > 0) {
       //   this.selectedTimecard = this.timecard_list[0]///
       // }
@@ -318,7 +325,7 @@ export class ProjectTimesheetComponent implements OnInit {
 
     this.timein = timecard_in[1]
     this.timeout = timecard_out[1]
-   }
+  }
 
   pad(num: number, size: number): string {
     let s = num + "";
@@ -330,7 +337,7 @@ export class ProjectTimesheetComponent implements OnInit {
     var hrs = Math.floor(time_min / 60);
     var min = time_min - (hrs * 60);
     return this.pad(hrs, 2) + ":" + this.pad(min, 2);
-    
+
   }
 
   doGetMinute(HHmm: string): number {
@@ -406,7 +413,7 @@ export class ProjectTimesheetComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter);
         this.jobmain_list = res as ProjobmainModel[];
- 
+
       }
     } catch (error) { }
   }
@@ -447,7 +454,7 @@ export class ProjectTimesheetComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobsubModel, current: ProjobsubModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobsub_get(latestProjobmain.version, this.selectedProject_fillter.project_code);
         this.projobsub_list = res as ProjobsubModel[];
-       }
+      }
     } catch { }
   }
   doGetDetail(code: string): string {
@@ -455,7 +462,7 @@ export class ProjectTimesheetComponent implements OnInit {
       if (this.projobsub_list[i].projobsub_code == code) {
         return this.initial_current.Language == "TH" ? this.projobsub_list[i].projobsub_name_th : this.projobsub_list[i].projobsub_name_th;
       }
-      
+
     }
     return "";
   }
@@ -499,10 +506,10 @@ export class ProjectTimesheetComponent implements OnInit {
   selectJobmainType() {
     if (this.job_type === '0') {
       this.new_timecard = true;
-      this.jobListLoaded = true;  
-      this.jobSubListLoaded = false; 
+      this.jobListLoaded = true;
+      this.jobSubListLoaded = false;
       this.clearManage();
-       this.selectedProjobsub = new ProjobsubModel();
+      this.selectedProjobsub = new ProjobsubModel();
       this.timein = "00:00";
       this.timeout = "00:00";
       this.showManage();
@@ -511,23 +518,23 @@ export class ProjectTimesheetComponent implements OnInit {
       this.jobSubListLoaded = false;
     }
   }
-  
+
   selectJobType() {
     if (this.jobsub_type === '1') {
-      this.jobSubListLoaded = true;  
-      this.jobListLoaded = false;  
+      this.jobSubListLoaded = true;
+      this.jobListLoaded = false;
       this.clearManage();
       this.new_timecard = true;
       this.selectedProjobsub = new ProjobsubModel();
       this.timein = "00:00";
       this.timeout = "00:00";
-       this.showManage();
+      this.showManage();
     } else {
       this.jobSubListLoaded = false;
       this.jobListLoaded = false;
     }
   }
-  
+
 
 
   //
@@ -541,60 +548,64 @@ export class ProjectTimesheetComponent implements OnInit {
   }
 
   timesheet() {
-    this.confirmationService.confirm({
-      message: this.title_confirm_record[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
 
-        var data = new TimecardsModel();
-        data.company_code = this.initial_current.CompCode;
-        data.emp_data = this.selectEmp.employee_dest;
-        data.project_code = this.selectedProject_fillter.project_code;
-        data.projob_code = this.selectedTimecard.projob_code;
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
+      this.confirmationService.confirm({
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
 
-        data.timecard_daytype = this.selectedTimecard.timecard_daytype;
-        data.shift_code = this.selectedTimecard.shift_code;
-        //
-        data.projobsub_code = this.selectedTimecard.projobsub_code;
+          var data = new TimecardsModel();
+          data.company_code = this.initial_current.CompCode;
+          data.emp_data = this.selectEmp.employee_dest;
+          data.project_code = this.selectedProject_fillter.project_code;
+          data.projob_code = this.selectedTimecard.projob_code;
 
-        //
+          data.timecard_daytype = this.selectedTimecard.timecard_daytype;
+          data.shift_code = this.selectedTimecard.shift_code;
+          //
+          data.projobsub_code = this.selectedTimecard.projobsub_code;
 
-        data.modified_by = this.initial_current.Username;
+          //
 
-        data.company_code = this.initial_current.CompCode
-        // data.project_code = this.selectedProject_fillter.project_code
-        data.timecard_color = "1"
+          data.modified_by = this.initial_current.Username;
 
-        data.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
-        data.timecard_in = this.timein
-        data.timecard_out = this.timeout
+          data.company_code = this.initial_current.CompCode
+          // data.project_code = this.selectedProject_fillter.project_code
+          data.timecard_color = "1"
 
-        this.timecardService.timesheet_record(data).then((res) => {
-          let result = JSON.parse(res);
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
-            this.edit_data = true;
-            this.displayManage = false
-            this.edit_timecard = false
-            setTimeout(() => {
-              this.doLoadTimecard()
+          data.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
+          data.timecard_in = this.timein
+          data.timecard_out = this.timeout
+
+          this.timecardService.timesheet_record(data).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
+              this.edit_data = true;
+              this.displayManage = false
+              this.edit_timecard = false
+              setTimeout(() => {
+                this.doLoadTimecard()
 
 
-            }, 300);
+              }, 300);
 
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
-          }
-        })
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
-      },
-      key: "myDialog"
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
+            }
+          })
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+        },
+        key: "myDialog"
 
-    });
+      });
+    }
   }
 
 
@@ -630,47 +641,56 @@ export class ProjectTimesheetComponent implements OnInit {
   }
 
 
+  isConfirmationDialogVisible: boolean = false;
+
   //Delete
   confirmDelete(selectedDataArray: TimecardsModel[]) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_record[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteTimesheet(selectedDataArray);
-      },
-      reject: () => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Cancelled',
-          detail: this.title_confirm_cancel[this.initial_current.Language],
-        });
-      },
-    });
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
+      this.confirmationService.confirm({
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.doDeleteTimesheet(selectedDataArray);
+        },
+        reject: () => {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Cancelled',
+            detail: this.title_confirm_cancel[this.initial_current.Language],
+          });
+        },
+      });
+    }
   }
 
   async doDeleteTimesheet(selectedDataArray: TimecardsModel[]) {
-    try {
-      for (const data of selectedDataArray) {
-        const res = await this.timecardService.timesheet_delete(
-          this.initial_current.CompCode, data.project_code, data.worker_code, data
-        );
 
-        if (res.success) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+    if (!this.hasTruePeriodCloseta) {
+      this.isConfirmationDialogVisible = true;
+      try {
+        for (const data of selectedDataArray) {
+          const res = await this.timecardService.timesheet_delete(
+            this.initial_current.CompCode, data.project_code, data.worker_code, data
+          );
+
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
         }
+
+        selectedDataArray.length = 0;
+        this.doLoadPolJobmain();
+        this.doLoadProjobsub()
+
+        this.reloadPage();
+        this.displayManage = false;
+      } catch (error) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
       }
-
-      selectedDataArray.length = 0;
-      this.doLoadPolJobmain();
-      this.doLoadProjobsub()
-
-      this.reloadPage();
-      this.displayManage = false;
-    } catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
     }
   }
 
@@ -679,9 +699,9 @@ export class ProjectTimesheetComponent implements OnInit {
     this.displayManage = true;
 
     if (this.initial_current.Language == 'EN') {
-      if (this.new_timecard||this.edit_timecard) {
+      if (this.new_timecard || this.edit_timecard) {
       } else {
-        if (this.new_timecard||this.edit_timecard) {
+        if (this.new_timecard || this.edit_timecard) {
 
         }
       }
@@ -699,8 +719,32 @@ export class ProjectTimesheetComponent implements OnInit {
 
   clearManage() {
     this.new_timecard = false; this.edit_timecard = false;
- 
+
 
   }
-
+  //เช็คชข้อมูลเมื่อมีการปิดงวด
+  hasTruePeriodCloseta: boolean = false;
+  async Periodclosed() {
+    try {
+      const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+      if (res && res.length > 0) {
+        for (const element of res) {
+          element.period_from = new Date(element.period_from);
+          element.period_to = new Date(element.period_to);
+          element.period_payment = new Date(element.period_payment);
+        }
+        this.hasTruePeriodCloseta = res.some((item: { period_closeta: boolean }) => item.period_closeta === true);
+        if (this.hasTruePeriodCloseta) {
+          this.confirmationService.confirm({
+            message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
+            header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+            },
+            rejectVisible: false,
+          });
+        }
+      }
+    } catch { }
+  }
 }
