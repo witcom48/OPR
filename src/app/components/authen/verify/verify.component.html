@@ -58,4 +58,16 @@
     </div>
 </p-dialog>
 
+
+<p-dialog header="{{langs.get('type')[selectlang]}}" [(visible)]="displayManagetype" [style]="{width: '30vw'}"
+    [draggable]="false" [closable]="false">
+    <div class="loginform">
+        <!-- <label for="ppos_shift_code">{{langs.get('type')[selectlang]}}</label> -->
+        <p-dropdown class="selectyaer" [options]="type_list" [(ngModel)]="typeselected" (onChange)="selectcom()"
+            optionLabel='name' (keyup.enter)="submittype()" appendTo="body"></p-dropdown>
+        <button pButton type="button" label="{{langs.get('confirm')[selectlang]}}" icon="pi pi-lock"
+            (click)="submittype()"></button>
+    </div>
+</p-dialog>
+
 <app-spinner [loadding]="initail_current.loading"></app-spinner>

@@ -39,6 +39,7 @@ export class VerifyComponent implements OnInit {
   ) { }
 
   displayManage: boolean = true;
+  displayManagetype: boolean = false;
   displaygroupManage: boolean = false;
   display: boolean = false;
   loading: boolean = true;
@@ -50,6 +51,8 @@ export class VerifyComponent implements OnInit {
   perioddis: string = "period_name_en"
   localdis: string = "en-US";
   emp_type: string = "M"
+  type_list: any[] = [{ code: 'Emp', name: 'EMP' }, { code: 'APR', name: 'APR' }];
+  typeselected: any = { code: 'Emp', name: 'EMP' };
   company_list: CompanyModel[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   periods_list: PeriodsModels[] = [];
@@ -57,6 +60,7 @@ export class VerifyComponent implements OnInit {
   periods_select: PeriodsModels = new PeriodsModels();
   comselected: CompanyModel = new CompanyModel();
   account_list: AccountModel = new AccountModel();
+  account_lists: AccountModel[] = [];
   selectaccount: TRAccountModel = new TRAccountModel();
   initail_current: InitialCurrent = new InitialCurrent();
   submitForm() {
@@ -130,85 +134,183 @@ export class VerifyComponent implements OnInit {
     this.initail_current = new InitialCurrent()
     this.authenService.getToken(this.comselected.company_code, this.user, this.pass).then((res) => {
       if (res.success) {
+        console.log(res);
         this.token = res.message;
         this.loading = false;
         this.initail_current.CompCode = this.comselected.company_code;
         this.initail_current.Token = 'Bearer ' + this.token;
         this.initail_current.Language = this.selectlang;
-        this.account_list = res.user_data[0];
-        res.user_data.forEach((obj: AccountModel) => {
-          if (obj.account_type == "Emp") {
-            this.initail_current.Username = obj.worker_data[0].worker_code;
-            this.initail_current.Usertype = obj.account_type;
-            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-            if (this.initail_current.Token) {
-              this.displayManage = false;
-              this.display = true;
-              setTimeout(() => {
-                this.elm.nativeElement.focus();
-              }, 100);
+        this.account_lists = res.user_data;
+        if (res.user_data.length == 1) {
+          console.log('one user')
+          this.account_list = res.user_data[0];
+          res.user_data.forEach((obj: AccountModel) => {
+            if (obj.account_type == "Emp") {
+              this.initail_current.Username = obj.worker_data[0].worker_code;
+              this.initail_current.Usertype = obj.account_type;
+              localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+              if (this.initail_current.Token) {
+                this.displayManage = false;
+                this.display = true;
+                setTimeout(() => {
+                  this.elm.nativeElement.focus();
+                }, 100);
 
-              // window.location.href = "";
-              // this.router.navigateByUrl('');
+                // window.location.href = "";
+                // this.router.navigateByUrl('');
+              }
             }
-          }
-          if (obj.account_type == "APR") {
-            this.initail_current.Username = obj.account_user;
-            this.initail_current.Usertype = obj.account_type;
-            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-            if (this.initail_current.Token) {
-              window.location.href = "";
-              // this.router.navigateByUrl('');
+            if (obj.account_type == "APR") {
+              this.initail_current.Username = obj.account_user;
+              this.initail_current.Usertype = obj.account_type;
+              localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+              if (this.initail_current.Token) {
+                this.displayManage = false;
+                this.display = true;
+                setTimeout(() => {
+                  this.elm.nativeElement.focus();
+                }, 100);
+                // this.router.navigateByUrl('');
+              }
             }
-          }
-          if (obj.account_type == "GRP") {
-            this.initail_current.Username = obj.account_user
-            this.initail_current.Usertype = obj.account_type;
-            // this.initail_current.Username = obj.worker_data[0].worker_code;
-            // this.initail_current.Usertype = obj.worker_data[0].account_type;
-            // this.displaygroupManage = true;
-            // this.displayManage = false;
-            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-            if (this.initail_current.Token) {
-              window.location.href = "";
-              // this.router.navigateByUrl('');
+            if (obj.account_type == "GRP") {
+              this.initail_current.Username = obj.account_user
+              this.initail_current.Usertype = obj.account_type;
+              // this.initail_current.Username = obj.worker_data[0].worker_code;
+              // this.initail_current.Usertype = obj.worker_data[0].account_type;
+              // this.displaygroupManage = true;
+              // this.displayManage = false;
+              localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+              if (this.initail_current.Token) {
+                window.location.href = "";
+                // this.router.navigateByUrl('');
+              }
             }
-          }
-          if (obj.account_type == "ADM") {
-            this.initail_current.Username = obj.account_user;
-            this.initail_current.Usertype = obj.account_type;
-            console.log(obj)
-            this.initail_current.PolMenu_Code = obj.polmenu_code;
-            this.doLoadYear(this.comselected.company_code)
-          }
-          // else {
-          //   localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-          //   if (this.initail_current.Token) {
-          //     window.location.href = "";
-          //     // this.router.navigateByUrl('');
-          //   }
-          // }
-          if (obj.account_type == "SADM") {
-            this.initail_current.Username = obj.account_user;
-            this.initail_current.Usertype = obj.account_type;
-            this.initail_current.PolMenu_Code = 'HR1';
-            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-            if (this.initail_current.Token) {
-              window.location.href = "";
-              // this.router.navigateByUrl('');
+            if (obj.account_type == "ADM") {
+              this.initail_current.Username = obj.account_user;
+              this.initail_current.Usertype = obj.account_type;
+              console.log(obj)
+              this.initail_current.PolMenu_Code = obj.polmenu_code;
+              this.doLoadYear(this.comselected.company_code)
             }
-          }
-          // if (this.initail_current.Token) {
-          //   window.location.href = "";
-          //   // this.router.navigateByUrl('');
-          // }
+            // else {
+            //   localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+            //   if (this.initail_current.Token) {
+            //     window.location.href = "";
+            //     // this.router.navigateByUrl('');
+            //   }
+            // }
+            if (obj.account_type == "SADM") {
+              this.initail_current.Username = obj.account_user;
+              this.initail_current.Usertype = obj.account_type;
+              this.initail_current.PolMenu_Code = 'HR1';
+              localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+              if (this.initail_current.Token) {
+                window.location.href = "";
+                // this.router.navigateByUrl('');
+              }
+            }
+            // if (this.initail_current.Token) {
+            //   window.location.href = "";
+            //   // this.router.navigateByUrl('');
+            // }
 
-        });
+          });
+        } else {
+          console.log('two user')
+          this.displayManagetype = true;
+          this.displayManage = false;
+        }
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('incorrect')[this.selectlang] })
       }
       this.initail_current.loading = false;
     });
+  }
+
+  submittype() {
+    console.log(this.typeselected);
+    this.displayManagetype = false;
+    this.account_lists.find((obj: AccountModel) => {
+      if (obj.account_type == this.typeselected.code && obj.account_type == "Emp") {
+        console.log(obj)
+        this.displayManagetype = false;
+        this.initail_current.Username = obj.worker_data[0].worker_code;
+        this.initail_current.Usertype = obj.account_type;
+        localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+        if (this.initail_current.Token) {
+          this.displayManage = false;
+          this.display = true;
+          setTimeout(() => {
+            this.elm.nativeElement.focus();
+          }, 100);
+
+          // window.location.href = "";
+          // this.router.navigateByUrl('');
+        }
+        return
+      }
+      if (obj.account_type == this.typeselected.code && obj.account_type == "APR") {
+        this.initail_current.Username = obj.account_user;
+        this.initail_current.Usertype = obj.account_type;
+        localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+        if (this.initail_current.Token) {
+          this.displayManage = false;
+          this.display = true;
+          setTimeout(() => {
+            this.elm.nativeElement.focus();
+          }, 100);
+          // this.router.navigateByUrl('');
+        }
+        return
+      }
+      if (obj.account_type == "GRP") {
+        this.initail_current.Username = obj.account_user
+        this.initail_current.Usertype = obj.account_type;
+        // this.initail_current.Username = obj.worker_data[0].worker_code;
+        // this.initail_current.Usertype = obj.worker_data[0].account_type;
+        // this.displaygroupManage = true;
+        // this.displayManage = false;
+        localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+        if (this.initail_current.Token) {
+          window.location.href = "";
+          // this.router.navigateByUrl('');
+        }
+        return
+      }
+      if (obj.account_type == "ADM") {
+        this.initail_current.Username = obj.account_user;
+        this.initail_current.Usertype = obj.account_type;
+        console.log(obj)
+        this.initail_current.PolMenu_Code = obj.polmenu_code;
+        this.doLoadYear(this.comselected.company_code)
+        return
+      }
+      // else {
+      //   localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+      //   if (this.initail_current.Token) {
+      //     window.location.href = "";
+      //     // this.router.navigateByUrl('');
+      //   }
+      // }
+      if (obj.account_type == "SADM") {
+        this.initail_current.Username = obj.account_user;
+        this.initail_current.Usertype = obj.account_type;
+        this.initail_current.PolMenu_Code = 'HR1';
+        localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+        if (this.initail_current.Token) {
+          window.location.href = "";
+          // this.router.navigateByUrl('');
+        }
+        return
+      }
+      // if (this.initail_current.Token) {
+      //   window.location.href = "";
+      //   // this.router.navigateByUrl('');
+      // }
+    }
+    );
+
   }
   selectcom() {
 

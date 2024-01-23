@@ -1521,6 +1521,7 @@ var login = new Map([
     ["period", { TH: "งวดการจ่าย", EN: "Period" }],
     ["confirm", { TH: "ยืนยัน", EN: "Confirm" }],
     ["incorrect", { TH: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", EN: "The username or password is incorrect." }],
+    ["type", { TH: "ประเภทผู้ใช้งาน", EN: "user type" }],
 ]);
 
 var consent = new Map([
