@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import * as XLSX from 'xlsx';
 
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { InitialCurrent } from '.././../../config/initial_current';
@@ -85,6 +86,7 @@ export class EmployeeMonitorComponent implements OnInit {
   title_analytics: { [key: string]: string } = { EN: "Analytics", TH: "Analytics" }
   title_workers: { [key: string]: string } = { EN: "Workers", TH: "Workers" }
   title_POSITION: { [key: string]: string } = { EN: "POSITION", TH: "ตำแหน่งงาน" }
+
   title_GENDER: { [key: string]: string } = { EN: "GENDER", TH: "เพศ" }
   title_EMPLOYEE: { [key: string]: string } = { EN: "EMPLOYEE AGE", TH: "อายุพนักงาน" }
   title_Experience: { [key: string]: string } = { EN: "Work Experience", TH: "อายุงาน" }
@@ -95,6 +97,11 @@ export class EmployeeMonitorComponent implements OnInit {
   title_year: { [key: string]: string } = { EN: "year", TH: "ปี" }
   title_morethan: { [key: string]: string } = { EN: "More than 16", TH: "มากกว่า 16" }
 
+  title_worker: { [key: string]: string } = { EN: "Code", TH: "รหัสพนักงาน" }
+  title_name_fname: { [key: string]: string } = { EN: "First Name  ", TH: "ชื่อ " }
+  title_name_lname: { [key: string]: string } = { EN: "Last Name  ", TH: "นามสกุล " }
+  title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่งงาน" };
+  title_codeposition: { [key: string]: string } = { EN: "Code Position", TH: "รหัสตำแหน่งงาน" };
 
   selectedEmployee: EmployeeModel = new EmployeeModel();
 
@@ -475,6 +482,7 @@ export class EmployeeMonitorComponent implements OnInit {
 
     this.employeeService.getDashGenderList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
       this.workerList = await res;
+      console.log(res, 'getDashGenderList_get')
 
       let regularWorkers: number = 0; // จำนวนพนักงานชาย
       let temporaryWorkers: number = 0; // จำนวนพนักงานหญิง
@@ -518,12 +526,34 @@ export class EmployeeMonitorComponent implements OnInit {
       this.chart.chart.update();
     }
   }
+  exportGenderAsExcel() {
+    this.employeeService.getDashGenderList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+      // exportAsExcel
+      if (this.workerList) {
+        const fileToExport = this.workerList.map((dataPoint: any) => {
+          return {
+            [this.title_worker[this.initial_current.Language]]: dataPoint?.worker_code,
+            [this.title_name_fname[this.initial_current.Language]]: dataPoint?.workerfname_name,
+            [this.title_name_lname[this.initial_current.Language]]: dataPoint?.workerlname_name,
+            [this.title_GENDER[this.initial_current.Language]]: dataPoint?.worker_gender_name,
 
+          };
+        });
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'Export_Period.xlsx');
+      } else {
+        console.error("workerList is undefined");
+      }
+    });
+  }
   //
   /// อายุพนักงาน
-  
+
   doughnut7: ChartData = {
-    
+
     labels: ['18-30', '31-40', '41-55'],
     datasets: [
       {
@@ -541,9 +571,9 @@ export class EmployeeMonitorComponent implements OnInit {
   doLoadChart7() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
-
     this.employeeService.getDashEmpWorkAgeList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
       this.workerList = await res;
+      console.log(res, 'res')//
 
       let age18_30: number = 0; // อายุ 18-30
       let age31_40: number = 0; // อายุ 31-40
@@ -593,6 +623,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut7.labels = labelsWithData;
       this.doughnut7.datasets[0].data = [age18_30, age31_40, age41_55].filter(count => count > 0);
       this.updateChart7();
+      console.log(this.doughnut7, 'this.doughnut7')
     });
   }
 
@@ -600,6 +631,30 @@ export class EmployeeMonitorComponent implements OnInit {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
     }
+  }
+
+  exportpEmpWorkAgeAsExcel() {
+    this.employeeService.getDashEmpWorkAgeList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+      // exportAsExcel
+      if (this.workerList) {
+        const fileToExport = this.workerList.map((dataPoint: any) => {
+          return {
+            [this.title_worker[this.initial_current.Language]]: dataPoint?.worker_code,
+            [this.title_name_fname[this.initial_current.Language]]: dataPoint?.workerfname_name,
+            [this.title_name_lname[this.initial_current.Language]]: dataPoint?.workerlname_name,
+            [this.title_EMPLOYEE[this.initial_current.Language]]: dataPoint?.age,
+
+          };
+        });
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'Export_Period.xlsx');
+      } else {
+        console.error("workerList is undefined");
+      }
+    });
   }
   //
 
@@ -646,7 +701,7 @@ export class EmployeeMonitorComponent implements OnInit {
           }
         }
       }
-      
+
       const labelsWithData = [];
       if (age0_2 > 0) {
         labelsWithData.push('0-2 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age0_2 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
@@ -683,7 +738,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut8.labels = labelsWithData;
       this.doughnut8.datasets[0].data = [age0_2, age3_5, age6_10, age11_15, age16].filter(count => count > 0);
 
-       this.updateChart8();
+      this.updateChart8();
     });
   }
 
@@ -693,7 +748,28 @@ export class EmployeeMonitorComponent implements OnInit {
       this.chart.chart.update();
     }
   }
-
+  exportpWorkAgeAsExcel() {
+    this.employeeService.getDashWorkAgeList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+      // exportAsExcel
+      if (this.workerList) {
+        const fileToExport = this.workerList.map((dataPoint: any) => {
+          return {
+            [this.title_worker[this.initial_current.Language]]: dataPoint?.worker_code,
+            [this.title_name_fname[this.initial_current.Language]]: dataPoint?.workerfname_name,
+            [this.title_name_lname[this.initial_current.Language]]: dataPoint?.workerlname_name,
+            [this.title_Experience[this.initial_current.Language]]: dataPoint?.age,
+          };
+        });
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'Export_Period.xlsx');
+      } else {
+        console.error("workerList is undefined");
+      }
+    });
+  }
   //
 
   /// ตำแหน่งงาน
@@ -753,7 +829,6 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut9.labels = labels.map((label) => `${label} (${positionData[label]} ` + this.title_Person[this.initial_current.Language] + ')');
       this.doughnut9.datasets[0].data = data;
       this.updateChart9();
-
     });
   }
 
@@ -763,6 +838,31 @@ export class EmployeeMonitorComponent implements OnInit {
     }
   }
 
+  exportPositionAsExcel() {
+    this.employeeService.getDashPositionList(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+      // exportAsExcel
+      if (this.workerList) {
+        const fileToExport = this.workerList.map((dataPoint: any) => {
+          return {
+            [this.title_codeposition[this.initial_current.Language]]: dataPoint?.empposition_position,
+            [this.title_position[this.initial_current.Language]]: dataPoint?.position_name,
+            [this.title_worker[this.initial_current.Language]]: dataPoint?.worker_code,
+            [this.title_name_fname[this.initial_current.Language]]: dataPoint?.workerfname_name,
+            [this.title_name_lname[this.initial_current.Language]]: dataPoint?.workerlname_name,
+
+
+          };
+        });
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'Export_Period.xlsx');
+      } else {
+        console.error("workerList is undefined");
+      }
+    });
+  }
   //
   doLoadMenu() {
     this.toolbar_menu = [
@@ -819,5 +919,7 @@ export class EmployeeMonitorComponent implements OnInit {
     //event.element._datasetIndex = Index of the dataset in data
     //event.element._index = Index of the data in dataset
   }
+
+
 
 }

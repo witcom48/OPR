@@ -286,7 +286,7 @@ export class EmployeeService {
     ip: "localhost",
     username: this.initial_current.Username,
     company_code: company,
-    language: "",
+    language: this.initial_current.Language,
     worker_code: code
   };
 
@@ -306,7 +306,7 @@ export class EmployeeService {
     ip: "localhost",
     username: this.initial_current.Username,
     company_code: company,
-    language: "",
+    language: this.initial_current.Language,
     worker_code: code
   };
 

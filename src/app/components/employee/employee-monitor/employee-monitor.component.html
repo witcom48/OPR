@@ -92,9 +92,9 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel >
-                <ng-template pTemplate="header" >
-                     <span>{{title_analytics[initial_current.Language]}}</span>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>{{title_analytics[initial_current.Language]}}</span>
                 </ng-template>
 
 
@@ -102,34 +102,47 @@
                     <!-- ตำแหน่งงาน -->
                     <div class="col-12 md:col-6">
                         <label>{{title_POSITION[initial_current.Language]}} </label>
+                        <td>
+                            <button pButton type="button" class="pi pi-file-export gray-button"
+                                (click)="exportPositionAsExcel()"></button>
+                        </td>
                         <p-chart type="doughnut" [data]="doughnut9" [options]="doughnutChartOptions9"></p-chart>
 
-                     </div>
+                    </div>
 
 
-  
-                <!-- เพศ-->
-                <div class="col-12 md:col-6">
-                    <label>{{title_GENDER[initial_current.Language]}} </label>
 
-                    <p-chart type="doughnut" [data]="doughnut6" [options]="doughnutChartOptions6"></p-chart>
+                    <!-- เพศ-->
+                    <div class="col-12 md:col-6">
+                        <label>{{title_GENDER[initial_current.Language]}} </label>
+                        <td>
+                            <button pButton type="button" class="pi pi-file-export gray-button"
+                                (click)="exportGenderAsExcel()"></button>
+                        </td>
+                        <p-chart type="doughnut" [data]="doughnut6" [options]="doughnutChartOptions6"></p-chart>
+                    </div>
+                    <!-- อายุพนักงาน  -->
+
+                    <div class="col-12 md:col-6">
+                        <label>{{title_EMPLOYEE[initial_current.Language]}} </label>
+                        <td>
+                            <button pButton type="button" class="pi pi-file-export gray-button"
+                                (click)="exportpEmpWorkAgeAsExcel()"></button>
+                        </td>
+                        <p-chart type="doughnut" [data]="doughnut7" [options]="doughnutChartOptions7"></p-chart>
+                    </div>
+                    <!-- อายุงาน'  -->
+
+                    <div class="col-12 md:col-6">
+                        <label>{{title_Experience[initial_current.Language]}} </label>
+                        <td>
+                            <button pButton type="button" class="pi pi-file-export gray-button"
+                                (click)="exportpWorkAgeAsExcel()"></button>
+                        </td>
+                        <p-chart type="doughnut" [data]="doughnut8" [options]="doughnutChartOptions8"></p-chart>
+                    </div>
+
                 </div>
-                 <!-- อายุพนักงาน  -->
-
-                <div class="col-12 md:col-6">
-                    <label>{{title_EMPLOYEE[initial_current.Language]}} </label>
-
-                    <p-chart type="doughnut" [data]="doughnut7" [options]="doughnutChartOptions7"></p-chart>
-                </div>
-                 <!-- อายุงาน'  -->
-
-                 <div class="col-12 md:col-6">
-                    <label>{{title_Experience[initial_current.Language]}} </label>
-
-                    <p-chart type="doughnut" [data]="doughnut8" [options]="doughnutChartOptions8"></p-chart>
-                </div>
-                
-            </div>
                 <!-- <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
                     <i class="pi pi-refresh icon-small"></i>
                 </button> -->

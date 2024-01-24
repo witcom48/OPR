@@ -102,5 +102,10 @@ export class EmployeeModel {
   work_age: string = "";
   empposition_position: string = "";
   position_name: string = "";
+  workerfname_name: string = "";
+  workerlname_name: string = "";
+  worker: string = "";
+ 
 
+  worker_gender_name= "";
 }

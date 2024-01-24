@@ -944,6 +944,10 @@ export class ApplyListComponent implements OnInit {
       work_age: '',
       empposition_position: '',
       position_name: '',
+      workerfname_name: '',
+      workerlname_name: '',
+      worker: '',
+       worker_gender_name: '',
     };
 
     return newEmployee;
