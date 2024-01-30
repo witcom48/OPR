@@ -1657,6 +1657,7 @@ var menumain = new Map([
     ["calculatetimeCost", { TH: "คำนวณเงินค่าเวลา", EN: "Calculate Time Cost" }],
     ["summary", { TH: "ตรวจสอบการคำนวณ", EN: "Summary" }],
     ["attapprovalist", { TH: "รายการอนุมัติ", EN: "Approval list" }],
+    ["dicrequest", { TH: "Dic Request", EN: "Dic Request" }],
 
 
 

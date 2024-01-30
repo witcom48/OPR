@@ -1,0 +1,221 @@
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
+<!-- ---------END Link Page----------- -->
+<hr>
+<p-dialog [(visible)]="displayManage" [style]="{width: '60vw'}" [position]="position" (onHide)="closeManage()">
+    <div class="formgrid grid align-items-end">
+
+
+
+        <div class="field col-12 md:col-6" style="display:flex;flex-direction: column;">
+
+            <label>{{title_ot_doc[initial_current.Language]}} </label>
+            <input pInputText type="text" [(ngModel)]="selectedATTtimeot.timeot_doc" maxlength="30"
+                [disabled]="edit_data" name="code" #code="ngModel" required />
+            <p>{{ selectedATTtimeot.timeot_doc.length }}/30</p>
+
+
+        </div>
+
+        <div class="field col-12 md:col-6"></div>
+
+        <div class="field col-12 md:col-6">
+            <label>{{title_date[initial_current.Language]}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedATTtimeot.timeot_workdate" name="timeot_workdate"
+                #timeot_workdate="ngModel"></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-6" *ngIf="!edit_data">
+            <label>{{title_todate[initial_current.Language]}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedATTtimeot.timeot_worktodate" name="timeot_worktodate"
+                #timeot_worktodate="ngModel"></p-calendar>
+        </div>
+
+        <div class="reqtimeot field formgrid grid align-items-end">
+            <div class="field col-12 md:col-3">
+                <label>{{title_Before[initial_current.Language]}} :</label>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_beforemin_hrs"
+                    placeholder="HH:mm"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-3">
+                <label>{{title_Normal[initial_current.Language]}} :</label>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_normalmin_hrs"
+                    placeholder="HH:mm"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-3">
+                <label>{{title_Break[initial_current.Language]}} :</label>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_breakmin_hrs"
+                    placeholder="HH:mm"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-3">
+                <label>{{title_After[initial_current.Language]}} :</label>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_aftermin_hrs"
+                    placeholder="HH:mm"></p-inputMask>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{title_reason[initial_current.Language]}}</label>
+            <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
+                (onChange)="selectotreason()" optionLabel={{reasonedis}}></p-dropdown>
+
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{title_Location[initial_current.Language]}}</label>
+            <p-dropdown class="selectyaer" [options]="location_list" [(ngModel)]="locationselected"
+                (onChange)="selectotlocation()" optionLabel={{locatiodis}}></p-dropdown>
+
+        </div>
+
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{title_detail[initial_current.Language]}}</label>
+            <textarea [(ngModel)]="selectedATTtimeot.timeot_note" pInputTextarea [autoResize]="true"></textarea>
+
+        </div>
+
+
+
+        <div class="field col-12" style="text-align: right;">
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
+                class="p-button-secondary button-size btndel" (click)="Delete()"></button>
+
+        </div>
+
+    </div>
+</p-dialog>
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="closeManage()"></div>
+
+
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_emp()"></p-button>
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<div class="grid">
+
+
+    <div class="col-6">
+        <table style="width: 100%; ">
+            <tr>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                </td>
+                <td style="width: 150px;">
+                    <input id="worker_code" type="text" value="{{worker_code}}" style="text-align: center; "
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
+                </td>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                </td>
+
+
+
+                <td style="width: 20px;">
+                    <i class="pi pi-search" (click)="open_searchemp()"></i>
+                </td>
+                <td style="width: 250px;" align="left">
+                    <input id="worker_name" type="text" value="{{worker_name}}" style="width: 250px;"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        &nbsp;
+    </div>
+
+
+
+    <div #TABLE class="col-12">
+        <p-menubar [model]="items"></p-menubar>
+        <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedATTtimeot"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_breakmin_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable1">
+
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input class="searchinput" pInputText type="text"
+                            (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search[initial_current.Language]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{title_no[initial_current.Language]}}</th>
+                    <th>{{title_ot_doc[initial_current.Language]}}</th>
+                    <th>{{title_date[initial_current.Language]}}</th>
+
+                    <th>{{title_Before[initial_current.Language]}}</th>
+                    <th>{{title_Normal[initial_current.Language]}}</th>
+                    <th>{{title_Break[initial_current.Language]}}</th>
+                    <th>{{title_After[initial_current.Language]}}</th>
+
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                    <th></th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td> {{i+1}}</td>
+                    <td>{{data.timeot_doc}}</td>
+                    <td>{{data.timeot_workdate| date:'dd/MM/yyyy'}}
+                    </td>
+                    <td>{{data.timeot_beforemin_hrs}}</td>
+                    <td>{{data.timeot_normalmin_hrs}}</td>
+                    <td>{{data.timeot_breakmin_hrs}}</td>
+                    <td>{{data.timeot_aftermin_hrs}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date |date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button "
+                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete(data)">
+                        </button>
+
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileInputholidaylist($any($event).target.files)">
+    </label>
+
+</p-dialog>
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->
