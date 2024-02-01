@@ -38,6 +38,7 @@ import { AttendanceApproveComponent } from './attendance-approve/attendance-appr
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { DicRequestComponent } from './attendance-dicrequest/dic-request.component';
 import { RequestOvertimeComponent } from './attendance-dicrequest/request-overtimes/request-overtime.component';
+import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
 
 
 @NgModule({
@@ -82,6 +83,9 @@ import { RequestOvertimeComponent } from './attendance-dicrequest/request-overti
         { path: 'dicrequest', component: DicRequestComponent },
 
         { path: 'dicrequest/requestot', component: RequestOvertimeComponent },
+        { path: 'dicrequest/timeleave', component: RequestTimeleaveComponent },
+
+        
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

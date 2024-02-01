@@ -84,6 +84,8 @@ import { AttendanceApproveComponent } from './attendance-approve/attendance-appr
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { DicRequestComponent } from './attendance-dicrequest/dic-request.component';
 import { RequestOvertimeComponent } from './attendance-dicrequest/request-overtimes/request-overtime.component';
+import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
   
 
 @NgModule({
@@ -129,6 +131,8 @@ import { RequestOvertimeComponent } from './attendance-dicrequest/request-overti
 		CheckboxModule,
 		UsercontrolModule,
 		SystemModule,
+		RadioButtonModule,
+
 		ProgressBarModule
 
 
@@ -175,6 +179,7 @@ import { RequestOvertimeComponent } from './attendance-dicrequest/request-overti
 		AttendanceApproveComponent,
 		RequestOvertimeComponent,
 		DicRequestComponent,
+  RequestTimeleaveComponent,
  	],
 	exports: [ShiftComponent],
 })

@@ -47,7 +47,6 @@ export class AtttimeotService {
 
 
     public atttimeot_get(timeot: TRATTTimeotModel) {
-        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -68,52 +67,10 @@ export class AtttimeotService {
             });
     }
 
-    //
-
-    // public atttimeot_record(timeots: TRATTTimeotModel[]) {
-    //     // console.log('ATT002..');
-    //     var ot_datas: any = []
-    //     timeots.forEach((timeot: TRATTTimeotModel) => {
-    //         let datas = {
-    //             company_code: timeot.company_code || this.initial_current.CompCode,
-    //             worker_code: timeot.worker_code || this.initial_current.Username,
-    //             timeot_id: timeot.timeot_id,
-    //             timeot_doc: timeot.timeot_doc,
-    //             timeot_workdate: this.datePipe.transform(timeot.timeot_workdate, 'yyy-MM-dd'),
-    //             timeot_worktodate: this.datePipe.transform(timeot.timeot_worktodate, 'yyy-MM-dd'),
-    //             timeot_beforemin: timeot.timeot_beforemin,
-    //             timeot_normalmin: timeot.timeot_normalmin,
-    //             timeot_breakmin: timeot.timeot_breakmin,
-    //             timeot_aftermin: timeot.timeot_aftermin,
-    //             timeot_note: timeot.timeot_note,
-    //             location_code: timeot.location_code,
-    //             reason_code: timeot.reason_code,
-    //             status: timeot.status,
-    //             flag: timeot.flag,
-    //             reqdoc_data: timeot.reqdoc_data,
-
-    //         }
-    //         ot_datas.push(datas)
-    //     })
-    //     let data = {
-    //         device_name: "phone",
-    //         ip: "127.0.0.1",
-    //         username: this.initial_current.Username,
-    //         company_code: timeots[0].company_code || this.initial_current.CompCode,
-    //         ot_data: JSON.stringify(ot_datas)
-    //     }
-    //     return this.http.post<any>(this.config.ApiAttendanceModule + '/atttimeot', data, this.options).toPromise()
-    //         .then((res) => {
-    //             // console.log(res)
-    //             let message = JSON.parse(res);
-    //             return message;
-    //         });
-    // }
 
 
 
     public atttimeot_record(timeot: TRATTTimeotModel) {
-        // console.log('TRIT002..');
         let data = {
             device_name: '',
             ip: '',
@@ -124,7 +81,7 @@ export class AtttimeotService {
             timeot_doc: timeot.timeot_doc,
             timeot_workdate: this.datePipe.transform(timeot.timeot_workdate, 'yyy-MM-dd'),
             timeot_worktodate: this.datePipe.transform(timeot.timeot_worktodate, 'yyy-MM-dd'),
- 
+
             timeot_beforemin: timeot.timeot_beforemin,
             timeot_normalmin: timeot.timeot_normalmin,
             timeot_break: timeot.timeot_break,
@@ -143,56 +100,15 @@ export class AtttimeotService {
             .post<any>(this.config.ApiAttendanceModule + '/atttimeot', data, this.options)
             .toPromise()
             .then((res) => {
-                // console.log(res);
                 let message = JSON.parse(res);
                 return message;
             })
             .catch((error) => {
-                // console.log('An error occurred while recording payitem:', error);
                 throw error;
             });
     }
-    //
-    // public atttimeot_record(timeots: TRATTTimeotModel) {
-    //     // console.log('ATT002..');
-    //     var ot_datas: any = []
-    //     timeots.forEach((timeot: TRATTTimeotModel) => {
-    //         let datas = {
-    //             company_code: timeot.company_code || this.initial_current.CompCode,
-    //             worker_code: timeot.worker_code || this.initial_current.Username,
-    //             timeot_id: timeot.timeot_id,
-    //             timeot_doc: timeot.timeot_doc,
-    //             timeot_workdate: this.datePipe.transform(timeot.timeot_workdate, 'yyy-MM-dd'),
-    //             timeot_beforemin: timeot.timeot_beforemin,
-    //             timeot_normalmin: timeot.timeot_normalmin,
-    //             timeot_breakmin: timeot.timeot_breakmin,
-    //             timeot_aftermin: timeot.timeot_aftermin,
-    //             timeot_note: timeot.timeot_note,
-    //             location_code: timeot.location_code,
-    //             reason_code: timeot.reason_code,
-    //             status: timeot.status,
-    //             flag: timeot.flag,
-    //             reqdoc_data: timeot.reqdoc_data,
 
-    //         }
-    //         ot_datas.push(datas)
-    //     })
-    //     let data = {
-    //         device_name: "phone",
-    //         ip: "127.0.0.1",
-    //         username: this.initial_current.Username,
-    //         company_code: timeots[0].company_code || this.initial_current.CompCode,
-    //         ot_data: JSON.stringify(ot_datas)
-    //     }
-    //     return this.http.post<any>(this.config.ApiAttendanceModule + '/atttimeot', data, this.options).toPromise()
-    //         .then((res) => {
-    //             // console.log(res)
-    //             let message = JSON.parse(res);
-    //             return message;
-    //         });
-    // }
     public atttimeot_delete(timeots: TRATTTimeotModel) {
-        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
