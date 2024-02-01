@@ -84,6 +84,7 @@ export class SelfOvertimeComponent implements OnInit {
     } else {
       this.doLoadTimeot();
     }
+    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();

@@ -76,6 +76,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
       this.locatiodis = "location_name_th"
 
     }
+    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();

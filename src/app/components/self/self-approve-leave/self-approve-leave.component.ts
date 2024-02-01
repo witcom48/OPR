@@ -80,6 +80,8 @@ export class SelfApproveLeaveComponent implements OnInit {
       this.leavetypedis = "leave_name_th"
       this.reasonedis = "reason_name_th"
     }
+    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+
   }
   ngOnInit(): void {
     // console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))

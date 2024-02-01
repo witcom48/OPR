@@ -85,6 +85,7 @@ export class SelfLeaveComponent implements OnInit {
       this.doLoadTimeleave();
       this.doLoadLeaveacc();
     }
+    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
   }
   ngOnInit(): void {
     // console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
