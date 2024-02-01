@@ -213,8 +213,7 @@ export class RequestTimeleaveComponent implements OnInit {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;
       this.doSetDetailWorker();
-      this.doLoadEmployee();
-
+ 
     }
   }
 
@@ -222,8 +221,7 @@ export class RequestTimeleaveComponent implements OnInit {
     if (this.worker_index > 0) {
       this.worker_index--;
       this.doSetDetailWorker();
-      this.doLoadEmployee();
-
+ 
     }
   }
 

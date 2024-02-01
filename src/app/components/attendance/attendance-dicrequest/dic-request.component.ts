@@ -33,8 +33,9 @@ export class DicRequestComponent implements OnInit {
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
 
-  
+  title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลงเวลา" };
 
+  
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลประกอบ" };
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฏิบัติงาน" };
   title_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันหยุดประจำปี" };
@@ -83,6 +84,11 @@ export class DicRequestComponent implements OnInit {
         title: this.title_requestleave[this.initialData.Language],
         link: 'timeleave',
         accessCode: 'ATT008-002'
+      },
+      {
+        title: this.title_record_time[this.initialData.Language],
+        link: 'recordtime',
+        accessCode: 'ATT008-003'
       },
  
     ];

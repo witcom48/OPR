@@ -1,36 +1,36 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { SearchEmpComponent } from 'src/app/components/usercontrol/search-emp/search-emp.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { TRATTTimeotModel } from 'src/app/models/attendance/TRATTTimeotModel';
+import { TimeonsiteModel } from 'src/app/models/attendance/timeonsite';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
-import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
-import { AtttimeotService } from 'src/app/services/attendance/atttimeot.service';
+import { AttimeonsiteService } from 'src/app/services/attendance/attimeonsite.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
-import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
-import * as XLSX from 'xlsx';
+declare var reqonsite: any;
+interface Status { name: string, code: number }
 @Component({
-  selector: 'app-request-overtime',
-  templateUrl: './request-overtime.component.html',
-  styleUrls: ['./request-overtime.component.scss']
+  selector: 'app-record-time',
+  templateUrl: './record-time.component.html',
+  styleUrls: ['./record-time.component.scss']
 })
-export class RequestOvertimeComponent implements OnInit {
-  @ViewChild('TABLE') table: ElementRef | any = null;
-
-  itemslike: MenuItem[] = [];
-  home: any;
+export class RecordTimeComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   @ViewChild(SearchEmpComponent) selectEmp: any;
+
+  langs: any = reqonsite;
+  selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
   namedis: string = "worker_detail_en"
@@ -42,18 +42,17 @@ export class RequestOvertimeComponent implements OnInit {
   items_attfile: MenuItem[] = [];
 
   constructor(
+    private attimeonsiteService: AttimeonsiteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private atttimeotService: AtttimeotService,
     private reasonService: ReasonsService,
     private locationService: LocationService,
     private accountServie: AccountServices,
+    private datePipe: DatePipe,
     private router: Router,
     private employeeService: EmployeeService,
-    private periodsService: PeriodsServices,
 
   ) { }
-
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -62,8 +61,8 @@ export class RequestOvertimeComponent implements OnInit {
   reasonselected: ReasonsModel = new ReasonsModel();
   location_list: SysLocationModel[] = [];
   locationselected: SysLocationModel = new SysLocationModel();
-  trtimeot_list: TRATTTimeotModel[] = [];
-  selectedATTtimeot: TRATTTimeotModel = new TRATTTimeotModel();
+  trtimonsite_list: TimeonsiteModel[] = [];
+  selectedtrtimeonsite: TimeonsiteModel = new TimeonsiteModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
   account_list: TRAccountModel[] = [];
   account_list_source: TRAccountModel[] = [];
@@ -71,29 +70,24 @@ export class RequestOvertimeComponent implements OnInit {
   selectedAccount: TRAccountModel = new TRAccountModel();
   start_date: Date = new Date();
   end_date: Date = new Date();
-
-  accessData: AccessdataModel = new AccessdataModel();
-  initialData2: InitialCurrent = new InitialCurrent();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
-    this.accessData = this.initialData2.dotGetPolmenu('ATT');
-
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
+    this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
       this.namedis = "worker_detail_th"
-
     }
     if (this.initial_current.Usertype == "GRP") {
       this.doLoadAccount();
     } else {
-      this.doLoadTimeot();
+      this.doLoadTimeonsite();
     }
   }
 
@@ -128,7 +122,7 @@ export class RequestOvertimeComponent implements OnInit {
   title_todate: { [key: string]: string } = { EN: "To", TH: "ถึงวันที่" }
 
   title_page: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" }
-  title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
+  title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลงเวลา" };
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
   title_ot_doc: { [key: string]: string } = { EN: "OT Doc", TH: "เลขที่เอกสาร" }
   title_no: { [key: string]: string } = { EN: "No.", TH: "ลำดับ" }
@@ -136,21 +130,24 @@ export class RequestOvertimeComponent implements OnInit {
   title_Normal: { [key: string]: string } = { EN: "Normal", TH: "เวลาปกติ" }
   title_Break: { [key: string]: string } = { EN: "OBreak", TH: "เวลาพักเบรก" }
   title_After: { [key: string]: string } = { EN: "OAfter", TH: "หลังเลิกงาน" }
-  title_Location: { [key: string]: string } = { EN: "Location", TH: "สถานที่" }
+  title_Location: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฎิบัติงาน" }
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลการทำล่วงเวลา" }
   title_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
+  title_time_in: { [key: string]: string } = { EN: "Time in", TH: "เข้างาน" }
+
+  title_time_out: { [key: string]: string } = { EN: "Time out", TH: "ออกงาน" }
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadReason();
-    this.doLoadLocation();
-
+    this.doLoadLocation()
     setTimeout(() => {
       this.doLoadEmployee()
 
     }, 300);
   }
+
 
 
   workerDetail: EmployeeModel = new EmployeeModel();
@@ -193,7 +190,7 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -201,7 +198,7 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index > 0) {
       this.worker_index--;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -215,7 +212,7 @@ export class RequestOvertimeComponent implements OnInit {
       this.worker_name =
         this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
     }
-    this.doLoadTimeot();
+    this.doLoadTimeonsite();
 
   }
 
@@ -228,7 +225,7 @@ export class RequestOvertimeComponent implements OnInit {
     this.searchEmp = true
   }
   Search() {
-    this.doLoadTimeot();
+    this.doLoadTimeonsite();
   }
   select_emp() {
 
@@ -251,6 +248,11 @@ export class RequestOvertimeComponent implements OnInit {
     this.doSetDetailWorker();
 
   }
+
+
+  // Search() {
+  //   this.doLoadTimeonsite();
+  // }
   doLoadAccount() {
     var tmp = new AccountModel();
     tmp.account_user = this.initial_current.Username;
@@ -262,30 +264,13 @@ export class RequestOvertimeComponent implements OnInit {
       });
       this.account_list = await res[0].worker_data;
       this.selectedAccount = res[0].worker_data[0];
-      this.doLoadTimeot();
-    });
-  }
-  doLoadTimeot() {
-    this.trtimeot_list = [];
-    var tmp = new TRATTTimeotModel();
-    tmp.timeot_workdate = this.start_date;
-    tmp.timeot_worktodate = this.end_date;
-    tmp.worker_code = this.workerDetail.worker_code;
-    console.log(tmp.worker_code, 'uuuuu')
-    this.atttimeotService.atttimeot_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
-        elm.timeot_workdate = new Date(elm.timeot_workdate)
-        elm.timeot_worktodate = new Date(elm.timeot_worktodate)
-
-      });
-      this.trtimeot_list = await res
-      console.log(this.trtimeot_list = await res, 'ooooi')
+      this.doLoadTimeonsite();
     });
   }
   doLoadReason() {
     this.reason_list = [];
     let data = new ReasonsModel()
-    data.reason_group = "OT"
+    data.reason_group = "ONS"
     this.reasonService.reason_get(data).then(async (res) => {
       this.reason_list = await res;
     });
@@ -297,29 +282,39 @@ export class RequestOvertimeComponent implements OnInit {
       this.location_list = await res;
     });
   }
+  doLoadTimeonsite() {
+    this.trtimonsite_list = [];
+    var tmp = new TimeonsiteModel();
+    tmp.timeonsite_workdate = this.start_date;
+    tmp.timeonstie_todate = this.end_date;
+    tmp.worker_code = this.workerDetail.worker_code;
+    this.attimeonsiteService.ATTtimeonsite_get(tmp).then(async (res) => {
+      res.forEach((elm: any) => {
+        elm.timeonsite_workdate = new Date(elm.timeonsite_workdate)
+      });
+      this.trtimonsite_list = await res
+    });
+  }
+  hasTruePeriodCloseta: boolean = false;
   isConfirmationDialogVisible: boolean = false;
 
-  async doRecordTimeot(data: TRATTTimeotModel) {
+  // 
+  async doRecordTimeonsite(data: TimeonsiteModel) {
 
     data.worker_code = this.workerDetail.worker_code;
-    data.timeot_workdate = this.start_date;
-    data.timeot_worktodate = this.end_date;
+    data.timeonsite_workdate = this.start_date;
     data.company_code = this.initial_current.CompCode;
     // data.worker_code = this.worker_code;
 
-    data.timeot_beforemin = this.getMin(this.selectedATTtimeot.timeot_beforemin_hrs)
-    data.timeot_normalmin = this.getMin(this.selectedATTtimeot.timeot_normalmin_hrs)
-    data.timeot_break = this.getMin(this.selectedATTtimeot.timeot_breakmin_hrs)
-    data.timeot_aftermin = this.getMin(this.selectedATTtimeot.timeot_aftermin_hrs)
-    console.log(data.timeot_break, data.timeot_beforemin, data.timeot_normalmin, data.timeot_aftermin, 'uyuyu')
+
     if (!this.hasTruePeriodCloseta) {
       this.isConfirmationDialogVisible = true;
       try {
 
-        const res = await this.atttimeotService.atttimeot_record(data);
+        const res = await this.attimeonsiteService.ATTtimeonsite_record(data);
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-          this.doLoadTimeot();
+          this.doLoadTimeonsite();
           this.doSetDetailWorker();
         }
         else {
@@ -340,12 +335,25 @@ export class RequestOvertimeComponent implements OnInit {
       this.displayManage = false;
     }
   }
+  // 
+  // async doRecordTimeonsite(data: TimeonsiteModel[]) {
+  //   await this.attimeonsiteService.ATTtimeonsite_record(data).then((res) => {
+  //     if (res.success) {
+  //       this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+  //       this.doLoadTimeonsite();
+  //     }
+  //     else {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+  //     }
 
-  async doDeleteTimeot(data: TRATTTimeotModel) {
-    await this.atttimeotService.atttimeot_delete(data).then((res) => {
+  //   });
+  //   this.closeManage()
+  // }
+  async doDeleteTimeonsite(data: TimeonsiteModel) {
+    await this.attimeonsiteService.ATTtimeonsite_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeot();
+        this.doLoadTimeonsite();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -354,11 +362,11 @@ export class RequestOvertimeComponent implements OnInit {
     });
     this.closeManage()
   }
- 
-  doLoadMenu() {
 
-    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
-    { label: this.title_requestOvertime[this.initial_current.Language], routerLink: '/dicrequest/requestot', styleClass: 'activelike' }]
+
+  doLoadMenu() {
+    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/recordtime' },
+    { label: this.title_record_time[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
     this.items = [
 
       {
@@ -367,11 +375,11 @@ export class RequestOvertimeComponent implements OnInit {
         command: (event) => {
           this.account_list_source = [];
           this.account_list_dest = [];
-          this.selectedATTtimeot = new TRATTTimeotModel();
+          this.selectedtrtimeonsite = new TimeonsiteModel();
           this.reasonselected = this.reason_list[0]
           this.locationselected = this.location_list[0]
-          this.selectedATTtimeot.reason_code = this.reason_list[0].reason_code
-          this.selectedATTtimeot.location_code = this.location_list[0].location_code
+          this.selectedtrtimeonsite.reason_code = this.reason_list[0].reason_code
+          this.selectedtrtimeonsite.location_code = this.location_list[0].location_code
           if (this.initial_current.Usertype == "GRP") {
             this.account_list.forEach((obj: TRAccountModel) => {
               this.account_list_source.push(obj)
@@ -382,34 +390,26 @@ export class RequestOvertimeComponent implements OnInit {
 
       },
 
-      {
-        label: this.title_export[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-          this.exportAsExcel()
-        }
-      }
 
     ];
 
 
-
   }
-
 
   handleFileInputholidaylist(file: FileList) {
     this.fileToUpload = file.item(0);
   }
   onRowSelectfile(event: Event) {
+    // this.doGetfileTimeonsite(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
     this.location_list.forEach((obj: SysLocationModel) => {
-      if (obj.location_code == this.selectedATTtimeot.location_code) {
+      if (obj.location_code == this.selectedtrtimeonsite.location_code) {
         this.locationselected = obj;
       }
     })
     this.reason_list.forEach((obj: ReasonsModel) => {
-      if (obj.reason_code == this.selectedATTtimeot.reason_code) {
+      if (obj.reason_code == this.selectedtrtimeonsite.reason_code) {
         this.reasonselected = obj;
       }
     })
@@ -421,104 +421,37 @@ export class RequestOvertimeComponent implements OnInit {
     this.edit_data = false;
 
   }
-  selectotlocation() {
-    this.selectedATTtimeot.location_code = this.locationselected.location_code;
-  }
-  selectotreason() {
-    this.selectedATTtimeot.reason_code = this.reasonselected.reason_code;
-  }
 
   closeManage() {
-    this.selectedATTtimeot = new TRATTTimeotModel();
+    this.selectedtrtimeonsite = new TimeonsiteModel();
     this.displayManage = false
 
   }
-
-  date_from = new Date();
-  date_to = new Date();
-
-  date_half = new Date();
-  time_half: string = "00:00"
-
-  onchangeType() {
-
+  selectotlocation() {
+    this.selectedtrtimeonsite.location_code = this.locationselected.location_code;
   }
-  getMin(time: string) {
-    if (time) {
-      var date1 = new Date(0, 0, 0, Number(time.split(":")[0]), Number(time.split(":")[1]), 0)
-      var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
-      return hours_minutes;
-    } else {
-      return 0
-    }
+  selectotreason() {
+    this.selectedtrtimeonsite.reason_code = this.reasonselected.reason_code;
   }
+
+
+
   Save() {
-    this.doRecordTimeot(this.selectedATTtimeot);
+    this.doRecordTimeonsite(this.selectedtrtimeonsite);
   }
 
-
-
+   
   Delete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doDeleteTimeot(this.selectedATTtimeot)
+        this.doDeleteTimeonsite(this.selectedtrtimeonsite)
       },
       reject: () => {
       }
     });
-  }
-
-   //
-   confirmDelete(data: TRATTTimeotModel) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteTimeot(data);
-      },
-      reject: () => {
-       },
-      key: "myDialog"
-    });
-  }
-  //
-  //เช็คชข้อมูลเมื่อมีการปิดงวด
-  hasTruePeriodCloseta: boolean = false;
-  async Periodclosed() {
-    try {
-      const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
-      if (res && res.length > 0) {
-        for (const element of res) {
-          element.period_from = new Date(element.period_from);
-          element.period_to = new Date(element.period_to);
-          element.period_payment = new Date(element.period_payment);
-        }
-        this.hasTruePeriodCloseta = res.some((item: { period_closepr: boolean }) => item.period_closepr === true);
-        if (this.hasTruePeriodCloseta) {
-          this.confirmationService.confirm({
-            message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
-            header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-            },
-            rejectVisible: false,
-          });
-        }
-      }
-    } catch { }
-  }
-
-  exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_Timeot.xlsx');
-
   }
 
 }
