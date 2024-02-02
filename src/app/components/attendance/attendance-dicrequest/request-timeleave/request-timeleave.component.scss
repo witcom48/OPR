@@ -6,3 +6,110 @@ label{
     display: flex;
     flex-direction: column;
 }
+
+table td{
+    padding:5px
+}
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 70px;
+    width: 120px;
+    background-color: #152047;
+}
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+
+
+.time_real{
+    background-color: black;
+    color: #FFFFFF;
+    width: 80px;
+}
+
+:host .input-mask{
+    width:100px;
+    text-align:center;
+    }
+    
+
+.timeinput{
+    font-size: 17px;
+    // background-color: black;
+    // color: #FFFFFF;
+    text-align: center;
+    width: 100%;
+}
+
+.timecard_edit{
+    color: red;
+}
+
+.timecard_edit_{
+    background-color: red;
+}
+
+.normal{
+    background-color: 	#FFFFFF;
+}
+
+.daytype_O{
+    background-color: 	#D8BFD8;
+}
+
+.daytype_C{
+    background-color: #C0FFC0;
+}
+
+.daytype_H{
+    background-color: 	#ADD8E6;
+}
+
+.daytype_A{
+    background-color: #FFFFC0;
+}
+
+.daytype_L{
+    background-color: #E0E0E0;
+}
+
+.p-dialog-contents::ng-deep {
+    overflow-y: hidden;
+    padding: -1px 0.5rem 4rem 0.5rem;
+    
+  }
+  .hovered {
+    background-color: #f34646 !important;
+  }
+  .gray-button {
+    background-color: #73737333;
+     border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }

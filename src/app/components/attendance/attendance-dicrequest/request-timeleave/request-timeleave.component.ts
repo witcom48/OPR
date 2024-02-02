@@ -14,6 +14,7 @@ import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { AtttimeleaveService } from 'src/app/services/attendance/atttimeleave.service';
 import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.service';
@@ -21,17 +22,16 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
-declare var reqleave: any;
-interface Status { name: string, code: number }
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-request-timeleave',
   templateUrl: './request-timeleave.component.html',
   styleUrls: ['./request-timeleave.component.scss']
 })
 export class RequestTimeleaveComponent implements OnInit {
+  @ViewChild('TABLE') table: ElementRef | any = null;
 
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
-  langs: any = reqleave;
   selectlang: string = "EN";
   leavetypedis: string = "leave_name_en"
   reasonedis: string = "reason_name_en"
@@ -106,12 +106,27 @@ export class RequestTimeleaveComponent implements OnInit {
   title_Break: { [key: string]: string } = { EN: "OBreak", TH: "เวลาพักเบรก" }
   title_After: { [key: string]: string } = { EN: "OAfter", TH: "หลังเลิกงาน" }
   title_Location: { [key: string]: string } = { EN: "Location", TH: "สถานที่" }
-  title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลการทำล่วงเวลา" }
+  title_reason: { [key: string]: string } = { EN: "Reason", TH: "สาเหตุการลา" }
   title_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
- 
+
   title_Incholiday: { [key: string]: string } = { EN: "Incholiday", TH: "นับรวมวันหยุด" }
   title_Deduct: { [key: string]: string } = { EN: "Deduct", TH: "หักเงิน" }
+  title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
+  title_full_day: { [key: string]: string } = { EN: "Full day", TH: "เต็มวัน" };
+  title_half_day: { [key: string]: string } = { EN: "Half day", TH: "ครึ่งวัน" };
+  title_actualday: { [key: string]: string } = { EN: "Actualday", TH: "จำนวนวันลา" };
+  title_day: { [key: string]: string } = { EN: "Day", TH: "วัน" };
+  title_morning: { [key: string]: string } = { EN: "Morning", TH: "เช้า" };
+  title_afternoon: { [key: string]: string } = { EN: "Afternoon", TH: "บ่าย" };
+  title_leavetype: { [key: string]: string } = { EN: "Leave Type", TH: "ประเภทการลา" };
+  title_leave: { [key: string]: string } = { EN: "Leave", TH: "รูปแบบการลา" };
 
+  title_remain: { [key: string]: string } = { EN: "Remain", TH: "คงเหลือ" };
+  title_hour: { [key: string]: string } = { EN: "hour", TH: "ชม" };
+  title_leave_annual: { [key: string]: string } = { EN: "Leave Annual", TH: "วันลาต่อปี" };
+  title_leave_used: { [key: string]: string } = { EN: "Leave Used", TH: "วันลาใช้ไป" };
+  title_leave_remain: { [key: string]: string } = { EN: "Leave Remain", TH: "วันลาคงเหลือ" };
+  title_cumulative_leave: { [key: string]: string } = { EN: "Cumulative leave", TH: "วันลาสะสม" };
 
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
@@ -136,14 +151,19 @@ export class RequestTimeleaveComponent implements OnInit {
   selectedAccount: TRAccountModel = new TRAccountModel();
   start_date: Date = new Date();
   end_date: Date = new Date();
-  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
-  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
+
+
+  accessData: AccessdataModel = new AccessdataModel();
+  initialData2: InitialCurrent = new InitialCurrent();
   public initial_current: InitialCurrent = new InitialCurrent();
+
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
+
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
@@ -160,7 +180,6 @@ export class RequestTimeleaveComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    // console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadReason();
@@ -213,7 +232,7 @@ export class RequestTimeleaveComponent implements OnInit {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -221,7 +240,7 @@ export class RequestTimeleaveComponent implements OnInit {
     if (this.worker_index > 0) {
       this.worker_index--;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -300,7 +319,6 @@ export class RequestTimeleaveComponent implements OnInit {
     tmp.timeleave_todate = this.end_date;
     tmp.company_code = this.initial_current.CompCode;
     tmp.worker_code = this.workerDetail.worker_code || this.initial_current.Username;
-    tmp.status = this.status_select.code;
     this.atttimeleaveService.atttimeleave_get(tmp).then(async (res) => {
       if (res) {
         res.forEach((elm: any) => {
@@ -318,7 +336,6 @@ export class RequestTimeleaveComponent implements OnInit {
     tmp.worker_code = this.workerDetail.worker_code;
     this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
       this.leaveacc_list = await res
-      console.log(this.leaveacc_list, 'ลา')
     });
   }
 
@@ -339,7 +356,6 @@ export class RequestTimeleaveComponent implements OnInit {
     data.reason_group = "LEAVE"
     this.reasonService.reason_get(data).then(async (res) => {
       this.reason_list = await res;
-      console.log(this.reason_list, 'reason_list')
 
     });
   }
@@ -369,7 +385,6 @@ export class RequestTimeleaveComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadTimeleave();
-        this.doLoadLeaveacc();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -380,35 +395,31 @@ export class RequestTimeleaveComponent implements OnInit {
   }
 
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
-    { label: this.langs.get('title_leave')[this.selectlang], routerLink: '/self/req_leave', styleClass: 'activelike' }]
+    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
+    { label: this.title_requestleave[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
     this.items = [
 
       {
-        label: this.langs.get('new')[this.selectlang],
+        label: this.title_new[this.initial_current.Language],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.initializeLeaveForm();
           this.showManage();
         }
-
       },
-
-
-    ];
-
-    this.items_attfile = [
-
       {
-        label: this.langs.get('new')[this.selectlang],
-        icon: 'pi pi-fw pi-plus',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.Uploadfile = true;
+          this.exportAsExcel()
         }
       },
 
 
+
     ];
+
+
 
   }
 
@@ -492,41 +503,32 @@ export class RequestTimeleaveComponent implements OnInit {
   onRowSelectfile(event: Event) {
     // this.doGetfileTimeleave(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
+
+
   getDay(data: any) {
-    return Math.floor(data) + " " + this.langs.get('day')[this.selectlang] + " " + (data - Math.floor(data)) * 8 + " " + this.langs.get('hour')[this.selectlang]
+    return Math.floor(data) + " " + this.title_day[this.initial_current.Language] + " " + (data - Math.floor(data)) * 8 + " " + this.title_hour[this.initial_current.Language]
   }
   getFulltyupeLeave(code: string) {
     let day = ""
     switch (code) {
       case "F":
-        day = this.langs.get('full_day')[this.selectlang]
+        day = this.title_half_day[this.initial_current.Language]
         break;
       case "H1":
-        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('morning')[this.selectlang]})`
+        day = `${this.title_half_day[this.initial_current.Language]} (${this.title_morning[this.initial_current.Language]})`
         break;
       case "H2":
-        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('afternoon')[this.selectlang]})`
+        day = `${this.title_half_day[this.initial_current.Language]} (${this.title_afternoon[this.initial_current.Language]})`
     }
     return day;
   }
-  getFullStatus(code: string) {
-    let status = ""
-    switch (code) {
-      case "W":
-        status = this.langs.get('wait')[this.selectlang];
-        break;
-      case "F":
-        status = this.langs.get('finish')[this.selectlang];
-        break;
-      case "C":
-        status = this.langs.get('reject')[this.selectlang];
-    }
-    return status;
-  }
+
+
   Save() {
     this.confirmationService.confirm({
-      message: this.langs.get('confirm_doc')[this.selectlang],
-      header: this.langs.get('title_leave')[this.selectlang],
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         if (this.selectedtrtimeleave.timeleave_doc.trim().length == 0) {
@@ -537,7 +539,7 @@ export class RequestTimeleaveComponent implements OnInit {
           var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
           var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
           this.selectedtrtimeleave.timeleave_min = hours_minutes;
- 
+
         } else {
           this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
         }
@@ -549,8 +551,8 @@ export class RequestTimeleaveComponent implements OnInit {
   }
   Delete() {
     this.confirmationService.confirm({
-      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeleave.timeleave_doc,
-      header: this.langs.get('title_leave')[this.selectlang],
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.doDeleteTimeleave(this.selectedtrtimeleave)
@@ -559,6 +561,28 @@ export class RequestTimeleaveComponent implements OnInit {
       }
     });
   }
+  //
+  confirmDelete(data: ATTTimeleaveModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeleave(data)
+      },
+      reject: () => {
+      },
+      key: "myDialog"
+    });
 
+  }
+  //
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); 
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+    XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
+
+  }
 }

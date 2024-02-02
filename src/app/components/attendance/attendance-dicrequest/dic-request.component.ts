@@ -28,8 +28,8 @@ export class DicRequestComponent implements OnInit {
   mainMenuItems: MenuItem[] = []
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
 
-  title_dicrequest: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" };
-  title_attendance: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" };
+  title_dicrequest: { [key: string]: string } = { EN: "Dicrequest", TH: "Dicrequest" };
+  title_attendance: { [key: string]: string } = { EN: "Dicrequest", TH: "Dicrequest" };
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
 

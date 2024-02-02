@@ -12,14 +12,15 @@ import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { AttimeonsiteService } from 'src/app/services/attendance/attimeonsite.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
-declare var reqonsite: any;
-interface Status { name: string, code: number }
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-record-time',
   templateUrl: './record-time.component.html',
@@ -28,9 +29,9 @@ interface Status { name: string, code: number }
 export class RecordTimeComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   @ViewChild(SearchEmpComponent) selectEmp: any;
+  @ViewChild('TABLE') table: ElementRef | any = null;
 
-  langs: any = reqonsite;
-  selectlang: string = "EN";
+   selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
   namedis: string = "worker_detail_en"
@@ -70,12 +71,16 @@ export class RecordTimeComponent implements OnInit {
   selectedAccount: TRAccountModel = new TRAccountModel();
   start_date: Date = new Date();
   end_date: Date = new Date();
-  public initial_current: InitialCurrent = new InitialCurrent();
-  doGetInitialCurrent() {
+
+  accessData: AccessdataModel = new AccessdataModel();
+  initialData2: InitialCurrent = new InitialCurrent();
+  public initial_current: InitialCurrent = new InitialCurrent();  doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
+
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
@@ -365,7 +370,7 @@ export class RecordTimeComponent implements OnInit {
 
 
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/recordtime' },
+    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
     { label: this.title_record_time[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
     this.items = [
 
@@ -453,5 +458,28 @@ export class RecordTimeComponent implements OnInit {
       }
     });
   }
+//
+confirmDelete(data: TimeonsiteModel) {
+  this.confirmationService.confirm({
+    message: this.title_confirm_delete[this.initial_current.Language],
+    header: this.title_confirm[this.initial_current.Language],
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.doDeleteTimeonsite(data);
+    },
+    reject: () => {
+     },
+    key: "myDialog"
+  });
+}
+//
+//
+exportAsExcel() {
+  const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); 
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+  XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
+
+}
 }

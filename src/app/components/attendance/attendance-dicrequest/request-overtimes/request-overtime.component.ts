@@ -193,7 +193,7 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -201,7 +201,7 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index > 0) {
       this.worker_index--;
       this.doSetDetailWorker();
- 
+
     }
   }
 
@@ -271,7 +271,6 @@ export class RequestOvertimeComponent implements OnInit {
     tmp.timeot_workdate = this.start_date;
     tmp.timeot_worktodate = this.end_date;
     tmp.worker_code = this.workerDetail.worker_code;
-    console.log(tmp.worker_code, 'uuuuu')
     this.atttimeotService.atttimeot_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeot_workdate = new Date(elm.timeot_workdate)
@@ -279,8 +278,7 @@ export class RequestOvertimeComponent implements OnInit {
 
       });
       this.trtimeot_list = await res
-      console.log(this.trtimeot_list = await res, 'ooooi')
-    });
+     });
   }
   doLoadReason() {
     this.reason_list = [];
@@ -311,8 +309,7 @@ export class RequestOvertimeComponent implements OnInit {
     data.timeot_normalmin = this.getMin(this.selectedATTtimeot.timeot_normalmin_hrs)
     data.timeot_break = this.getMin(this.selectedATTtimeot.timeot_breakmin_hrs)
     data.timeot_aftermin = this.getMin(this.selectedATTtimeot.timeot_aftermin_hrs)
-    console.log(data.timeot_break, data.timeot_beforemin, data.timeot_normalmin, data.timeot_aftermin, 'uyuyu')
-    if (!this.hasTruePeriodCloseta) {
+     if (!this.hasTruePeriodCloseta) {
       this.isConfirmationDialogVisible = true;
       try {
 
@@ -354,7 +351,7 @@ export class RequestOvertimeComponent implements OnInit {
     });
     this.closeManage()
   }
- 
+
   doLoadMenu() {
 
     this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
@@ -471,8 +468,8 @@ export class RequestOvertimeComponent implements OnInit {
     });
   }
 
-   //
-   confirmDelete(data: TRATTTimeotModel) {
+  //
+  confirmDelete(data: TRATTTimeotModel) {
     this.confirmationService.confirm({
       message: this.title_confirm_delete[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
@@ -481,7 +478,7 @@ export class RequestOvertimeComponent implements OnInit {
         this.doDeleteTimeot(data);
       },
       reject: () => {
-       },
+      },
       key: "myDialog"
     });
   }
