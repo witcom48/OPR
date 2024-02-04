@@ -116,11 +116,11 @@ export class SelfEmployeeComponent implements OnInit {
     //   link: 'req_daytype',
     //   accessCode: 'SELF001-004'
     // },
-    {
-      title: this.langs.get('punchcard')[this.selectedLanguage],
-      link: 'req_record',
-      accessCode: 'SELF001-005'
-    },
+    // {
+    //   title: this.langs.get('punchcard')[this.selectedLanguage],
+    //   link: 'req_record',
+    //   accessCode: 'SELF001-005'
+    // },
       // {
       //   title: this.langs.get('checkin')[this.selectedLanguage],
       //   link: 'req_checkin',

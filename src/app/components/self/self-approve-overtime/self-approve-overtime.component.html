@@ -221,14 +221,14 @@
                         =="EN"?data.reason_name_en:data.reason_name_th}}</td>
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
-                        date:'dd/MM/yyyy'}}</td>
+                        date:'dd/MM/yyyy'}}{{data.status}}</td>
                     <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
                             styleClass="p-button-primary" (click)="Save(data)"
-                            [disabled]="selectedtrtimeotall.length>0 || status_doc"></p-button>
+                            [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
                     </td>
                     <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
                             styleClass="p-button-danger" (click)="Delete(data)"
-                            [disabled]="selectedtrtimeotall.length>0 || status_doc"></p-button>
+                            [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
                     </td>
                     <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
                             styleClass="p-button-success" (click)="viwe(data)"></p-button>

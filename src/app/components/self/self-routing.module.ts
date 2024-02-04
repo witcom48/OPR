@@ -52,12 +52,12 @@ import { SelfTransferComponent } from './self-transfer/self-transfer.component';
 
         { path: 'approve', component: SelfApproveComponent },
         { path: 'approve_leave', component: SelfApproveLeaveComponent },
-        { path: 'approve_shift', component: SelfApproveShiftComponent },
+        // { path: 'approve_shift', component: SelfApproveShiftComponent },
         { path: 'approve_overtime', component: SelfApproveOvertimeComponent },
-        { path: 'approve_daytype', component: SelfApproveDaytypeComponent },
-        { path: 'approve_record', component: SelfApproveRecordtimeComponent },
-        { path: 'approve_checkin', component: SelfApproveCheckinComponent },
-        { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
+        // { path: 'approve_daytype', component: SelfApproveDaytypeComponent },
+        // { path: 'approve_record', component: SelfApproveRecordtimeComponent },
+        // { path: 'approve_checkin', component: SelfApproveCheckinComponent },
+        // { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
 
         { path: 'consent', component: SelfConsentComponent },
         { path: 'empconsent', component: SelfEmpConsentComponent },

@@ -258,11 +258,11 @@
                         date:'dd/MM/yyyy'}}</td>
                     <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
                             styleClass="p-button-primary" (click)="Save(data)"
-                            [disabled]="selectedtrtimeleaveall.length>0 || status_doc"></p-button>
+                            [disabled]="selectedtrtimeleaveall.length>0 || data.status"></p-button>
                     </td>
                     <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
                             styleClass="p-button-danger" (click)="Delete(data)"
-                            [disabled]="selectedtrtimeleaveall.length>0 || status_doc"></p-button>
+                            [disabled]="selectedtrtimeleaveall.length>0 || data.status"></p-button>
                     </td>
                     <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
                             styleClass="p-button-success" (click)="viwe(data)"></p-button>
