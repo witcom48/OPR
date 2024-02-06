@@ -16,6 +16,7 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { AttimeonsiteService } from 'src/app/services/attendance/attimeonsite.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
@@ -31,7 +32,7 @@ export class RecordTimeComponent implements OnInit {
   @ViewChild(SearchEmpComponent) selectEmp: any;
   @ViewChild('TABLE') table: ElementRef | any = null;
 
-   selectlang: string = "EN";
+  selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
   namedis: string = "worker_detail_en"
@@ -52,6 +53,8 @@ export class RecordTimeComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
     private employeeService: EmployeeService,
+    private periodsService: PeriodsServices,
+
 
   ) { }
   mainMenuItems: MenuItem[] = [];
@@ -74,7 +77,7 @@ export class RecordTimeComponent implements OnInit {
 
   accessData: AccessdataModel = new AccessdataModel();
   initialData2: InitialCurrent = new InitialCurrent();
-  public initial_current: InitialCurrent = new InitialCurrent();  doGetInitialCurrent() {
+  public initial_current: InitialCurrent = new InitialCurrent(); doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
@@ -147,6 +150,8 @@ export class RecordTimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation()
+    this.Periodclosed()
+
     setTimeout(() => {
       this.doLoadEmployee()
 
@@ -445,7 +450,7 @@ export class RecordTimeComponent implements OnInit {
     this.doRecordTimeonsite(this.selectedtrtimeonsite);
   }
 
-   
+
   Delete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete[this.initial_current.Language],
@@ -458,28 +463,54 @@ export class RecordTimeComponent implements OnInit {
       }
     });
   }
-//
-confirmDelete(data: TimeonsiteModel) {
-  this.confirmationService.confirm({
-    message: this.title_confirm_delete[this.initial_current.Language],
-    header: this.title_confirm[this.initial_current.Language],
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.doDeleteTimeonsite(data);
-    },
-    reject: () => {
-     },
-    key: "myDialog"
-  });
-}
-//
-//
-exportAsExcel() {
-  const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); 
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  //
+  confirmDelete(data: TimeonsiteModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeonsite(data);
+      },
+      reject: () => {
+      },
+      key: "myDialog"
+    });
+  }
+  //
+  //
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
+    XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
 
-}
+  }
+
+  //เช็คชข้อมูลเมื่อมีการปิดงวด
+  async Periodclosed() {
+    try {
+      const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+      if (res && res.length > 0) {
+        for (const element of res) {
+          element.period_from = new Date(element.period_from);
+          element.period_to = new Date(element.period_to);
+          element.period_payment = new Date(element.period_payment);
+        }
+        this.hasTruePeriodCloseta = res.some((item: { period_closeta: boolean }) => item.period_closeta === true);
+        if (this.hasTruePeriodCloseta) {
+          this.confirmationService.confirm({
+            message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
+            header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+            },
+            rejectVisible: false,
+          });
+        }
+      }
+    } catch { }
+  }
+
 }

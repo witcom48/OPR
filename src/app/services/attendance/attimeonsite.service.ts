@@ -55,7 +55,7 @@ export class AttimeonsiteService {
       timeonsite_id: timeonstie.timeonsite_id,
       worker_code: timeonstie.worker_code || this.initial_current.Username,
       location_code: timeonstie.location_code,
-      timeonsite_workdate: this.datePipe.transform(timeonstie.timeonsite_workdate, 'MM/dd/yyyy') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
+      timeonsite_workdate: this.datePipe.transform(timeonstie.timeonsite_workdate, 'MM/dd/yyyy')  ,
       // timeonstie_todate: this.datePipe.transform(timeonstie.timeonstie_todate, 'MM/dd/yyyy') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
     }
     return this.http.post<any>(this.config.ApiAttendanceModule + '/ATTTimeonsite_list', data, this.options).toPromise()

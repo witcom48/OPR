@@ -19,6 +19,7 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { AtttimeleaveService } from 'src/app/services/attendance/atttimeleave.service';
 import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
@@ -57,6 +58,8 @@ export class RequestTimeleaveComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
     private employeeService: EmployeeService,
+    private periodsService: PeriodsServices,
+
 
   ) {
     this.initializeDefaultValues();
@@ -183,6 +186,8 @@ export class RequestTimeleaveComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadReason();
+    this.Periodclosed()
+
     setTimeout(() => {
       this.doLoadEmployee()
 
@@ -584,5 +589,33 @@ export class RequestTimeleaveComponent implements OnInit {
 
     XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
 
+  }
+
+  
+  //เช็คชข้อมูลเมื่อมีการปิดงวด
+  hasTruePeriodCloseta: boolean = false;
+
+  async Periodclosed() {
+    try {
+      const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
+      if (res && res.length > 0) {
+        for (const element of res) {
+          element.period_from = new Date(element.period_from);
+          element.period_to = new Date(element.period_to);
+          element.period_payment = new Date(element.period_payment);
+        }
+        this.hasTruePeriodCloseta = res.some((item: { period_closeta: boolean }) => item.period_closeta === true);
+        if (this.hasTruePeriodCloseta) {
+          this.confirmationService.confirm({
+            message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
+            header: this.initial_current.Language === 'TH' ? 'คำเตือน' : 'Warning',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+            },
+            rejectVisible: false,
+          });
+        }
+      }
+    } catch { }
   }
 }

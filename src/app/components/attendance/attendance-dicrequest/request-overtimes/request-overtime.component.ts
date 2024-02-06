@@ -145,7 +145,7 @@ export class RequestOvertimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation();
-
+    this.Periodclosed();
     setTimeout(() => {
       this.doLoadEmployee()
 
@@ -517,5 +517,6 @@ export class RequestOvertimeComponent implements OnInit {
     XLSX.writeFile(wb, 'Export_Timeot.xlsx');
 
   }
+ 
 
 }

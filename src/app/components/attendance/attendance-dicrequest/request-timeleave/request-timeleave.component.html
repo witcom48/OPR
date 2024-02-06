@@ -127,10 +127,10 @@
 
 
         <div class="field col-12" style="text-align: right;">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"></p-button>
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"[disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
-                class="p-button-secondary button-size btndel" (click)="Delete()"></button>
+                class="p-button-secondary button-size btndel"[disabled]="hasTruePeriodCloseta" (click)="Delete()"></button>
 
         </div>
 
@@ -242,7 +242,7 @@
 
                     <td>
                         <button pButton type="button" class="pi pi-trash gray-button "
-                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete(data)">
+                            [disabled]="!this.accessData.accessdata_delete" [disabled]="hasTruePeriodCloseta"(click)="confirmDelete(data)">
                         </button>
 
                     </td>
