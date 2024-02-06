@@ -1,7 +1,7 @@
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
-<p-dialog [(visible)]="displayManage" [style]="{width: '60vw'}" [position]="position" (onHide)="closeManage()">
+<p-dialog  header="{{title_requestOvertime[initial_current.Language]}}"  [(visible)]="displayManage" [style]="{width: '60vw'}" [position]="position" (onHide)="closeManage()">
     <div class="formgrid grid align-items-end">
 
 

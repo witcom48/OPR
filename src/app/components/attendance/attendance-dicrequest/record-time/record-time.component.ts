@@ -39,8 +39,7 @@ export class RecordTimeComponent implements OnInit {
   displayManage: boolean = false;
   edit_data: boolean = false;
   position: string = "right";
-  manage_title: string = "Manage"
-  items: MenuItem[] = [];
+   items: MenuItem[] = [];
   items_attfile: MenuItem[] = [];
 
   constructor(
@@ -399,6 +398,13 @@ export class RecordTimeComponent implements OnInit {
         }
 
       },
+      {
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel()
+        }
+      }
 
 
     ];
@@ -484,7 +490,7 @@ export class RecordTimeComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
+    XLSX.writeFile(wb, 'Export_Timeonsite.xlsx');
 
   }
 
