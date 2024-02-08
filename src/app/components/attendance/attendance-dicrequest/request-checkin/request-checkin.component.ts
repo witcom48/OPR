@@ -1,96 +1,121 @@
 import { DatePipe } from '@angular/common';
+import * as L from "leaflet";
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService,  MenuItem, MessageService } from 'primeng/api';
-import { SearchEmpComponent } from 'src/app/components/usercontrol/search-emp/search-emp.component';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { ATTReqdocumentModel } from 'src/app/models/attendance/attreqdocument';
-import { TimeonsiteModel } from 'src/app/models/attendance/timeonsite';
-import { EmployeeModel } from 'src/app/models/employee/employee';
-import { TRAccountModel } from 'src/app/models/self/traccount';
+import { LocationService } from 'src/app/services/system/policy/location.service';
+import { AreaServices } from 'src/app/services/self/area.service';
+import { MTAreaModel } from 'src/app/models/self/MTArea';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
-import { ReasonsModel } from 'src/app/models/system/policy/reasons';
-import { AccessdataModel } from 'src/app/models/system/security/accessdata';
-import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
-import { AttimeonsiteService } from 'src/app/services/attendance/attimeonsite.service';
-import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { interval, Subscription } from 'rxjs';
+import { attcheckinModel } from 'src/app/models/attendance/attcheckin';
+import { AttcheckinService } from 'src/app/services/attendance/attcheckin.service';
+import { ATTReqdocumentModel } from 'src/app/models/attendance/attreqdocument';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
- import { LocationService } from 'src/app/services/system/policy/location.service';
-import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
-declare var reqonsite: any;
+import { SearchEmpComponent } from 'src/app/components/usercontrol/search-emp/search-emp.component';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
+import { EmployeeModel } from 'src/app/models/employee/employee';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
 import * as XLSX from 'xlsx';
 
+declare var reqcheckin: any;
+interface Status { name: string, code: number }
+interface Area {
+  lat: number,
+  long: number,
+  distance: number
+}
+interface Type {
+  name: string,
+  code: string
+}
 @Component({
-  selector: 'app-record-time',
-  templateUrl: './record-time.component.html',
-  styleUrls: ['./record-time.component.scss']
+  selector: 'app-request-checkin',
+  templateUrl: './request-checkin.component.html',
+  styleUrls: ['./request-checkin.component.scss']
 })
-export class RecordTimeComponent implements OnInit {
+export class RequestCheckinComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   @ViewChild(SearchEmpComponent) selectEmp: any;
-  @ViewChild('TABLE') table: ElementRef | any = null;
-  langs: any = reqonsite;
+   @ViewChild('TABLE') table: ElementRef | any = null;
+  map: any;
+  langs: any = reqcheckin;
   selectlang: string = "EN";
-  reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
   namedis: string = "worker_detail_en"
+  position: string = "right";
   displayManage: boolean = false;
   edit_data: boolean = false;
-  position: string = "right";
-  manage_title: string = "Manage"
-  items: MenuItem[] = [];
-  items_attfile: MenuItem[] = [];
-
   constructor(
-    private attimeonsiteService: AttimeonsiteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private reasonService: ReasonsService,
+    private attcheckinService: AttcheckinService,
     private locationService: LocationService,
-     private datePipe: DatePipe,
+    private areaService: AreaServices,
+    private datePipe: DatePipe,
     private router: Router,
     private periodsService: PeriodsServices,
     private employeeService: EmployeeService,
 
-
   ) { }
+  subscription: Subscription = new Subscription;
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
-  reason_list: ReasonsModel[] = [];
-  reasonselected: ReasonsModel = new ReasonsModel();
+  markers: any = [];
+  circledata: any = [L.circle([13.755402, 100.6130647], { radius: 1000, attribution: "00000" }), L.circle([13.734110815755576, 100.63175066697202], { radius: 2000, attribution: "11111" })];
+  lat: number = 13.734110815755576;
+  long: number = 100.53175066697202;
+  zoom: number = 14;
+  distance: number = 1000;
+  items: MenuItem[] = [];
+  items_attfile: MenuItem[] = [];
   location_list: SysLocationModel[] = [];
   locationselected: SysLocationModel = new SysLocationModel();
-  trtimonsite_list: TimeonsiteModel[] = [];
-  selectedtrtimeonsite: TimeonsiteModel = new TimeonsiteModel();
+  type_list: Type[] = [{ name: this.langs.get('in')[this.selectlang], code: "I" }, { name: this.langs.get('out')[this.selectlang], code: "O" }];
+  typeselected: Type = { name: this.langs.get('in')[this.selectlang], code: "I" };
+  timecheckin_list: attcheckinModel[] = [];
+  selectedtimecheckin: attcheckinModel = new attcheckinModel();
   selectedreqdoc: ATTReqdocumentModel = new ATTReqdocumentModel();
-  account_list: TRAccountModel[] = [];
-  account_list_source: TRAccountModel[] = [];
-  account_list_dest: TRAccountModel[] = [];
+
   start_date: Date = new Date();
   end_date: Date = new Date();
+
   public initial_current: InitialCurrent = new InitialCurrent();
-  accessData: AccessdataModel = new AccessdataModel();
-  initialData2: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
-    this.accessData = this.initialData2.dotGetPolmenu('ATT');
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
-      this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
       this.namedis = "worker_detail_th"
     }
-
+    if (this.initial_current.Usertype == "GRP") {
+    } else {
+      this.doLoadTimecheckin();
+    }
   }
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doLoadMenu();
+    this.doLoadTimecheckin();
+    this.doLoadLocation();
+    this.doLoadArea();
+    this.Periodclosed();
 
+    setTimeout(() => {
+      this.doLoadEmployee()
+      this.doLoadTimecheckin()
+    }, 300);
+  }
+  title_checkinout: { [key: string]: string } = { EN: "Check IN/OUT", TH: "การเช็คอิน / การเช็คเอาท์" };
 
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
   title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
@@ -136,6 +161,7 @@ export class RecordTimeComponent implements OnInit {
   title_time_in: { [key: string]: string } = { EN: "Time in", TH: "เข้างาน" }
   title_time_out: { [key: string]: string } = { EN: "Time out", TH: "ออกงาน" }
   file_name: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" }
+
   confirm_upload: { [key: string]: string } = { EN: "Confirm Upload file", TH: "ยืนยันนำเข้าไฟล์" }
   confirm_delete: { [key: string]: string } = { EN: "Confirm delete", TH: "ยืนยันการลบรายการ" }
   confirm_deletefile: { [key: string]: string } = { EN: "Confirm Delete file", TH: "ยืนยันลบไฟล์" }
@@ -143,21 +169,6 @@ export class RecordTimeComponent implements OnInit {
   confirm_doc: { [key: string]: string } = { EN: "Confirm record ChangeShift doc", TH: "ยืนยันบันทึกเอกสารเปลียนกะการทำงาน" }
 
   title_import: { [key: string]: string } = { EN: "import", TH: "นำเข้า" }
-
-
-
-  ngOnInit(): void {
-    this.doGetInitialCurrent();
-    this.doLoadMenu();
-    this.doLoadReason();
-    this.doLoadLocation()
-    this.Periodclosed()
-
-    setTimeout(() => {
-      this.doLoadEmployee()
-      this.doLoadTimeonsite()
-    }, 300);
-  }
 
 
   //
@@ -223,7 +234,7 @@ export class RecordTimeComponent implements OnInit {
       this.worker_name =
         this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
     }
-    this.doLoadTimeonsite();
+    this.doLoadTimecheckin();
 
   }
 
@@ -260,18 +271,22 @@ export class RecordTimeComponent implements OnInit {
 
   }
   //
-
-
   Search() {
-    this.doLoadTimeonsite();
+    this.doLoadTimecheckin();
+    this.doLoadArea();
   }
 
-  doLoadReason() {
-    this.reason_list = [];
-    let data = new ReasonsModel()
-    data.reason_group = "ONS"
-    this.reasonService.reason_get(data).then(async (res) => {
-      this.reason_list = await res;
+  doLoadTimecheckin() {
+    this.timecheckin_list = [];
+    var tmp = new attcheckinModel();
+    tmp.timecheckin_workdate = this.start_date;
+    tmp.timecheckin_todate = this.end_date;
+    tmp.worker_code = this.workerDetail.worker_code;
+    this.attcheckinService.attcheckin_get(tmp).then(async (res) => {
+      res.forEach((elm: any) => {
+        elm.timecheckin_workdate = new Date(elm.timecheckin_workdate)
+      });
+      this.timecheckin_list = await res
     });
   }
   doLoadLocation() {
@@ -281,23 +296,23 @@ export class RecordTimeComponent implements OnInit {
       this.location_list = await res;
     });
   }
-  doLoadTimeonsite() {
-    this.trtimonsite_list = [];
-    var tmp = new TimeonsiteModel();
-    tmp.timeonsite_workdate = this.start_date;
-    tmp.worker_code = this.workerDetail.worker_code;
-    this.attimeonsiteService.ATTtimeonsite_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
-        elm.timeonsite_workdate = new Date(elm.timeonsite_workdate)
-      });
-      this.trtimonsite_list = await res
+  doLoadArea() {
+    this.circledata = [];
+    let data = new MTAreaModel()
+    data.worker_code = this.workerDetail.worker_code
+    this.areaService.area_get(data).then(async (res) => {
+      res.forEach((obj: MTAreaModel) => {
+        if (obj.area_data.length) {
+          this.circledata.push(L.circle([obj.area_lat, obj.area_long], { radius: obj.area_distance, attribution: obj.location_code }))
+        }
+      })
     });
   }
-  async doRecordTimeonsite(data: TimeonsiteModel[]) {
-    await this.attimeonsiteService.ATTtimeonsite_record(data).then((res) => {
+  async doRecordTimecheckin(data: attcheckinModel[]) {
+    await this.attcheckinService.attcheckin_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeonsite();
+        this.doLoadTimecheckin();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -306,11 +321,11 @@ export class RecordTimeComponent implements OnInit {
     });
     this.closeManage()
   }
-  async doDeleteTimeonsite(data: TimeonsiteModel) {
-    await this.attimeonsiteService.ATTtimeonsite_delete(data).then((res) => {
+  async doDeleteTimecheckin(data: attcheckinModel) {
+    await this.attcheckinService.attcheckin_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeonsite();
+        this.doLoadTimecheckin();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -319,25 +334,24 @@ export class RecordTimeComponent implements OnInit {
     });
     this.closeManage()
   }
-  async doGetfileTimeonsite(file_path: string, type: string) {
-    this.attimeonsiteService.get_file(file_path).then((res) => {
+  async doGetfileTimecheckin(file_path: string, type: string) {
+    this.attcheckinService.get_file(file_path).then((res) => {
       var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
       window.open(url);
       this.selectedreqdoc = new ATTReqdocumentModel();
-      console.log(this.selectedreqdoc, ' this.selectedreqdoc ')
     })
   }
   doUploadFile() {
-    const filename = "ONSITE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    const filename = "CHECKIN_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
-    this.attimeonsiteService.file_import(this.fileToUpload, filename, filetype).then((res) => {
+    this.attcheckinService.file_import(this.fileToUpload, filename, filetype).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.selectedtrtimeonsite.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data.concat({
-          company_code: this.selectedtrtimeonsite.company_code || this.initial_current.CompCode,
+        this.selectedtimecheckin.reqdoc_data = this.selectedtimecheckin.reqdoc_data.concat({
+          company_code: this.selectedtimecheckin.company_code || this.initial_current.CompCode,
           document_id: 0,
-          job_id: this.selectedtrtimeonsite.timeonsite_id.toString(),
-          job_type: 'ONS',
+          job_id: this.selectedtimecheckin.timecheckin_id.toString(),
+          job_type: 'CI',
           document_name: filename + "." + filetype,
           document_type: this.fileToUpload.type,
           document_path: res.message,
@@ -354,27 +368,24 @@ export class RecordTimeComponent implements OnInit {
   }
   doLoadMenu() {
     this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
-    { label: this.title_record_time[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
+    { label: this.title_checkinout[this.initial_current.Language], routerLink: '/dicrequest/checkin-out', styleClass: 'activelike' }]
     this.items = [
+
+ 
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.account_list_source = [];
-          this.account_list_dest = [];
-          this.selectedtrtimeonsite = new TimeonsiteModel();
-          this.reasonselected = this.reason_list[0]
+          this.selectedtimecheckin = new attcheckinModel();
           this.locationselected = this.location_list[0]
-          this.selectedtrtimeonsite.reason_code = this.reason_list[0].reason_code
-          this.selectedtrtimeonsite.location_code = this.location_list[0].location_code
+          this.selectedtimecheckin.location_code = this.location_list[0].location_code
           if (this.initial_current.Usertype == "GRP") {
-            this.account_list.forEach((obj: TRAccountModel) => {
-              this.account_list_source.push(obj)
-            })
+
+
           }
+          this.subscription = interval(1000).subscribe(val => { this.setMap(); });
           this.showManage()
         }
-
       },
       {
         label: this.title_export[this.initial_current.Language],
@@ -386,9 +397,7 @@ export class RecordTimeComponent implements OnInit {
 
 
     ];
-
     this.items_attfile = [
-
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
@@ -396,7 +405,6 @@ export class RecordTimeComponent implements OnInit {
           this.Uploadfile = true;
         }
       },
-
     ];
 
   }
@@ -419,6 +427,9 @@ export class RecordTimeComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+  }
   DeleteFile(data: ATTReqdocumentModel) {
     this.confirmationService.confirm({
       message: this.langs.get('confirm_delete')[this.selectlang] + data.document_name,
@@ -426,7 +437,7 @@ export class RecordTimeComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         if (data.document_id) {
-          this.attimeonsiteService.delete_file(data).then((res) => {
+          this.attcheckinService.delete_file(data).then((res) => {
             if (res.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
             } else {
@@ -434,14 +445,14 @@ export class RecordTimeComponent implements OnInit {
             }
           })
         } else {
-          this.selectedtrtimeonsite.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data.filter((item) => {
+          this.selectedtimecheckin.reqdoc_data = this.selectedtimecheckin.reqdoc_data.filter((item) => {
             return item !== data;
           });
         }
-        this.attimeonsiteService.deletefilepath_file(data.document_path).then((res) => {
+        this.attcheckinService.deletefilepath_file(data.document_path).then((res) => {
           if (res.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-            this.selectedtrtimeonsite.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data.filter((item) => {
+            this.selectedtimecheckin.reqdoc_data = this.selectedtimecheckin.reqdoc_data.filter((item) => {
               return item !== data;
             });
           } else {
@@ -454,133 +465,236 @@ export class RecordTimeComponent implements OnInit {
       }
     });
   }
-  handleFileInputholidaylist(file: FileList) {
-    this.fileToUpload = file.item(0);
+  calcCrow(lat1: number, lon1: number, lat2: number, lon2: number) {
+    var R = 6371; // km
+    var dLat = this.toRad(lat2 - lat1);
+    var dLon = this.toRad(lon2 - lon1);
+    var lat1 = this.toRad(lat1);
+    var lat2 = this.toRad(lat2);
+
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d * 1000;
   }
-  onRowSelectfile(event: Event) {
-    this.doGetfileTimeonsite(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
+  // Converts numeric degrees to radians
+  toRad(Value: number) {
+    return Value * Math.PI / 180;
   }
-  onRowSelect(event: Event) {
-    this.location_list.forEach((obj: SysLocationModel) => {
-      if (obj.location_code == this.selectedtrtimeonsite.location_code) {
-        this.locationselected = obj;
+  async getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        if (!this.edit_data) {
+          this.lat = latitude;
+          this.long = longitude;
+        }
+      });
+    } else {
+    }
+  }
+  async setMap() {
+    await this.getLocation();
+    await new Promise(resolve => setTimeout(resolve, 400));
+    if (this.map == undefined) {
+      try {
+        this.map.removeLayer(this.markers[0]);
+        this.markers.pop()
+      } catch {
+
       }
-    })
-    this.reason_list.forEach((obj: ReasonsModel) => {
-      if (obj.reason_code == this.selectedtrtimeonsite.reason_code) {
-        this.reasonselected = obj;
+      this.map = L.map("map").setView([this.lat, this.long], this.zoom);
+      L.tileLayer("https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+      }).addTo(this.map);
+    } else {
+      try {
+        this.map.removeLayer(this.markers[0]);
+        this.markers.pop()
+      } catch {
+
       }
-    })
-    this.edit_data = true;
-    this.displayManage = true
-  }
-  showManage() {
-    this.displayManage = true
-    this.edit_data = false;
+      this.map.setView([this.lat, this.long], this.zoom);
+    }
+    this.map.on('zoomend', async (e: any) => {
+      this.zoom = e.target._zoom;
+    });
+    try {
 
-  }
+    } catch {
 
-  closeManage() {
-    this.selectedtrtimeonsite = new TimeonsiteModel();
-    this.displayManage = false
-
+    }
+    var marker = new L.Marker([this.lat, this.long], {
+      icon: L.icon({
+        iconUrl: '../../../../assets/images/pngwing.png',
+        iconSize: [20, 20],
+      })
+    });
+    this.markers.push(marker)
+    this.markers[0].addTo(this.map);
+    this.circledata.forEach((element: any) => {
+      element.addTo(this.map);
+    });
   }
-  selectotlocation() {
-    this.selectedtrtimeonsite.location_code = this.locationselected.location_code;
-  }
-  selectotreason() {
-    this.selectedtrtimeonsite.reason_code = this.reasonselected.reason_code;
-  }
-
-  Save() {
+  async Save() {
     this.confirmationService.confirm({
       message: this.langs.get('confirm_doc')[this.selectlang],
-      header: this.langs.get('title_onsite')[this.selectlang],
+      header: this.langs.get('title_checkin')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        if (this.initial_current.Usertype === "GRP" && !this.edit_data) {
-          let data_doc: TimeonsiteModel[] = [];
-
-          let tmp: TimeonsiteModel = new TimeonsiteModel();
-          tmp.timeonsite_id = this.selectedtrtimeonsite.timeonsite_id;
-          tmp.timeonsite_doc = "ONSITE_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+      accept: async () => {
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
+          this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
+          this.selectedtimecheckin.timecheckin_lat = this.lat;
+          this.selectedtimecheckin.timecheckin_long = this.long;
+          let data_doc: attcheckinModel[] = []
+          var tmp: attcheckinModel = new attcheckinModel();
+          tmp.timecheckin_id = this.selectedtimecheckin.timecheckin_id;
+          tmp.timecheckin_doc = "CHECKIN_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+          tmp.timecheckin_workdate = this.selectedtimecheckin.timecheckin_workdate;
+          tmp.timecheckin_todate = this.selectedtimecheckin.timecheckin_todate;
+          tmp.timecheckin_lat = this.selectedtimecheckin.timecheckin_lat;
+          tmp.timecheckin_time = this.selectedtimecheckin.timecheckin_time;
+          tmp.timecheckin_long = this.selectedtimecheckin.timecheckin_long;
+          tmp.location_code = this.selectedtimecheckin.location_code;
+          tmp.timecheckin_type = this.selectedtimecheckin.timecheckin_type;
+          tmp.timecheckin_note = this.selectedtimecheckin.timecheckin_note;
+          tmp.reqdoc_data = this.selectedtimecheckin.reqdoc_data;
           tmp.worker_code = this.workerDetail.worker_code;
-          tmp.timeonsite_workdate = this.start_date;
-          tmp.timeonsite_in = this.selectedtrtimeonsite.timeonsite_in;
-          tmp.timeonsite_out = this.selectedtrtimeonsite.timeonsite_out;
-          tmp.location_code = this.selectedtrtimeonsite.location_code;
-          tmp.reason_code = this.selectedtrtimeonsite.reason_code;
-          tmp.timeonsite_note = this.selectedtrtimeonsite.timeonsite_note;
-          tmp.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data;
-          // tmp.timeonsite_doc = this.selectedtrtimeonsite.timeonsite_doc;
-          tmp.modified_by = this.initial_current.CompCode;
+          data_doc.push(tmp)
 
-          data_doc.push(tmp);
+          let checkdistance = false;
+          await this.circledata.forEach((element: any) => {
+            if (this.calcCrow(this.lat, this.long, element._latlng.lat, element._latlng.lng) < element.options.radius) {
+              checkdistance = true;
+              this.selectedtimecheckin.location_code = element.options.attribution;
+              return
+            }
+          });
+          if (!checkdistance) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs == "EN" ? 'Not in the designated area' : 'ไม่อยู่ในพื้นที่ที่กำหนด' });
+            this.closeManage()
 
-          this.doRecordTimeonsite(data_doc);
-        } else {
-          if (this.selectedtrtimeonsite.timeonsite_doc === "") {
-            this.selectedtrtimeonsite.timeonsite_doc = "ONSITE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          } else {
+            this.doRecordTimecheckin(data_doc)
           }
-          let data_doc2: TimeonsiteModel[] = [];
+        } else {
+          if (this.selectedtimecheckin.timecheckin_doc === "") {
+            this.selectedtimecheckin.timecheckin_doc = "CHECKIN_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+            this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
+            this.selectedtimecheckin.timecheckin_lat = this.lat;
+            this.selectedtimecheckin.timecheckin_long = this.long;
 
-          let data: TimeonsiteModel = new TimeonsiteModel();
+            
 
-          data.worker_code = this.workerDetail.worker_code;
-          data.timeonsite_workdate = this.start_date;
-          data.company_code = this.initial_current.CompCode;
-          data.timeonsite_id = this.selectedtrtimeonsite.timeonsite_id;
-          data.timeonsite_doc = "ONSITE_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+          }
+          let checkdistance = false;
+          await this.circledata.forEach((element: any) => {
+            if (this.calcCrow(this.lat, this.long, element._latlng.lat, element._latlng.lng) < element.options.radius) {
+              checkdistance = true;
+              this.selectedtimecheckin.location_code = element.options.attribution;
+              return
+            }
+          });
+          if (!checkdistance) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs == "EN" ? 'Not in the designated area' : 'ไม่อยู่ในพื้นที่ที่กำหนด' });
+            this.closeManage()
 
-          data.worker_code = this.workerDetail.worker_code;
-          // data.timeonsite_doc = this.selectedtrtimeonsite.timeonsite_doc;
-          data.timeonsite_workdate = this.start_date;
-          data.timeonsite_in = this.selectedtrtimeonsite.timeonsite_in;
-          data.timeonsite_out = this.selectedtrtimeonsite.timeonsite_out;
-          data.location_code = this.selectedtrtimeonsite.location_code;
-          data.reason_code = this.selectedtrtimeonsite.reason_code;
-          data.timeonsite_note = this.selectedtrtimeonsite.timeonsite_note;
-          data.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data;
+          } else {
+            this.selectedtimecheckin.timecheckin_doc = "CHECKIN_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+            this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
+            this.selectedtimecheckin.timecheckin_lat = this.lat;
+            this.selectedtimecheckin.timecheckin_long = this.long;
 
-          data.modified_by = this.initial_current.CompCode;
-          data_doc2.push(data);
-          this.doRecordTimeonsite(data_doc2);
-
+            let data_doc2: attcheckinModel[] = []
+            var data: attcheckinModel = new attcheckinModel();
+            data.timecheckin_id = this.selectedtimecheckin.timecheckin_id;
+            data.timecheckin_doc = "CHECKIN_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+            data.timecheckin_workdate = this.selectedtimecheckin.timecheckin_workdate;
+            data.timecheckin_todate = this.selectedtimecheckin.timecheckin_todate;
+            data.timecheckin_lat = this.selectedtimecheckin.timecheckin_lat;
+            data.timecheckin_time = this.selectedtimecheckin.timecheckin_time;
+            data.timecheckin_long = this.selectedtimecheckin.timecheckin_long;
+            data.location_code = this.selectedtimecheckin.location_code;
+            data.timecheckin_type = this.selectedtimecheckin.timecheckin_type;
+            data.timecheckin_note = this.selectedtimecheckin.timecheckin_note;
+            data.reqdoc_data = this.selectedtimecheckin.reqdoc_data;
+            data.worker_code = this.workerDetail.worker_code;
+            data_doc2.push(data)
+            this.doRecordTimecheckin(data_doc2)
+          }
         }
       },
       reject: () => {
       }
     });
-  }
 
+  }
   Delete() {
     this.confirmationService.confirm({
-      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeonsite.timeonsite_doc,
-      header: this.langs.get('title_onsite')[this.selectlang],
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtimecheckin.timecheckin_doc,
+      header: this.langs.get('title_checkin')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doDeleteTimeonsite(this.selectedtrtimeonsite)
+        this.doDeleteTimecheckin(this.selectedtimecheckin)
       },
       reject: () => {
       }
     });
   }
-
-  //
-  confirmDelete(data: TimeonsiteModel) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteTimeonsite(data);
-      },
-      reject: () => {
-      },
-      key: "myDialog"
-    });
+  showManage() {
+    this.typeselected = this.type_list[0];
+    this.selectedtimecheckin.timecheckin_type = this.type_list[0].code;
+    this.displayManage = true
+    this.edit_data = false;
+    this.setMap();
   }
-  //
+
+  closeManage() {
+    this.selectedtimecheckin = new attcheckinModel();
+    this.displayManage = false
+    this.subscription.unsubscribe();
+  }
+  selectlocation() {
+    this.selectedtimecheckin.location_code = this.locationselected.location_code;
+  }
+  selecttype() {
+    this.selectedtimecheckin.timecheckin_type = this.typeselected.code;
+  }
+  onRowSelectfile(event: Event) {
+    this.doGetfileTimecheckin(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
+  }
+  onRowSelect(event: Event) {
+    this.subscription.unsubscribe();
+    this.location_list.forEach((obj: SysLocationModel) => {
+      if (obj.location_code == this.selectedtimecheckin.location_code) {
+        this.locationselected = obj;
+      }
+    })
+    this.type_list.forEach((obj: Type) => {
+      if (obj.code == this.selectedtimecheckin.timecheckin_type) {
+        this.typeselected = obj;
+      }
+    })
+    this.lat = this.selectedtimecheckin.timecheckin_lat;
+    this.long = this.selectedtimecheckin.timecheckin_long;
+    this.edit_data = true;
+    this.displayManage = true
+    this.setMap();
+  }
+  getFulltype(code: string) {
+    let type = ""
+    switch (code) {
+      case "I":
+        type = this.langs.get('in')[this.selectlang];
+        break;
+      case "O":
+        type = this.langs.get('out')[this.selectlang];
+    }
+    return type;
+  }
+
 
   //เช็คชข้อมูลเมื่อมีการปิดงวด
   hasTruePeriodCloseta: boolean = false;
@@ -607,13 +721,14 @@ export class RecordTimeComponent implements OnInit {
       }
     } catch { }
   }
-  //
   exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_Timeonsite.xlsx');
+    XLSX.writeFile(wb, 'Export_Checkin/out.xlsx');
 
   }
 }
+
+

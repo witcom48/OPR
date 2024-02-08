@@ -1,95 +1,117 @@
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
-<p-dialog  header="{{title_requestOvertime[initial_current.Language]}}"  [(visible)]="displayManage" [style]="{width: '60vw'}" [position]="position" (onHide)="closeManage()">
+<p-dialog header="{{title_requestOvertime[initial_current.Language]}}" [(visible)]="displayManage"
+    [style]="{width: '50vw'}" [position]="position" (onHide)="closeManage()">
     <div class="formgrid grid align-items-end">
 
 
-
-        <div class="field col-12 md:col-6" style="display:flex;flex-direction: column;">
-
-            <label>{{title_ot_doc[initial_current.Language]}} </label>
-            <input pInputText type="text" [(ngModel)]="selectedATTtimeot.timeot_doc" maxlength="30"
-                [disabled]="edit_data" name="code" #code="ngModel" required />
-            <p>{{ selectedATTtimeot.timeot_doc.length }}/30</p>
-
+        <div class="field col-12 md:col-6" style="margin-top: 2%;">
+            <label>{{title_fromdate[initial_current.Language]}}</label>
+            <p-calendar [showIcon]="true" [(ngModel)]="selectedtrtimeot.timeot_workdate" dateFormat="dd/mm/yy"
+                inputId="date_from" [disabled]="edit_data"></p-calendar>
 
         </div>
 
-        <div class="field col-12 md:col-6"></div>
-
-        <div class="field col-12 md:col-6">
-            <label>{{title_date[initial_current.Language]}}</label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedATTtimeot.timeot_workdate" name="timeot_workdate"
-                #timeot_workdate="ngModel"></p-calendar>
-        </div>
 
         <div class="field col-12 md:col-6" *ngIf="!edit_data">
             <label>{{title_todate[initial_current.Language]}}</label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedATTtimeot.timeot_worktodate" name="timeot_worktodate"
+                [(ngModel)]="selectedtrtimeot.timeot_worktodate" name="timeot_worktodate" [disabled]="edit_data"
                 #timeot_worktodate="ngModel"></p-calendar>
         </div>
 
+
         <div class="reqtimeot field formgrid grid align-items-end">
             <div class="field col-12 md:col-3">
-                <label>{{title_Before[initial_current.Language]}} :</label>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_beforemin_hrs"
+                <p>{{langs.get('before')[selectlang]}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_beforemin_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
             <div class="field col-12 md:col-3">
-                <label>{{title_Normal[initial_current.Language]}} :</label>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_normalmin_hrs"
+                <p>{{langs.get('normal')[selectlang]}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_normalmin_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
             <div class="field col-12 md:col-3">
-                <label>{{title_Break[initial_current.Language]}} :</label>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_breakmin_hrs"
+                <p>{{langs.get('break')[selectlang]}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_breakmin_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
             <div class="field col-12 md:col-3">
-                <label>{{title_After[initial_current.Language]}} :</label>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedATTtimeot.timeot_aftermin_hrs"
+                <p>{{langs.get('after')[selectlang]}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_aftermin_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="ppos_shift_code">{{title_reason[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('reason')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
                 (onChange)="selectotreason()" optionLabel={{reasonedis}}></p-dropdown>
 
         </div>
         <div class="field col-12 md:col-6">
-            <label for="ppos_shift_code">{{title_Location[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('location')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="location_list" [(ngModel)]="locationselected"
                 (onChange)="selectotlocation()" optionLabel={{locatiodis}}></p-dropdown>
+
 
         </div>
 
         <div class="field col-12" style="display:flex;flex-direction: column;">
-            <label for="project_name_th">{{title_detail[initial_current.Language]}}</label>
-            <textarea [(ngModel)]="selectedATTtimeot.timeot_note" pInputTextarea [autoResize]="true"></textarea>
-
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
+            <textarea [(ngModel)]="selectedtrtimeot.timeot_note" pInputTextarea [autoResize]="true"></textarea>
         </div>
 
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar>
+            <p-table #dt3 [value]="selectedtrtimeot.reqdoc_data" selectionMode="single" [(selection)]="selectedreqdoc"
+                (onRowSelect)="onRowSelectfile($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable"></div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('file_name')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
+                        <th>{{langs.get('delete')[this.selectlang]}}</th>
 
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('file_name')[selectlang]}}</span>{{data.document_name}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.created_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-trash"
+                                styleClass="p-button-danger" (click)="DeleteFile(data)"></p-button></td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
 
         <div class="field col-12" style="text-align: right;">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"[disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                [disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
-                class="p-button-secondary button-size btndel"[disabled]="hasTruePeriodCloseta" (click)="Delete()"></button>
+                class="p-button-secondary button-size btndel" [disabled]="hasTruePeriodCloseta"
+                (click)="Delete()"></button>
 
         </div>
-
     </div>
 </p-dialog>
-<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
-    (click)="closeManage()"></div>
-
-
 
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">
@@ -106,9 +128,11 @@
     </div>
 </p-dialog>
 
+
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="closeManage()"></div>
+
 <div class="grid">
-
-
     <div class="col-6">
         <table style="width: 100%; ">
             <tr>
@@ -137,18 +161,12 @@
             </tr>
         </table>
     </div>
-    <div class="col-6">
-        &nbsp;
-    </div>
-
-
-
     <div #TABLE class="col-12">
         <p-menubar [model]="items"></p-menubar>
-        <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedATTtimeot"
+        <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeot"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_breakmin_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -158,7 +176,7 @@
                         <i class="pi pi-search"></i>
                         <input class="searchinput" pInputText type="text"
                             (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{title_search[initial_current.Language]}}" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
@@ -184,8 +202,7 @@
                 <tr [pSelectableRow]="data">
                     <td> {{i+1}}</td>
                     <td>{{data.timeot_doc}}</td>
-                    <td>{{data.timeot_workdate| date:'dd/MM/yyyy'}}
-                    </td>
+                    <td>{{data.timeot_workdate| date:'dd/MM/yyyy'}}</td>
                     <td>{{data.timeot_beforemin_hrs}}</td>
                     <td>{{data.timeot_normalmin_hrs}}</td>
                     <td>{{data.timeot_breakmin_hrs}}</td>
@@ -198,7 +215,6 @@
                         </button>
 
                     </td>
-                </tr>
             </ng-template>
         </p-table>
     </div>
@@ -211,7 +227,9 @@
         <input type="file" #fileUploader accept="" required
             (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
-
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
 </p-dialog>
 
 <!-- ConfirmDialog and toast Noti -->

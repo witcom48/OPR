@@ -6,37 +6,21 @@
     (onHide)="closeManage()">
     <div class="formgrid grid align-items-end">
 
-        <div class="field col-12 md:col-6" style="display:flex;flex-direction: column;">
 
-            <label>{{title_ot_doc[initial_current.Language]}} </label>
-            <input pInputText type="text" [(ngModel)]="selectedtrtimeonsite.timeonsite_doc" maxlength="30"
-                [disabled]="edit_data" name="code" #code="ngModel" required />
-            <p>{{ selectedtrtimeonsite.timeonsite_doc.length }}/30</p>
-
-
+        <div class="field col-12" style="margin-top: 2%;">
+            <p-calendar [(ngModel)]="selectedtrtimeonsite.timeonsite_workdate" dateFormat="dd/mm/yy" inputId="date_from"
+                [disabled]="edit_data"></p-calendar>
+            <!-- -
+            <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy" inputId="date_to"></p-calendar> -->
         </div>
-        <div class="field col-12 md:col-6"></div>
-        <div class="field col-12 md:col-6">
-            <label>{{title_date[initial_current.Language]}}</label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedtrtimeonsite.timeonsite_workdate" name="timeonsite_workdate"
-                #timeot_workdate="ngModel"></p-calendar>
-        </div>
-
-        <div class="field col-12 md:col-6"></div>
-
-
-
-
 
         <div class="field col-12 md:col-3">
-            <label>{{title_time_in[initial_current.Language]}}</label>
+            <p>{{langs.get('time_in')[selectlang]}}</p>
             <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeonsite.timeonsite_in"
                 placeholder="HH:mm"></p-inputMask>
         </div>
-
         <div class="field col-12 md:col-3">
-            <label>{{title_time_out[initial_current.Language]}}</label>
+            <p>{{langs.get('time_out')[selectlang]}}</p>
             <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeonsite.timeonsite_out"
                 placeholder="HH:mm"></p-inputMask>
         </div>
@@ -45,33 +29,92 @@
         </div>
 
         <div class="field col-12 md:col-6">
-            <label>{{title_Location[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('location')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="location_list" [(ngModel)]="locationselected"
                 (onChange)="selectotlocation()" optionLabel={{locatiodis}}></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="ppos_shift_code">{{title_reason[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('reason')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
                 (onChange)="selectotreason()" optionLabel={{reasonedis}}></p-dropdown>
         </div>
 
         <div class="field col-12" style="display:flex;flex-direction: column;">
-            <label for="project_name_th">{{title_detail[initial_current.Language]}}</label>
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
             <textarea [(ngModel)]="selectedtrtimeonsite.timeonsite_note" pInputTextarea [autoResize]="true"></textarea>
         </div>
-         
+        <div class="field col-12" *ngIf="!edit_data&&initial_current.Usertype == 'GRP'">
+            <p-pickList [source]="account_list_source" [target]="account_list_dest"
+                sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
+                targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
+                [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
+                targetHeader="{{langs.get('employee_select')[selectlang]}}"
+                filterBy="worker_detail_th,worker_detail_en">
+                <ng-template let-data pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">
+                            {{selectlang=="TH"? data.worker_detail_th :
+                            data.worker_detail_en}}
+                        </div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar>
+            <p-table #dt3 [value]="selectedtrtimeonsite.reqdoc_data" selectionMode="single"
+                [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+                        </div>
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{title_no[initial_current.Language]}}</th>
+                        <th>{{file_name[initial_current.Language]}}</th>
+                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                        <th>{{title_delete[initial_current.Language]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td> {{i+1}}</td>
+                        <td> {{data.document_name}}</td>
+                        <td> {{data.created_by}}</td>
+                        <td> {{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <td> <p-button icon="pi pi-trash" styleClass="p-button-danger"
+                                (click)="DeleteFile(data)"></p-button></td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
 
         <div class="field col-12" style="text-align: right;">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" [disabled]="hasTruePeriodCloseta"(click)="Save()"></p-button>
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                [disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
-                class="p-button-secondary button-size btndel"[disabled]="hasTruePeriodCloseta" (click)="Delete()"></button>
+                class="p-button-secondary button-size btndel" [disabled]="hasTruePeriodCloseta"
+                (click)="Delete()"></button>
 
         </div>
 
     </div>
 </p-dialog>
+
 
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">
@@ -92,6 +135,7 @@
 <div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
     (click)="closeManage()"></div>
 <div class="grid">
+
 
     <div class="col-6">
         <table style="width: 100%; ">
@@ -121,12 +165,14 @@
             </tr>
         </table>
     </div>
-    <div #TABLE  class="col-12">
+
+
+    <div #TABLE class="col-12">
         <p-menubar [model]="items"></p-menubar>
         <p-table #dt1 [value]="trtimonsite_list" selectionMode="single" [(selection)]="selectedtrtimeonsite"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['timeonsite_doc','timeonsite_workdate','timeonsite_in','timeonsite_out','location_name_en','location_name_th','reason_name_th','reason_name_en' ,'modified_by','modified_date']"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['timeonsite_doc','timeonsite_workdate','timeonsite_in','timeonsite_out','location_name_en','location_name_th','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -134,7 +180,7 @@
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
-                        placeholder="{{title_search[initial_current.Language]}}" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
@@ -149,21 +195,21 @@
                     <th>{{title_modified_by[initial_current.Language]}}</th>
                     <th>{{title_modified_date[initial_current.Language]}}</th>
                     <th></th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
                     <td> {{i+1}}</td>
                     <td> {{data.timeonsite_doc}}</td>
-                    <td> {{data.timeonsite_workdate| date:'dd/MM/yyyy'}}
-                    </td>
+                    <td> {{data.timeonsite_workdate| date:'dd/MM/yyyy'}}</td>
                     <td> {{data.timeonsite_in}}</td>
                     <td> {{data.timeonsite_out}}</td>
                     <td> {{data.modified_by}}</td>
                     <td> {{data.modified_date |date:'dd/MM/yyyy'}}</td>
                     <td>
                         <button pButton type="button" class="pi pi-trash gray-button "
-                            [disabled]="!this.accessData.accessdata_delete"[disabled]="hasTruePeriodCloseta" (click)="confirmDelete(data)">
+                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete(data)">
                         </button>
 
                     </td>
@@ -180,7 +226,9 @@
         <input type="file" #fileUploader accept="" required
             (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
-
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
 </p-dialog>
 
 <!-- ConfirmDialog and toast Noti -->

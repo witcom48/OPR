@@ -1,17 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { timeStamp } from 'console';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { SearchEmpComponent } from 'src/app/components/usercontrol/search-emp/search-emp.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { ATTReqdocumentModel } from 'src/app/models/attendance/attreqdocument';
 import { ATTTimeleaveModel } from 'src/app/models/attendance/atttimeleave';
 import { cls_TRleave } from 'src/app/models/attendance/cls_TRleave';
 import { EmployeeModel } from 'src/app/models/employee/employee';
-import { AccountModel } from 'src/app/models/self/account';
-import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
-import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
@@ -21,9 +18,10 @@ import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.servi
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { AccountServices } from 'src/app/services/self/account.service';
-import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+declare var reqleave: any;
 import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-request-timeleave',
   templateUrl: './request-timeleave.component.html',
@@ -31,8 +29,9 @@ import * as XLSX from 'xlsx';
 })
 export class RequestTimeleaveComponent implements OnInit {
   @ViewChild('TABLE') table: ElementRef | any = null;
-
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
+  langs: any = reqleave;
+  @ViewChild(SearchEmpComponent) selectEmp: any;
   selectlang: string = "EN";
   leavetypedis: string = "leave_name_en"
   reasonedis: string = "reason_name_en"
@@ -41,34 +40,76 @@ export class RequestTimeleaveComponent implements OnInit {
   hour: number = 0;
   time_half: string = "00:00"
   leavetype: string = "F";
-  leave_code: string = "";
-
-  @ViewChild(SearchEmpComponent) selectEmp: any;
-
-
-
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private trleaveaccService: TRLeaveaccServices,
-    private atttimeleaveService: AtttimeleaveService,
-    private timeleaveService: TimeleaveServices,
-
     private reasonService: ReasonsService,
     private accountServie: AccountServices,
     private router: Router,
     private employeeService: EmployeeService,
     private periodsService: PeriodsServices,
+    private atttimeleaveService: AtttimeleaveService,
+  ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
+  edit_data: boolean = false
+  displayManage: boolean = false;
+  Uploadfile: boolean = false;
+  fileToUpload: File | any = null;
+  position: string = "right";
+  items: MenuItem[] = [];
+  items_attfile: MenuItem[] = [];
+  selectedleave_type: cls_TRleave = new cls_TRleave();
+  leaveacc_list: cls_TRleave[] = [];
+  selectedLeaveacc: cls_TRleave = new cls_TRleave();
+  reason_list: ReasonsModel[] = [];
+  reasonselected: ReasonsModel = new ReasonsModel();
+  trtimeleave_list: ATTTimeleaveModel[] = [];
+  selectedtrtimeleave: ATTTimeleaveModel = new ATTTimeleaveModel();
+  selectedreqdoc: ATTReqdocumentModel = new ATTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
 
+  public initial_current: InitialCurrent = new InitialCurrent();
 
-  ) {
-    this.initializeDefaultValues();
+  accessData: AccessdataModel = new AccessdataModel();
+  initialData2: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('login');
+    }
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
 
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
+    this.selectlang = this.initial_current.Language;
+    if (this.initial_current.Language == "TH") {
+      this.leavetypedis = "leave_name_th"
+      this.reasonedis = "reason_name_th"
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+    } else {
+      this.doLoadTimeleave();
+      this.doLoadLeaveacc();
+    }
   }
-  private initializeDefaultValues(): void {
-    this.leave_code = '';
 
+  ngOnInit(): void {
+    this.doGetInitialCurrent()
+    this.doLoadMenu();
+    this.doLoadReason();
+    this.Periodclosed()
+    setTimeout(() => {
+      this.doLoadEmployee()
+      this.doLoadTimeleave()
+    }, 300);
   }
+
 
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
   title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
@@ -99,7 +140,7 @@ export class RequestTimeleaveComponent implements OnInit {
   title_fromdate: { [key: string]: string } = { EN: "From", TH: "จากวันที่" }
   title_todate: { [key: string]: string } = { EN: "To", TH: "ถึงวันที่" }
 
-  title_page: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" }
+  title_page: { [key: string]: string } = { EN: "Dic Request", TH: "ใบคำร้อง" }
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
   title_ot_doc: { [key: string]: string } = { EN: "OT Doc", TH: "เลขที่เอกสาร" }
@@ -130,71 +171,188 @@ export class RequestTimeleaveComponent implements OnInit {
   title_leave_used: { [key: string]: string } = { EN: "Leave Used", TH: "วันลาใช้ไป" };
   title_leave_remain: { [key: string]: string } = { EN: "Leave Remain", TH: "วันลาคงเหลือ" };
   title_cumulative_leave: { [key: string]: string } = { EN: "Cumulative leave", TH: "วันลาสะสม" };
-
-  mainMenuItems: MenuItem[] = [];
-  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
-  edit_data: boolean = false
-  displayManage: boolean = false;
-  Uploadfile: boolean = false;
-  fileToUpload: File | any = null;
-  position: string = "right";
-  items: MenuItem[] = [];
-  items_attfile: MenuItem[] = [];
-  selectedleave_type: cls_TRleave = new cls_TRleave();
-  leaveacc_list: cls_TRleave[] = [];
-  selectedLeaveacc: cls_TRleave = new cls_TRleave();
-  reason_list: ReasonsModel[] = [];
-  reasonselected: ReasonsModel = new ReasonsModel();
-
-  trtimeleave_list: ATTTimeleaveModel[] = [];
-  selectedtrtimeleave: ATTTimeleaveModel = new ATTTimeleaveModel();
-
-  selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
-  account_list: TRAccountModel[] = [];
-  selectedAccount: TRAccountModel = new TRAccountModel();
-  start_date: Date = new Date();
-  end_date: Date = new Date();
-
-
-  accessData: AccessdataModel = new AccessdataModel();
-  initialData2: InitialCurrent = new InitialCurrent();
-  public initial_current: InitialCurrent = new InitialCurrent();
-
-  doGetInitialCurrent() {
-    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-    if (!this.initial_current.Token) {
-      this.router.navigateByUrl('login');
-    }
-    this.accessData = this.initialData2.dotGetPolmenu('ATT');
-
-    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
-    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
-    this.selectlang = this.initial_current.Language;
-    if (this.initial_current.Language == "TH") {
-      this.leavetypedis = "leave_name_th"
-      this.reasonedis = "reason_name_th"
-      this.namedis = "worker_detail_th"
-    }
+  Search() {
+    this.doLoadTimeleave();
     if (this.initial_current.Usertype == "GRP") {
-      this.doLoadAccount();
-    } else {
-      this.doLoadTimeleave();
       this.doLoadLeaveacc();
+      this.doLoadTimeleave();
     }
   }
-  ngOnInit(): void {
-    this.doGetInitialCurrent()
-    this.doLoadMenu();
-    this.doLoadReason();
-    this.Periodclosed()
 
-    setTimeout(() => {
-      this.doLoadEmployee()
+  async doLoadTimeleave() {
+    this.trtimeleave_list = [];
 
-    }, 300);
+    const tmp = new ATTTimeleaveModel();
+    tmp.timeleave_fromdate = this.start_date;
+    tmp.timeleave_todate = this.end_date;
+    tmp.company_code = this.initial_current.CompCode;
+    tmp.worker_code = this.workerDetail.worker_code;
+
+    try {
+      const res = await this.atttimeleaveService.atttimeleave_get(tmp);
+
+      if (res) {
+
+        res.forEach((elm: any) => {
+          elm.timeleave_fromdate = new Date(elm.timeleave_fromdate);
+          elm.timeleave_todate = new Date(elm.timeleave_todate);
+        });
+      }
+
+      this.trtimeleave_list = res || [];
+    } catch (error) {
+    }
+  }
+
+
+  doLoadLeaveacc() {
+    this.leaveacc_list = [];
+    var tmp = new cls_TRleave();
+    tmp.worker_code = this.workerDetail.worker_code;
+    this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
+      this.leaveacc_list = await res
+    });
+  }
+  doLoadLeaveactualday() {
+    let data = new ATTTimeleaveModel()
+    data.worker_code = this.workerDetail.worker_code;
+    data.timeleave_fromdate = this.selectedtrtimeleave.timeleave_fromdate
+    data.timeleave_todate = this.selectedtrtimeleave.timeleave_todate
+    this.atttimeleaveService.timeleaveactualday_get(data).then(async (res) => {
+      this.selectedtrtimeleave.timeleave_actualday = await res;
+    });
+  }
+  doLoadReason() {
+    this.reason_list = [];
+    let data = new ReasonsModel()
+    data.reason_group = "LEAVE"
+    this.reasonService.reason_get(data).then(async (res) => {
+      this.reason_list = await res;
+    });
+  }
+  async doRecordTimeleave(data: ATTTimeleaveModel[]) {
+    await this.atttimeleaveService.atttimeleave_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadTimeleave();
+        this.doLoadLeaveacc();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.leavetype = "F"
+    this.closeManage()
+  }
+  async doDeleteTimeleave(data: ATTTimeleaveModel) {
+    await this.atttimeleaveService.atttimeleave_delete(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadTimeleave();
+        this.doLoadLeaveacc();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.closeManage()
+  }
+  doUploadFile() {
+    const filename = "LEAVE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    const filetype = this.fileToUpload.name.split(".")[1];
+    this.atttimeleaveService.file_import(this.fileToUpload, filename, filetype).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.concat({
+          company_code: this.selectedtrtimeleave.company_code || this.initial_current.CompCode,
+          document_id: 0,
+          job_id: this.selectedtrtimeleave.timeleave_id.toString(),
+          job_type: 'LEA',
+          document_name: filename + "." + filetype,
+          document_type: this.fileToUpload.type,
+          document_path: res.message,
+          created_by: this.initial_current.Username,
+          created_date: new Date().toISOString()
+        })
+        this.Uploadfile = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
+  }
+  async doGetfileTimeleave(file_path: string, type: string) {
+    this.atttimeleaveService.get_file(file_path).then((res) => {
+      var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+      window.open(url);
+      this.selectedreqdoc = new ATTReqdocumentModel();
+    })
+  }
+  doLoadMenu() {
+    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
+    { label: this.title_requestleave[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
+    this.items = [
+
+      {
+        label: this.langs.get('new')[this.selectlang],
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.initializeLeaveForm();
+          this.showManage();
+        }
+
+      },
+      {
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel()
+        }
+      },
+
+    ];
+
+    this.items_attfile = [
+
+      {
+        label: this.langs.get('new')[this.selectlang],
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.Uploadfile = true;
+        }
+      },
+
+      
+    ];
 
   }
 
+
+
+  initializeLeaveForm() {
+    this.leavetype = "F";
+    this.selectedtrtimeleave = new ATTTimeleaveModel();
+    this.selectedleave_type = this.leaveacc_list[0];
+    this.reasonselected = this.reason_list[0];
+    this.selectedtrtimeleave.leave_code = this.leaveacc_list[0].leave_code;
+    this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code;
+    this.time_half = "00:00";
+    this.selectLeaveType();
+    this.doLoadLeaveactualday();
+    if (this.initial_current.Usertype == "GRP") {
+      this.workerDetail.worker_code = this.workerDetail.worker_code;
+    }
+  }
+  //   EMPLEAVEACC_REMAIN = (EMPLEAVEACC_BF + EMPLEAVEACC_ANNUAL) - EMPLEAVEACC_USED
+  // calculateRemain(): number {
+  //   const bf = +this.selectedtrtimeleave.empleaveacc_bf || 0; //ยอดยกมา
+  //   const annual = +this.selectedtrtimeleave.empleaveacc_annual || 0; //ยอดวันลาประจำปี
+  //   const used = +this.selectedtrtimeleave.empleaveacc_used || 0; //ยอดวันลาที่ใช้ไป
+  //   return (bf + annual) - used;
+  // }
 
   //
   workerDetail: EmployeeModel = new EmployeeModel();
@@ -296,160 +454,61 @@ export class RequestTimeleaveComponent implements OnInit {
 
   }
   //
-  Search() {
-    this.doLoadTimeleave();
-    if (this.initial_current.Usertype == "GRP") {
-      this.doLoadLeaveacc();
-    }
+
+
+  DeleteFile(data: ATTReqdocumentModel) {
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang] + data.document_name,
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (data.document_id) {
+          this.atttimeleaveService.delete_file(data).then((res) => {
+            if (res.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+          })
+        } else {
+          this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.filter((item) => {
+            return item !== data;
+          });
+        }
+        this.atttimeleaveService.deletefilepath_file(data.document_path).then((res) => {
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.filter((item) => {
+              return item !== data;
+            });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
+        })
+      },
+      reject: () => {
+
+      }
+    });
   }
-  doLoadAccount() {
-    var tmp = new AccountModel();
-    tmp.account_user = this.initial_current.Username;
-    tmp.account_type = this.initial_current.Usertype;
-    this.accountServie.account_get(tmp).then(async (res) => {
-      res[0].worker_data.forEach((obj: TRAccountModel) => {
-        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
-        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+  Uploadfiledoc() {
+    if (this.fileToUpload) {
+      this.confirmationService.confirm({
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.fileUploader.nativeElement.value = null;
+          this.Uploadfile = false;
+          this.doUploadFile();
+        },
+        reject: () => {
+          this.Uploadfile = false;
+        }
       });
-      this.account_list = await res[0].worker_data;
-      this.workerDetail = res[0].worker_data[0];
-      this.doLoadTimeleave();
-      this.doLoadLeaveacc();
-    });
-  }
-  doLoadTimeleave() {
-    this.trtimeleave_list = [];
-    var tmp = new ATTTimeleaveModel();
-    tmp.timeleave_fromdate = this.start_date;
-    tmp.timeleave_todate = this.end_date;
-    tmp.company_code = this.initial_current.CompCode;
-    tmp.worker_code = this.workerDetail.worker_code || this.initial_current.Username;
-    this.atttimeleaveService.atttimeleave_get(tmp).then(async (res) => {
-      if (res) {
-        res.forEach((elm: any) => {
-          elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
-          elm.timeleave_todate = new Date(elm.timeleave_todate)
-        });
-      }
-      this.trtimeleave_list = await res
-    });
-
-  }
-  doLoadLeaveacc() {
-    this.leaveacc_list = [];
-    var tmp = new cls_TRleave();
-    tmp.worker_code = this.workerDetail.worker_code;
-    this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
-      this.leaveacc_list = await res
-    });
-  }
-
-
-
-  doLoadLeaveactualday() {
-    let data = new ATTTimeleaveModel()
-    data.worker_code = this.workerDetail.worker_code;
-    data.timeleave_fromdate = this.selectedtrtimeleave.timeleave_fromdate
-    data.timeleave_todate = this.selectedtrtimeleave.timeleave_todate
-    this.atttimeleaveService.timeleaveactualday_get(data).then(async (res) => {
-      this.selectedtrtimeleave.timeleave_actualday = await res;
-    });
-  }
-  doLoadReason() {
-    this.reason_list = [];
-    let data = new ReasonsModel()
-    data.reason_group = "LEAVE"
-    this.reasonService.reason_get(data).then(async (res) => {
-      this.reason_list = await res;
-
-    });
-  }
-  async doRecordTimeleave(data: ATTTimeleaveModel) {
-
-    data.company_code = this.initial_current.CompCode;
-    data.worker_code = this.workerDetail.worker_code;
-    data.empleaveacc_remain = this.calculateRemain();
-
-
-    await this.atttimeleaveService.atttimeleave_record(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeleave();
-        this.doLoadLeaveacc();
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-
-    });
-    this.leavetype = "F"
-    this.closeManage()
-  }
-  async doDeleteTimeleave(data: ATTTimeleaveModel) {
-    await this.atttimeleaveService.atttimeleave_delete(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeleave();
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-
-    });
-    this.closeManage()
-  }
-
-  doLoadMenu() {
-    this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
-    { label: this.title_requestleave[this.initial_current.Language], routerLink: '/recordtime/requestot', styleClass: 'activelike' }]
-    this.items = [
-
-      {
-        label: this.title_new[this.initial_current.Language],
-        icon: 'pi pi-fw pi-plus',
-        command: (event) => {
-          this.initializeLeaveForm();
-          this.showManage();
-        }
-      },
-      {
-        label: this.title_export[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-          this.exportAsExcel()
-        }
-      },
-
-
-
-    ];
-
-
-
-  }
-
-
-  initializeLeaveForm() {
-    this.leavetype = "F";
-    this.selectedtrtimeleave = new ATTTimeleaveModel();
-    this.selectedleave_type = this.leaveacc_list[0];
-    this.reasonselected = this.reason_list[0];
-    this.selectedtrtimeleave.leave_code = this.leaveacc_list[0].leave_code;
-    this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code;
-    this.time_half = "00:00";
-    this.selectLeaveType();
-    this.doLoadLeaveactualday();
-
-    if (this.initial_current.Usertype == "GRP") {
-      this.selectedtrtimeleave.worker_code = this.workerDetail.worker_code;
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
-  }
-  //   EMPLEAVEACC_REMAIN = (EMPLEAVEACC_BF + EMPLEAVEACC_ANNUAL) - EMPLEAVEACC_USED
-  calculateRemain(): number {
-    const bf = +this.selectedtrtimeleave.empleaveacc_bf || 0; //ยอดยกมา
-    const annual = +this.selectedtrtimeleave.empleaveacc_annual || 0; //ยอดวันลาประจำปี
-    const used = +this.selectedtrtimeleave.empleaveacc_used || 0; //ยอดวันลาที่ใช้ไป
-    return (bf + annual) - used;
   }
   handleFileInputholidaylist(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -475,15 +534,11 @@ export class RequestTimeleaveComponent implements OnInit {
   selectLeavereason() {
     this.selectedtrtimeleave.reason_code = this.reasonselected.reason_code;
   }
-
   selectLeaveType() {
-    if (this.selectedleave_type && this.selectedleave_type.empleaveacc_remain != null) {
-      this.selectedtrtimeleave.leave_code = this.selectedleave_type.leave_code;
-      this.day = Math.floor(this.selectedleave_type.empleaveacc_remain);
-      this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8;
-    } else { }
+    this.selectedtrtimeleave.leave_code = this.selectedleave_type.leave_code;
+    this.day = Math.floor(this.selectedleave_type.empleaveacc_remain)
+    this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8
   }
-
   onRowSelect(event: Event) {
     this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
     this.leaveacc_list.forEach((obj: cls_TRleave) => {
@@ -506,40 +561,53 @@ export class RequestTimeleaveComponent implements OnInit {
     this.edit_data = true;
   }
   onRowSelectfile(event: Event) {
-    // this.doGetfileTimeleave(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
+    this.doGetfileTimeleave(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
-
-
   getDay(data: any) {
-    return Math.floor(data) + " " + this.title_day[this.initial_current.Language] + " " + (data - Math.floor(data)) * 8 + " " + this.title_hour[this.initial_current.Language]
+    return Math.floor(data) + " " + this.langs.get('day')[this.selectlang] + " " + (data - Math.floor(data)) * 8 + " " + this.langs.get('hour')[this.selectlang]
   }
   getFulltyupeLeave(code: string) {
     let day = ""
     switch (code) {
       case "F":
-        day = this.title_half_day[this.initial_current.Language]
+        day = this.langs.get('full_day')[this.selectlang]
         break;
       case "H1":
-        day = `${this.title_half_day[this.initial_current.Language]} (${this.title_morning[this.initial_current.Language]})`
+        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('morning')[this.selectlang]})`
         break;
       case "H2":
-        day = `${this.title_half_day[this.initial_current.Language]} (${this.title_afternoon[this.initial_current.Language]})`
+        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('afternoon')[this.selectlang]})`
     }
     return day;
   }
-
-
+  getFullStatus(code: string) {
+    let status = ""
+    switch (code) {
+      case "W":
+        status = this.langs.get('wait')[this.selectlang];
+        break;
+      case "F":
+        status = this.langs.get('finish')[this.selectlang];
+        break;
+      case "C":
+        status = this.langs.get('reject')[this.selectlang];
+    }
+    return status;
+  }
   Save() {
     this.confirmationService.confirm({
-      message: this.title_confirm_record[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_leave')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.selectedtrtimeleave.timeleave_doc.trim().length == 0) {
+        if (this.selectedtrtimeleave.timeleave_doc === "") {
+          this.selectedtrtimeleave.worker_code = this.workerDetail.worker_code;
+
           this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
         }
         if (this.selectedtrtimeleave.timeleave_type != "F") {
+          this.selectedtrtimeleave.worker_code = this.workerDetail.worker_code;
+
           this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
           var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
           var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
@@ -548,7 +616,7 @@ export class RequestTimeleaveComponent implements OnInit {
         } else {
           this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
         }
-        this.doRecordTimeleave(this.selectedtrtimeleave)
+        this.doRecordTimeleave([this.selectedtrtimeleave])
       },
       reject: () => {
       }
@@ -556,8 +624,8 @@ export class RequestTimeleaveComponent implements OnInit {
   }
   Delete() {
     this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeleave.timeleave_doc,
+      header: this.langs.get('title_leave')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.doDeleteTimeleave(this.selectedtrtimeleave)
@@ -581,20 +649,9 @@ export class RequestTimeleaveComponent implements OnInit {
     });
 
   }
-  //
-  exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement); 
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
-
-  }
-
-  
+  //   //
   //เช็คชข้อมูลเมื่อมีการปิดงวด
   hasTruePeriodCloseta: boolean = false;
-
   async Periodclosed() {
     try {
       const res = await this.periodsService.period_get2(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.initial_current.PR_Year, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate);
@@ -604,7 +661,7 @@ export class RequestTimeleaveComponent implements OnInit {
           element.period_to = new Date(element.period_to);
           element.period_payment = new Date(element.period_payment);
         }
-        this.hasTruePeriodCloseta = res.some((item: { period_closeta: boolean }) => item.period_closeta === true);
+        this.hasTruePeriodCloseta = res.some((item: { period_closepr: boolean }) => item.period_closepr === true);
         if (this.hasTruePeriodCloseta) {
           this.confirmationService.confirm({
             message: this.initial_current.Language === 'TH' ? 'ข้อมูลที่ทำรายการอยู่ในงวดที่ปิดแล้ว' : 'Period is closed permission set to read-only !!!',
@@ -617,5 +674,13 @@ export class RequestTimeleaveComponent implements OnInit {
         }
       }
     } catch { }
+  }
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Export_Timeleave.xlsx');
+
   }
 }

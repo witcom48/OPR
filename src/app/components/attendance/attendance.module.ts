@@ -87,7 +87,8 @@ import { RequestOvertimeComponent } from './attendance-dicrequest/request-overti
 import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-time.component';
-
+import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin/request-checkin.component';
+ 
 
 @NgModule({
 	imports: [
@@ -182,7 +183,8 @@ import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-
 		DicRequestComponent,
 		RequestTimeleaveComponent,
 		RecordTimeComponent,
-	],
+  RequestCheckinComponent,
+ 	],
 	exports: [ShiftComponent],
 })
 export class AttendanceModule { }

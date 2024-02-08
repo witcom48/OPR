@@ -2,74 +2,38 @@
 <!-- ---------END Link Page----------- -->
 <hr>
 <p-dialog header="{{title_requestleave[this.initial_current.Language]}}" [(visible)]="displayManage"
-    [style]="{width: '50vw'}" [position]="position" (onHide)="closeManage()">
+    [style]="{width: '40vw'}" [position]="position" (onHide)="closeManage()">
     <div class="formgrid grid align-items-end">
-        <div class="field col-12 md:col-6" style="display:flex;flex-direction: column;">
-            <label>{{title_ot_doc[initial_current.Language]}} </label>
-            <input pInputText type="text" [(ngModel)]="selectedtrtimeleave.timeleave_doc" maxlength="30"
-                [disabled]="edit_data" name="timeleave_doc" #timeleave_doc="ngModel" required />
-            <p>{{ selectedtrtimeleave.timeleave_doc.length }}/30</p>
-        </div>
-        <div class="field col-12 md:col-6"></div>
 
-
-        <div class="field col-12 md:col-6">
+        <div class="field col-12">
             <div class="formgroup-inline">
                 <div class="field-radiobutton">
                     <p-radioButton name="leavetype" value="F" [(ngModel)]="leavetype" inputId="leavetype"
-                        (ngModelChange)="ChangeType()"></p-radioButton>
-                    <label for="leavetype">{{title_full_day[this.initial_current.Language]}}</label>
+                        (ngModelChange)="ChangeType()" [disabled]="edit_data"></p-radioButton>
+                    <label for="leavetype">{{langs.get('full_day')[selectlang]}}</label>
                 </div>
                 <div class="field-radiobutton">
                     <p-radioButton name="leavetype" value="H" [(ngModel)]="leavetype" inputId="leavetype"
-                        (ngModelChange)="ChangeType()"></p-radioButton>
-                    <label for="leavetype">{{title_half_day[this.initial_current.Language]}}</label>
+                        (ngModelChange)="ChangeType()" [disabled]="edit_data"></p-radioButton>
+                    <label for="leavetype">{{langs.get('half_day')[selectlang]}}</label>
                 </div>
             </div>
         </div>
-        <div class="field col-12 md:col-6"></div>
 
-
-        <div class="field col-12 md:col-6">
-            <input type="checkbox" value="1" [(ngModel)]="selectedtrtimeleave.timeleave_incholiday"
-                name="timeleave_incholiday" #timeleave_incholiday="ngModel">
-            <label>{{title_Incholiday[initial_current.Language]}}</label>
-
-            <input type="checkbox" value="1" [(ngModel)]="selectedtrtimeleave.timeleave_deduct" name="timeleave_deduct"
-                #timeleave_deduct="ngModel">
-            <label>{{title_Deduct[initial_current.Language]}}</label>
-        </div>
-
-        <div class="field col-12 md:col-6"></div>
-
-        <div *ngIf="leavetype=='F'" class="field col-12 md:col-6">
-            <label>{{title_date[initial_current.Language]}}</label>
-
-            <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy" [showIcon]="true"
-                inputId="date_from" [disabled]="edit_data"></p-calendar>
-            <!--  -->
-            <br>
-            &nbsp;&nbsp;
-            <span
-                [ngStyle]="{'color': (selectedtrtimeleave.timeleave_actualday <= day) ? 'green' : 'red'}">{{title_actualday[initial_current.Language]}}
-                {{selectedtrtimeleave.timeleave_actualday}} {{title_day[initial_current.Language]}}</span>
-            <!--  -->
-        </div>
-
-        <div *ngIf="leavetype=='F'" class="field col-12 md:col-6">
-            <label>{{title_todate[initial_current.Language]}}</label>
-            <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_todate" dateFormat="dd/mm/yy" [showIcon]="true"
-                (onSelect)="doLoadLeaveactualday()" inputId="date_to" [disabled]="edit_data"></p-calendar>
-            &nbsp;&nbsp;&nbsp;
-            <span></span>
-        </div>
-
-
-        <div class="field col-12 md:col-6">
+        <div class="field col-12">
+            <div *ngIf="leavetype=='F'">
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
+                    inputId="date_from" [disabled]="edit_data"></p-calendar>
+                -
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_todate" dateFormat="dd/mm/yy" inputId="date_to"
+                    (onSelect)="doLoadLeaveactualday()" [disabled]="edit_data"></p-calendar>
+                &nbsp;&nbsp;&nbsp;
+                <span
+                    [ngStyle]="{'color': (selectedtrtimeleave.timeleave_actualday <= day) ? 'green' : 'red'}">{{langs.get('actualday')[selectlang]}}
+                    {{selectedtrtimeleave.timeleave_actualday}} {{langs.get('day')[selectlang]}}</span>
+            </div>
             <div *ngIf="leavetype=='H'" class="half">
-                <label>{{title_date[initial_current.Language]}}</label>
-
-                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy" [showIcon]="true"
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
                     inputId="date_from" [disabled]="edit_data"></p-calendar>
                 &nbsp;&nbsp;&nbsp;
                 <div class="field col-12">
@@ -77,12 +41,12 @@
                         <div class="field-radiobutton">
                             <p-radioButton name="leavetype" value="H1" [(ngModel)]="selectedtrtimeleave.timeleave_type"
                                 inputId="leavetype" [disabled]="edit_data"></p-radioButton>
-                            <label for="leavetype">{{title_morning[initial_current.Language]}}</label>
+                            <label for="leavetype">{{langs.get('morning')[selectlang]}}</label>
                         </div>
                         <div class="field-radiobutton">
                             <p-radioButton name="leavetype" value="H2" [(ngModel)]="selectedtrtimeleave.timeleave_type"
                                 inputId="leavetype" [disabled]="edit_data"></p-radioButton>
-                            <label for="leavetype">{{title_afternoon[initial_current.Language]}}</label>
+                            <label for="leavetype">{{langs.get('afternoon')[selectlang]}}</label>
                         </div>
                     </div>
                 </div>
@@ -91,57 +55,86 @@
             </div>
         </div>
 
-
-
-
-
-        <div class="field col-12 md:col-6"></div>
-
         <div class="field col-12 md:col-6">
-            <label for="leaveacc_list">{{title_leavetype[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('leavetype')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="leaveacc_list" [(ngModel)]="selectedleave_type"
-                (onChange)="selectLeaveType()" optionLabel={{leavetypedis}}></p-dropdown>
+                (onChange)="selectLeaveType()" optionLabel={{leavetypedis}} [disabled]="edit_data"></p-dropdown>
+
         </div>
         <div class="field col-12 md:col-6">
-            <span style="color: green;">{{title_remain[initial_current.Language]}} {{day}}
-                {{title_day[initial_current.Language]}}
-                {{hour}} {{title_hour[initial_current.Language]}}</span>
+            <span style="color: green;">{{langs.get('remain')[selectlang]}} {{day}} {{langs.get('day')[selectlang]}}
+                {{hour}} {{langs.get('hour')[selectlang]}}</span>
         </div>
 
-
-
-
-
-
         <div class="field col-12 md:col-6">
-            <label for="ppos_shift_code">{{title_reason[initial_current.Language]}}</label>
+            <label for="ppos_shift_code">{{langs.get('reason')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
                 (onChange)="selectLeavereason()" optionLabel={{reasonedis}}></p-dropdown>
         </div>
 
         <div class="field col-12" style="display:flex;flex-direction: column;">
-            <label for="project_name_th">{{title_detail[initial_current.Language]}}</label>
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
             <textarea [(ngModel)]="selectedtrtimeleave.timeleave_note" pInputTextarea [autoResize]="true"></textarea>
 
         </div>
 
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar>
+            <p-table #dt3 [value]="selectedtrtimeleave.reqdoc_data" selectionMode="single"
+                [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
 
+                        </div>
+
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('file_name')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
+                        <th>{{langs.get('delete')[this.selectlang]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('file_name')[selectlang]}}</span>{{data.document_name}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.created_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-trash"
+                                styleClass="p-button-danger" (click)="DeleteFile(data)"></p-button></td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
         <div class="field col-12" style="text-align: right;">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"[disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                [disabled]="hasTruePeriodCloseta" (click)="Save()"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
-                class="p-button-secondary button-size btndel"[disabled]="hasTruePeriodCloseta" (click)="Delete()"></button>
+                class="p-button-secondary button-size btndel" [disabled]="hasTruePeriodCloseta"
+                (click)="Delete()"></button>
 
         </div>
 
-
-        
     </div>
 </p-dialog>
 <div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
     (click)="closeManage()"></div>
-
-
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
@@ -157,8 +150,6 @@
     </div>
 </p-dialog>
 <div class="grid">
-
-
     <div class="col-6">
         <table style="width: 100%; ">
             <tr>
@@ -187,16 +178,11 @@
             </tr>
         </table>
     </div>
-    <div class="col-6">
-        &nbsp;
-    </div>
-
-
-    <div  #TABLE class="col-12">
+    <div #TABLE class="col-12">
         <p-menubar [model]="items"></p-menubar>
         <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleave"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
             [globalFilterFields]="['timeleave_doc','leave_detail_th','leave_detail_en','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
@@ -207,60 +193,64 @@
                         <i class="pi pi-search"></i>
                         <input class="searchinput" pInputText type="text"
                             (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{title_search[initial_current.Language]}}" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th>{{title_no[initial_current.Language]}}</th>
-                    <th>{{title_ot_doc[initial_current.Language]}}</th>
-                    <th>{{title_leavetype[initial_current.Language]}}</th>
-                    <th>{{title_fromdate[initial_current.Language]}}</th>
-                    <th>{{title_todate[initial_current.Language]}}</th>
-                    <th>{{title_leave[initial_current.Language]}}</th>
-                    <th>{{title_reason[initial_current.Language]}}</th>
-                    <th>{{title_modified_by[initial_current.Language]}}</th>
-                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('leave_doc')[selectlang]}}</th>
+                    <th>{{langs.get('leavetype')[selectlang]}}</th>
+                    <th>{{langs.get('fromdate')[selectlang]}}</th>
+                    <th>{{langs.get('todate')[selectlang]}}</th>
+                    <th>{{langs.get('form_of_leave')[selectlang]}}</th>
+                    <th>{{langs.get('reason')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
                     <th></th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.timeleave_doc}}</td>
-                    <td>{{selectlang=="EN"?data.leave_detail_en:data.leave_detail_th}}</td>
-                    <td>{{data.timeleave_fromdate |date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.timeleave_todate | date:'dd/MM/yyyy'}}
+                    <td> {{i+1}}</td>
+                    <td> {{data.timeleave_doc}}</td>
+                    <td> {{selectlang=="EN"?data.leave_detail_en:data.leave_detail_th}}
                     </td>
-                    <td>{{getFulltyupeLeave(data.timeleave_type)}}
+                    <td> {{data.timeleave_fromdate |date:'dd/MM/yyyy'}}
                     </td>
-                    <td>{{selectlang=="EN"?data.reason_en:data.reason_th}}</td>
-                     <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date |date:'dd/MM/yyyy'}}</td>
-
+                    <td> {{data.timeleave_todate | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td> {{getFulltyupeLeave(data.timeleave_type)}}
+                    </td>
+                    <td> {{selectlang=="EN"?data.reason_en:data.reason_th}}
+                    </td>
+                    <td> {{getFullStatus(data.status_job)}}</td>
+                    <td> {{data.modified_by}}</td>
+                    <td> {{data.modified_date |date:'dd/MM/yyyy'}}
+                    </td>
                     <td>
                         <button pButton type="button" class="pi pi-trash gray-button "
-                            [disabled]="!this.accessData.accessdata_delete" [disabled]="hasTruePeriodCloseta"(click)="confirmDelete(data)">
+                            [disabled]="!this.accessData.accessdata_delete" [disabled]="hasTruePeriodCloseta"
+                            (click)="confirmDelete(data)">
                         </button>
-
                     </td>
-
                 </tr>
             </ng-template>
         </p-table>
     </div>
 
     <div class="col-12">
-        <span style="font-size: 20px;">{{title_cumulative_leave[initial_current.Language]}}</span>&nbsp; <i
+        <span style="font-size: 20px;">{{langs.get('cumulative_leave')[selectlang]}}</span>&nbsp; <i
             class="pi pi-angle-right"></i>&nbsp;
         <small>{{this.initial_current.PR_Year}}</small>
     </div>
-    <div #TABLE class="col-12">
+    <div class="col-12">
         <p-table #dt2 [value]="leaveacc_list" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -271,29 +261,29 @@
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                        placeholder="{{title_search[initial_current.Language]}}" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th>{{title_no[initial_current.Language]}}</th>
-                    <th>{{title_leavetype[initial_current.Language]}}</th>
-                    <th>{{title_leave_annual[initial_current.Language]}}</th>
-                    <th>{{title_leave_used[initial_current.Language]}}</th>
-                    <th>{{title_leave_remain[initial_current.Language]}}</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('leavetype')[selectlang]}}</th>
+                    <th>{{langs.get('leave_annual')[selectlang]}}</th>
+                    <th>{{langs.get('leave_used')[selectlang]}}</th>
+                    <th>{{langs.get('leave_remain')[selectlang]}}</th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr class="tablenotselect">
-                    <td>{{i+1}}</td>
-                    <td>{{selectlang=="EN"?data.leave_name_en:data.leave_name_th}}
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang=="EN"?data.leave_name_en:data.leave_name_th}}
                     </td>
-                    <td>{{getDay(data.empleaveacc_annual)}}</td>
-                    <td>{{getDay(data.empleaveacc_used)}}</td>
-                    <td>{{getDay(data.empleaveacc_remain)}}</td>
+                    <td><span>{{langs.get('leave_annual')[selectlang]}}</span>{{getDay(data.empleaveacc_annual)}}</td>
+                    <td><span>{{langs.get('leave_used')[selectlang]}}</span>{{getDay(data.empleaveacc_used)}}</td>
+                    <td><span>{{langs.get('leave_remain')[selectlang]}}</span>{{getDay(data.empleaveacc_remain)}}</td>
 
                 </tr>
             </ng-template>
@@ -309,7 +299,9 @@
         <input type="file" #fileUploader accept="" required
             (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
-
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
 </p-dialog>
 
 <!-- ConfirmDialog and toast Noti -->

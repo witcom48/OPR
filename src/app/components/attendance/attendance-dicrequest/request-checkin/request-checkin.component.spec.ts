@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecordTimeComponent } from './record-time.component';
+import { RequestCheckinComponent } from './request-checkin.component';
 
-describe('RecordTimeComponent', () => {
-  let component: RecordTimeComponent;
-  let fixture: ComponentFixture<RecordTimeComponent>;
+describe('RequestCheckinComponent', () => {
+  let component: RequestCheckinComponent;
+  let fixture: ComponentFixture<RequestCheckinComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecordTimeComponent ]
+      declarations: [ RequestCheckinComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RecordTimeComponent);
+    fixture = TestBed.createComponent(RequestCheckinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,5 +21,3 @@ describe('RecordTimeComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
- 

@@ -28,14 +28,15 @@ export class DicRequestComponent implements OnInit {
   mainMenuItems: MenuItem[] = []
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
 
-  title_dicrequest: { [key: string]: string } = { EN: "Dicrequest", TH: "Dicrequest" };
-  title_attendance: { [key: string]: string } = { EN: "Dicrequest", TH: "Dicrequest" };
+  title_dicrequest: { [key: string]: string } = { EN: "Dicrequest", TH: "ใบคำร้อง" };
+  title_attendance: { [key: string]: string } = { EN: "Dicrequest", TH: "ใบคำร้อง" };
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
 
   title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลงเวลา" };
 
-  
+  title_checkinout: { [key: string]: string } = { EN: "Check IN/OUT", TH: "การเช็คอิน / การเช็คเอาท์" };
+
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลประกอบ" };
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฏิบัติงาน" };
   title_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันหยุดประจำปี" };
@@ -90,7 +91,11 @@ export class DicRequestComponent implements OnInit {
         link: 'recordtime',
         accessCode: 'ATT008-003'
       },
- 
+      {
+        title: this.title_checkinout[this.initialData.Language],
+        link: 'checkin-out',
+        accessCode: 'ATT008-004'
+      },
     ];
 
     this.setMenus();

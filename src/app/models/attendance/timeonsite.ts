@@ -1,4 +1,5 @@
 import { cls_MTReqdocumentModel } from "../self/cls_MTReqdocument";
+import { ATTdocumentModel } from "./attdocument";
 
  
 export class TimeonsiteModel {
@@ -29,6 +30,6 @@ export class TimeonsiteModel {
     reason_name_th: string = "";
     location_name_en: string = "";
     location_name_th: string = "";
-    reqdoc_data: cls_MTReqdocumentModel[] = []
+    reqdoc_data: ATTdocumentModel[] = []
 
 }
