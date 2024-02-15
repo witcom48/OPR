@@ -137,7 +137,9 @@ export class ProjectCompareComponent implements OnInit {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
-    }       
+    }     
+    
+    return 1
   }  
 
   doLoadLanguage(){
@@ -147,6 +149,7 @@ export class ProjectCompareComponent implements OnInit {
 
   }
 
+  
   doLoadTimesheet(project: string){
     //this.displayManage = true
 
@@ -169,27 +172,20 @@ export class ProjectCompareComponent implements OnInit {
       } catch(err) { }                 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.doLoadLanguage()
-    this.doGetInitialCurrent()
-    this.doLoadMenu()
-    this.doLoadProjectType()
-    this.doLoadProjectBusiness()
-    this.doLoadPolCost()
+    var tmp = await this.doGetInitialCurrent()
 
-    //
-    this.doLoadProareaType()
-    this.doLoadProgroupType()
-    //
-    //this.doLoadPolJobmain()
-
-    //let dateString = '2023-01-10T00:00:00'
-    //this.selectedDate_fillter = new Date(dateString);
-    setTimeout(() => {
+    if(tmp==1){
+      this.doLoadMenu()
+      this.doLoadProjectType()
+      this.doLoadProjectBusiness()
+      this.doLoadPolCost()
+      this.doLoadProareaType()
+      this.doLoadProgroupType()
       this.doLoadProjectMonitor()
-    }, 300);
-
-
+    }
+    
   }
 
   doLoadMenu(){
@@ -306,6 +302,8 @@ export class ProjectCompareComponent implements OnInit {
   selectedCostcompare: CostcompareModel = new CostcompareModel;
   doLoadProjectMonitor(){
     
+    this.loading = true
+
     var probusiness = ""
     var protype = ""
     //
@@ -328,14 +326,12 @@ export class ProjectCompareComponent implements OnInit {
       progroup = this.selectedProgroup_fillter;   
        
     }
- 
-    
 
     this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter,this.selectedToDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
       this.cost_compare = await res;
-      setTimeout(() => {
-        //this.calculateTotal()
-      }, 500);
+      
+      this.loading = false
+
     }); 
   }
   reloadPage() {
@@ -481,15 +477,17 @@ export class ProjectCompareComponent implements OnInit {
   }
 
   //-- Job monitor
+  loading:boolean = false
   job_monitor: JobMonitorModel[] = [];
   selectedJobMonitor: JobMonitorModel = new JobMonitorModel;
-  doLoadJobMonitor(){        
+  doLoadJobMonitor(){     
+    
+    this.loading = true
+    
     this.projectService.job_monitor(this.initial_current.CompCode, this.selectedCostcompare.project_code, this.selectedDate_fillter,this.selectedToDate_fillter).then(async (res) => {
       this.job_monitor = await res;
-      setTimeout(() => {
-        
-        
-      }, 500);
+      
+      this.loading = false
     }); 
   }
 

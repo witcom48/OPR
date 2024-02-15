@@ -1,9 +1,11 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <hr>
+<div class="col-12 md:col-12" *ngIf="loading">
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+</div>
 
 <table class="table_summary_">
     <tr>
-
         <td valign="bottom">
             <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain mr-2"
                 [icon]="show_fillter ? 'pi pi-chevron-up' : 'pi pi-chevron-down'" (click)="doShowFillter()"></button>
@@ -14,9 +16,6 @@
 <table *ngIf="show_fillter == true">
     <td colspan="4">
         <div class="formgrid grid align-items-end">
-
-
-
             <div class="pt-6 col-6 md:col-4">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
@@ -32,10 +31,7 @@
             </div>
             <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
                 <i class="pi pi-refresh icon-small"></i>
-            </button>
-            <!-- <p-menubar [model]="toolbar_refresh"></p-menubar> -->
-
-
+            </button>           
         </div>
         <div class="formgrid grid align-items-end">
             <table class="table_fillter">
@@ -137,8 +133,6 @@
 
 
 <div #scrollMe style="overflow: scroll; height: 600px;">
-
-
 
     <p-table #dt2 [value]="cost_compare" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}"
         [scrollable]="true" scrollHeight="450px" [virtualScroll]="true" selectionMode="single"

@@ -1,4 +1,6 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+
 <hr>
 <p-dialog header="{{title_jobdetail[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '70vw'}"
     [position]="position">
@@ -140,6 +142,10 @@
     </tr>
 
 </table>
+
+<div class="col-12 md:col-12" *ngIf="loading">
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+</div>
 
 <!--  <div class="formgrid grid align-items-end"> -->
 <div class="formgrid grid align-items-end">

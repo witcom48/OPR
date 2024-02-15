@@ -154,23 +154,26 @@ export class ProjectTransferComponent implements OnInit {
     private router: Router
   ) { }
 
+  loading:boolean = false
+
   ngOnInit(): void {
 
     this.doLoadLanguage()
-    this.doGetInitialCurrent()
- 
-    setTimeout(() => {
+    var tmp = this.doGetInitialCurrent()
+
+    if(tmp==1){
+      this.doLoadMenu()
       this.doLoadEmployee()
       this.doLoadProject()
       this.doLoadProjobmain()
       this.doLoadProjectMonitor()
-    }, 200);
-    setTimeout(() => {
-      this.doLoadMenu()
-    }, 100);
-    setTimeout(() => {
-      this.doGetProjobempFillter(); 
-    }, 1000);
+    
+      setTimeout(() => {
+        this.doGetProjobempFillter(); 
+      }, 1000);
+    }
+     
+    
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -179,6 +182,8 @@ export class ProjectTransferComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+
+    return 1
   }
 
   doLoadLanguage() {
@@ -328,6 +333,8 @@ export class ProjectTransferComponent implements OnInit {
   selectedToDate_fillter: Date = new Date()
   doLoadProjectMonitor() {
 
+    this.loading = true
+
     var probusiness = ""
     var protype = ""
     var proarea = ""
@@ -336,13 +343,10 @@ export class ProjectTransferComponent implements OnInit {
     var responsiblearea= ""
 
     this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness, proarea, progroup,proresponsible,responsiblearea).then(async (res) => {
-      this.project_monitor = await res;
-       setTimeout(() => {
-        //this.calculateTotal()
-
-
-      }, 500);
+      this.project_monitor = await res;       
       this.projobemp_list = await res;
+
+      this.loading = false
      });
   }
 

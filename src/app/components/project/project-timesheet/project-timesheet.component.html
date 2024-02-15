@@ -10,31 +10,40 @@
     [style]="{width: '60vw'}" [position]="position">
     <p-scrollPanel [style]="{width: '100%', height: '650px'}">
         <div class="formgrid grid">
-            <span class=" spn_title_edit field col-12">{{title_working_timesheet[initial_current.Language]}}</span>
-            <br>
-            <div class="field col-12">
-                <app-select-emp></app-select-emp>
+            <!-- <span class=" spn_title_edit field col-12">{{title_working_timesheet[initial_current.Language]}}</span>
+            <br> -->
 
-                <div class="col-12">
+            <div class="field col-12" *ngIf="edit_timecard==false">
+                <app-select-emp></app-select-emp>
+            </div>
+            <div class="field col-12" *ngIf="edit_timecard">
+                <div class="formgrid grid align-items-end">
+
+                    <div class="field col-12 md:col-3 ">
+                        <input type="text" id="worker_code" [(ngModel)]="selectedTimecard.worker_code" readonly
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                    </div>
+                    <div class="field col-12 md:col-6 ">
+                        <label for="ppos_shift_code">{{initial_current.Language=="TH"? selectedTimecard.worker_name_th : selectedTimecard.worker_name_en }}</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="field col-12">
+                                
                     <div class="formgrid grid align-items-end">
-                        <div class="field col-12 md:col-2 ">
+                        <div class="field col-12 md:col-4 ">
                             <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
                             <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter"
-                                dateFormat="dd/mm/yy" [showTime]="false" (onSelect)="doFillter()"
+                                dateFormat="dd/mm/yy" [showTime]="false" 
                                 inputId="selectedDate_fillter"></p-calendar>
-                        </div>
-                        <!-- <div class="field col-12 md:col-2 ">
-                            <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
-                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter"
-                                dateFormat="dd/mm/yy" [showTime]="false" (onSelect)="doFillter()"
-                                inputId="selectedToDate_fillter"></p-calendar>
-                        </div> -->
-                        <!-- โครงการ -->
-                        <div class="field col-12 md:col-2 ">
+                        </div>                        
+                        <div class="field col-12 md:col-4 ">
                             <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
                             <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
                                 [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
-                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadJob()">
                                 <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
                                 </ng-template>
@@ -43,37 +52,23 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                    </div>
-                </div>
 
-                <div><br></div>
-                <div class="field col-12">
-                    <div class="input_radio">
-                        <input type="radio" name="fav_job" value="0" (change)="selectJobmainType()">
-                        <label>{{ title_tab_normal[initial_current.Language] }}</label>
-                        &nbsp;
-
-                        <input type="radio" name="fav_job" value="1" (change)="selectJobType()">
-                        <label>{{ title_tab_jobclear[initial_current.Language] }}<span
-                                style="color: red;">*</span></label>
-                    </div>
-                </div>
-
-                <!-- <div class="input_radio">
-                    <input type="radio" name="fav_job" value="Normal" [(ngModel)]="job_type"
-                        (change)="selectJobmainType()">
-                    <label>{{title_tab_normal[initial_current.Language]}}</label>
-                    &nbsp;
-
-                    <input type="radio" name="fav_job" value="jobmain" [(ngModel)]="jobsub_type"
-                        (change)="selectJobType()">
-                    <label>{{title_tab_jobclear[initial_current.Language]}}</label>
-                    <div></div>
-                </div> -->
+                        <div class="field col-12 md:col-4 ">
+                            <div class="input_radio">
+                                <input type="radio" name="fav_job" value="0" [(ngModel)]="job_type" (change)="selectJobmainType()" >
+                                <label>{{ title_tab_normal[initial_current.Language] }}</label>
+                                &nbsp;
+        
+                                <input type="radio" name="fav_job" value="1" [(ngModel)]="job_type" (change)="selectJobType()">
+                                <label>{{ title_tab_jobclear[initial_current.Language] }}<span
+                                        style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                    </div>       
             </div>
 
             <!--  -->
-            <div class="field col-12" *ngIf="job_type === '0' && jobListLoaded ">
+            <div class="field col-12" *ngIf="job_type === '0' ">
                 <label>{{title_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedTimecard.projob_code" [showClear]="true"
@@ -87,7 +82,7 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12" *ngIf="jobsub_type === '1' && jobSubListLoaded ">
+            <div class="field col-12" *ngIf="job_type === '1' ">
                 <label>{{ title_jobname[initial_current.Language] }}</label><br>
                 <p-dropdown placeholder="--" [options]="projobsub_list" [(ngModel)]="selectedTimecard.projobsub_code"
                     optionValue="projobsub_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
@@ -100,7 +95,7 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-12 md:col-6 ">
                 <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="shift_list" optionValue="shift_code"
                     [(ngModel)]="selectedTimecard.shift_code" [showClear]="true"
@@ -114,7 +109,7 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-12 md:col-6 ">
                 <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="daytype_list" optionValue="daytype_code"
                     [(ngModel)]="selectedTimecard.timecard_daytype" [showClear]="true"
@@ -126,27 +121,27 @@
                         {{initial_current.Language=="TH"? item.daytype_name_th : item.daytype_name_en }}
                     </ng-template>
                 </p-dropdown>
-
-
             </div>
 
-            <div class="field col-6 ">
-                <label for="ppos_code">{{title_timein[initial_current.Language]}}</label>
-                <br>
-                <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm"
-                    [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
+            <div class="field col-12 md:col-6 ">
+                <div class="formgrid grid align-items-end">
+                    <div class="field col-4 ">
+                        <label for="ppos_code">{{title_timein[initial_current.Language]}}</label>
+                        <br>
+                        <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm"
+                            [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
+                    </div>
+                    <div class="field col-4 ">
+                        <label for="ppos_code">{{title_timeout[initial_current.Language]}}</label>
+                        <br>
+                        <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm"
+                            [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
+                    </div>                    
+                </div>                
             </div>
-            <div class="field col-6 ">
-                <label for="ppos_code">{{title_timeout[initial_current.Language]}}</label>
-                <br>
-                <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm"
-                    [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
-            </div>
-
             <div class="field col-12">
-                &nbsp;
+                <hr>
             </div>
-
             <div class="field col-12">
                 <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
                 [disabled]="hasTruePeriodCloseta" (click)="process()"></p-button>
@@ -169,12 +164,11 @@
     <div class="col-12">
 
         <div class="formgrid grid align-items-end">
+            
             <div class="field col-12 md:col-2 ">
                 <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
-
                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"
                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
-
             </div>
 
             <div class="field col-12 md:col-2 ">
@@ -184,7 +178,7 @@
             </div>
 
             <!-- โครงการ -->
-            <div class="field col-12 md:col-2 ">
+            <div class="field col-12 md:col-4 ">
                 <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
                     [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
@@ -206,41 +200,40 @@
         </div>
     </div>
 
+    <div class="col-12 md:col-12" *ngIf="loading">
+        <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+    </div>
+
     <div class="col-12 md:col-12">
+        <!-- <span style="padding: 10px; color:green">Please wait..</span> -->
         <p-menubar [model]="menu_timecard"></p-menubar>
 
         <p-table #dtTime [value]="timecard_list" selectionMode="single" [(selection)]="selectedTimecard"
             (onRowSelect)="onRowSelectTimecard($event)" [rows]="12" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true" [tableStyle]="{'min-width': '55vw'}" 
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
             [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']" responsiveLayout="stack"
-            [breakpoint]="'744px'">
-
-           
+            [breakpoint]="'900px'">
 
             <ng-template pTemplate="header">
                 <tr>
                     <th></th>
                     <th>{{title_date[initial_current.Language]}}</th>
                     <th>{{title_jobcode[initial_current.Language]}}</th>
-
-                    <th>{{title_jobname[initial_current.Language]}}</th>
-                    <th>{{title_tab_jobclear[initial_current.Language]}}</th>
-
-                    <th>{{title_clearjob[initial_current.Language]}}</th>
-
-
+                    <!-- <th>{{title_jobname[initial_current.Language]}}</th> -->
+                    <!-- <th>{{title_tab_jobclear[initial_current.Language]}}</th> -->
+                    <!-- <th>{{title_clearjob[initial_current.Language]}}</th> -->
                     <th>{{title_empcode[initial_current.Language]}}</th>
                     <th>{{title_empname[initial_current.Language]}}</th>
                     <th>{{title_shift[initial_current.Language]}}</th>
                     <th>{{title_daytype[initial_current.Language]}}</th>
                     <th>{{title_timein[initial_current.Language]}}</th>
                     <th>{{title_timeout[initial_current.Language]}}</th>
-                    <th>{{title_working_before[initial_current.Language]}}</th>
+                    <!-- <th>{{title_working_before[initial_current.Language]}}</th>
                     <th>{{title_working[initial_current.Language]}}</th>
                     <th>{{title_working_after[initial_current.Language]}}</th>
                     <th>{{title_working_late[initial_current.Language]}}</th>
-                    <th>{{title_working_leave[initial_current.Language]}}</th>
+                    <th>{{title_working_leave[initial_current.Language]}}</th> -->
                     <th>{{title_modified_by[initial_current.Language]}}</th>
                     <th>{{title_modified_date[initial_current.Language]}}</th>
 
@@ -257,24 +250,23 @@
                             (click)="toggleSelect(timecard)"></p-checkbox>
                     </td>
                     <td>{{timecard.timecard_workdate | date:'dd/MM/yyyy'}} </td>
-                    <td>{{timecard.projob_code}}</td>
-                    <td>{{doGetPolJobmainDetail2(timecard.projob_code)}}</td>
+                    <!-- <td>{{timecard.projob_code}}</td> -->
+                    <!-- <td>{{doGetPolJobmainDetail2(timecard.projob_code)}}</td> -->
+                    <!-- <td>{{timecard.projobsub_code}}</td> -->
+                    <!-- <td>{{doGetDetail2(timecard.projobsub_code)}}</td> -->
 
-                    <td>{{timecard.projobsub_code}}</td>
-
-                    <td>{{doGetDetail2(timecard.projobsub_code)}}</td>
-
+                    <td>{{timecard.projobsub_code!=""? timecard.projobsub_code : timecard.projob_code }}</td>
                     <td>{{timecard.worker_code}}</td>
-                    <td>{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>
+                    <td align="left">{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>
                     <td>{{timecard.shift_code}}</td>
                     <td>{{timecard.timecard_daytype}}</td>
                     <td>{{timecard.timecard_in}}</td>
                     <td>{{timecard.timecard_out}}</td>
-                    <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>
+                    <!-- <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>
                     <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>
                     <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td>
                     <td>{{doConvertHHMM(timecard.timecard_late_min_app)}}</td>
-                    <td></td>
+                    <td></td> -->
                     <td>{{timecard.modified_by}}</td>
                     <td>{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>

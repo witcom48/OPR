@@ -229,8 +229,6 @@ export class ProjectManageComponent implements OnInit {
   //#endregion "My Menu"
 
 
-
-
   SummaryCostList: SummaryCost[] = [];
   SummaryCostListm: SummaryCost[] = [];
   //#region "Language"
@@ -517,73 +515,40 @@ export class ProjectManageComponent implements OnInit {
     this.ImportList = [{ name_th: 'ผู้ติดต่อ', name_en: 'Contact', code: 'PROJECT_CONTACT' },];
   }
 
-  ngOnInit(): void {
+  page_status: string = "";
 
-    this.route.queryParams.subscribe(params => {
-      this.project_code = params['project'];
-    });
-    this.doGetInitialCurrent()
+  async ngOnInit(): Promise<void> {
 
-    this.doLoadLanguage()
-    this.doLoadMaster()
+    this.page_status = "Please wait.."
 
+    this.doLoadLanguage()    
 
-    //
-    this.doLoadEmptypeList();
-    this.doLoadEmpstatusList();
-    this.doLoadblackList();
-    this.doLoadProjobsubcostList();
-    this.doLoadProcontractList();
-    // this.doLoadjobpol();
+    this.route.queryParams.subscribe(async params => {
+      this.project_code = await params['project'];
 
-    // dropdown
-    this.doLoadResponsibleposList();
-    this.doLoadresponsibleareaList();
-    //
-
-    //
-
-    this.doFillter(this.project_code);
-    this.doLoadProject1(this.project_code);
-    this.doLoadPolJobmain(this.project_code);
-    this.doLoadPolJobmain2(this.project_code);
-    this.doPeriod();
-    this.doLoadProequipmentreq();
-    this.calculateInstallment();
-    this.calculateTotalAmount();
-    //
-    setTimeout(() => {
-      this.doLoadMenu()
-    }, 100);
-
-    setTimeout(() => {
-
-      this.doLoadEmployee()
-
-    }, 400);
-
-
-    setTimeout(() => {
       if (this.project_code != "") {
         this.doLoadProject();
+        this.doLoadProjobversion()
+        this.doFillter(this.project_code);        
+        this.doLoadPolJobmain(this.project_code);
+        //this.doLoadPolJobmain2(this.project_code);
       }
-    }, 300);
-    setTimeout(() => {
-      // this.doLoadEmployee()
-      this.doGetDataFillter();
-    }, 500);
+    });
 
+    var tmp = await this.doGetInitialCurrent()
+
+    if(tmp==1){
+      this.doLoadMenu()
+      this.doLoadMaster()    
+      this.doLoadEmployee()
+    }
 
   }
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-
-
     }
   }
-
-
 
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -599,14 +564,7 @@ export class ProjectManageComponent implements OnInit {
     this.days = [this.title_sunday[this.initial_current.Language], this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language], this.title_wednesday[this.initial_current.Language], this.title_thursday[this.initial_current.Language], this.title_friday[this.initial_current.Language], this.title_saturay[this.initial_current.Language], this.title_holiday[this.initial_current.Language]];
     this.costs_title = ["", "", "", "", "", "", "", "", "", "", ""];
 
-    // this.languageText  = [ this.title_sunday[this.initial_current.Language]];
-    // this.languageText  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
-
-    // const languageText: LanguageText = {
-    //   en: {sun: 'Sun',mon: 'Mon',tue: 'Tue',wed: 'Wed',thu: 'Thu',fri: 'Fri',sat: 'Sat',},
-    //   th: {sun: 'อาทิตย์',mon: 'จันทร์',tue: 'อังคาร',wed: 'พุธ',thu: 'พฤหัสบดี',fri: 'ศุกร์',sat: 'เสาร์',
-    //   },
-    // };
+    return 1
 
   }
 
@@ -652,9 +610,6 @@ export class ProjectManageComponent implements OnInit {
     this.displayManage = false
 
   }
-
-
-
 
   doLoadMenu() {
     this.toolbar_menubar = [
@@ -1000,7 +955,7 @@ export class ProjectManageComponent implements OnInit {
             this.showManage()
           }
         }
-        , disabled: this.disable_projobmain,
+        // , disabled: this.disable_projobmain,
       }
       ,
       {
@@ -1704,15 +1659,19 @@ export class ProjectManageComponent implements OnInit {
       },
     ];
   }
+
+  loading:boolean = false
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject() {
+    this.loading = true
     var project_list: ProjectModel[] = [];
     this.projectService.project_get(this.initial_current.CompCode, this.project_code).then(async (res) => {
       project_list = await res;
       if (project_list.length > 0) {
-        this.selectedProject = project_list[0]
-
-        setTimeout(() => {
+        this.selectedProject = await project_list[0]
+        
+        setTimeout(async () => {         
+                    
           //
           this.doLoadImage();
           //
@@ -1721,12 +1680,18 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProcontract()
           this.doLoadProresponsible()
           this.doLoadProtimepol()
-          this.doLoadProjobversion()
+          
           this.doGetFilePro()
           this.doLoadProjobemp()
           this.doLoadProtimepol()
 
-        }, 300);
+          this.doLoadProjobsubcostList()
+          this.doLoadProcontractList()
+          this.doLoadProequipmentreq()
+
+          this.loading = false
+
+        }, 200);
       }
 
     });
@@ -1783,18 +1748,6 @@ export class ProjectManageComponent implements OnInit {
     });
 
 
-
-    //
-    // provinceList: ProvinceModel[] = [];
-    // doLoadprovinceList() {
-    //     var tmp = new ProvinceModel();
-
-    //     this.provinceService.provinceService(tmp).then((res) => {
-    //         this.provinceList = res;
-    //     });
-    // }
-    // this.doLoadImage();
-
     this.doLoadInitial()
     this.doLoadPosition()
     this.doLoadEmpStatus()
@@ -1815,6 +1768,12 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadJobemptype()
     // this.doLoadRounds()
 
+    this.doLoadResponsibleposList();
+    this.doLoadresponsibleareaList();
+    this.doPeriod()
+    this.doLoadblackList()
+    this.doLoadProject1(this.project_code);
+
   }
 
   confirmRecord() {
@@ -1825,8 +1784,16 @@ export class ProjectManageComponent implements OnInit {
       accept: () => {
         this.selectedProject.company_code = this.initial_current.CompCode
 
-        this.projectService.project_record(this.selectedProject).then((res) => {
-          let result = JSON.parse(res);
+        if(this.selectedProject.project_proarea == null){
+          this.selectedProject.project_proarea = ""
+        }
+        if(this.selectedProject.project_progroup == null){
+          this.selectedProject.project_progroup = ""
+        }
+
+
+        this.projectService.project_record(this.selectedProject).then(async (res) => {
+          let result = await JSON.parse(res);
           if (result.success) {
 
             //-- Transaction
@@ -1846,7 +1813,7 @@ export class ProjectManageComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
 
-            this.router.navigateByUrl('project/list');
+            //this.router.navigateByUrl('project/list');
             this.doLoadProject();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -2079,7 +2046,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  base64Image: any = '../../../../assets/images/people.png'
+  base64Image: any = '../../../../assets/images/image-33-256.png'
   transform() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
   }
@@ -2142,101 +2109,7 @@ export class ProjectManageComponent implements OnInit {
     });
 
   }
-
-  // doUploadGenaral() {
-  //   this.displayUpload = false;
-  //   const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-  //   const filetype = "xls";
-
-  //   this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
-  //     let result = JSON.parse(res);
-  //     if (result.success) {
-  //       this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-  //       this.doLoadProject()
-  //     }
-  //     else {
-  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-  //     }
-  //   });
-  // }
-
-  // doUploadGenaral(uploadType: string) {
-  //   this.displayUpload = false;
-  //   const filename = uploadType + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-  //   const filetype = "xls";
-
-  //   switch (uploadType) {
-  //     case 'PROJECT_CONTACT':
-  //       this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
-  //         let result = JSON.parse(res);
-  //         if (result.success) {
-  //           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-  //           this.doLoadProject()
-  //         } else {
-  //           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-  //         }
-  //       });
-  //       break;
-
-  //     case 'PROJECT_CONTRACT':
-  //       this.projectDetailService.procontract_import(this.fileToUpload, filename, filetype).then((res) => {
-  //         let result = JSON.parse(res);
-  //         if (result.success) {
-  //           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-  //           this.doLoadProject()
-  //         } else {
-  //           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-  //         }
-  //       });
-  //       break;
-
-
-  //   }
-  // }
-
-
-
-
-  // doUploadGenaral() {
-  //   if (this.fileToUpload) {
-  //     this.confirmationService.confirm({
-  //       message: "Confirm Upload file : " + this.fileToUpload.name,
-  //       header: "Import File",
-  //       icon: 'pi pi-exclamation-triangle',
-  //       accept: () => {
-  //         const filename = this.selectedProcontact.selected_Import + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-  //         const filetype = "xls";
-
-  //         switch (this.selectedProcontact.selected_Import) {
-  //           case 'PROJECT_CONTACT':
-  //             this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
-  //               let result = JSON.parse(res);
-  //               if (result.success) {
-  //                 this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-  //                 this.doGetDataFillter();
-  //                 this.doLoadProject()
-  //               } else {
-  //                 this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-  //               }
-  //             });
-  //             break;
-
-  //         }
-
-  //         this.displayUpload = false;
-  //       },
-  //       reject: () => {
-  //         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
-  //         this.displayUpload = false;
-  //       }
-  //     });
-  //   } else {
-  //     this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
-  //   }
-  // }
-
-  //dropdown 
-
+  
   Responsiblepos_List: ResponsibleposModel[] = [];
   doLoadResponsibleposList() {
     var tmp = new ResponsibleposModel();
@@ -2675,24 +2548,24 @@ export class ProjectManageComponent implements OnInit {
     this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
       this.projobversion_list = await res;
       if (this.projobversion_list.length > 0) {
-        this.selectedProjobversion = this.projobversion_list[0];
+        this.selectedProjobversion = await this.projobversion_list[0];
+        
         this.printVersion();
+        
       }
     });
-    setTimeout(() => {
-      this.doLoadProjobmain();
-    }, 1000);
+   
   }
 
   onSelectProjobversion(event: any) {
 
     setTimeout(() => {
       this.printVersion()
-    }, 500);
+    }, 200);
   }
 
-  printVersion() {
-    this.version_selected = this.selectedProjobversion.version
+  async printVersion() {
+    this.version_selected = await this.selectedProjobversion.version
     this.version_fromdate = this.datePipe.transform(this.selectedProjobversion.fromdate, 'dd/MM/yyyy')
     this.version_todate = this.datePipe.transform(this.selectedProjobversion.todate, 'dd/MM/yyyy')
     this.version_transaction_id = this.selectedProjobversion.transaction_id
@@ -2702,50 +2575,6 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadProjobsub()
 
   }
-
-  // porojobversion_selected: string = "";
-
-
-  // // projobversion_list: ProjobversionModel[] = [];
-  // // selectedProjobversion: ProjobversionModel = new ProjobversionModel();
-
-  // // manageProjobversion: ProjobversionModel = new ProjobversionModel();
-
-  // doLoadPorojobversion() {
-
-  //   this.selectedProjobversion = new ProjobversionModel()
-
-  //   this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
-
-  //     this.projobversion_list = await res;
-
-  //     if (this.projobversion_list.length > 0) {
-  //       this.selectedProjobversion = this.projobversion_list[0]
-  //       this.Procontract()
-  //     }
-
-  //   });
-
-  //   onSelectProcontract(event: any) {
-
-  //     setTimeout(() => {
-  //       this.Procontract()
-  //     }, 500);
-  //   }
-
-  // Procontract() {
-  //   this.version_selected = this.selectedProjobversion.version
-  //   this.version_fromdate = this.datePipe.transform(this.selectedProjobversion.fromdate, 'dd/MM/yyyy')
-  //   this.version_todate = this.datePipe.transform(this.selectedProjobversion.todate, 'dd/MM/yyyy')
-  //   this.version_transaction_id = this.selectedProjobversion.transaction_id
-  //   this.version_custno = this.selectedProjobversion.custno
-
-  //   this.doLoadProjobmain()
-  //   this.doLoadProjobsub()
-
-  // }
-
-
 
   //-- Project jobmain
   //
@@ -2816,27 +2645,32 @@ export class ProjectManageComponent implements OnInit {
 
   //
 
-
+  loading_job: boolean = false
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
+    this.loading_job = true
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       await res.forEach((element: ProjobmainModel) => {
         element.projobmain_fromdate = new Date(element.projobmain_fromdate)
         element.projobmain_todate = new Date(element.projobmain_todate)
       })
       this.projobmain_list = await res;
-      setTimeout(() => {
-        this.projobmain_summary()
-        this.projobmain_loadtran()///
-        this.doLoadProequipmentreq()///
-      }, 2000);
+
+      if(this.projobmain_list.length > 0){
+        this.selectedProjobmain = await this.projobmain_list[0]
+      
+        this.loading_job = false
+        setTimeout(() => {
+          this.projobmain_summary()
+          this.projobmain_loadtran()///
+          this.doLoadProequipmentreq()///
+        }, 200);
+      
+      }
+      
     })
   }
-
-
-
-
 
   doGetProjobmainDetail(code: string): string {
     for (let i = 0; i < this.projobmain_list.length; i++) {
@@ -2861,18 +2695,18 @@ export class ProjectManageComponent implements OnInit {
 
       this.projobmain_loadtran()
 
-      this.menu_projobmain[1] =
-      {
-        label: this.title_edit[this.initial_current.Language],
-        icon: 'pi pi-fw pi-pencil',
-        command: (event) => {
-          this.clearManage()
-          if (this.selectedProjobmain != null) {
-            this.edit_projobmain = true
-            this.showManage()
-          }
-        }
-      }
+      // this.menu_projobmain[1] =
+      // {
+      //   label: this.title_edit[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-pencil',
+      //   command: (event) => {
+      //     this.clearManage()
+      //     if (this.selectedProjobmain != null) {
+      //       this.edit_projobmain = true
+      //       this.showManage()
+      //     }
+      //   }
+      // }
 
     }
 
@@ -4378,6 +4212,36 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  confirmDeleteJobversion() {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language] + " Version",
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.selectedProjobversion.project_code = this.project_code
+
+        this.projectDetailService.projobversion_delete(this.selectedProjobversion).then(async (res) => {
+          let result = await JSON.parse(res);
+          if (result.success) {
+            this.doLoadProjobversion()           
+
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Remove Success.." });
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+
+        });
+
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
+    });
+  }
+
 
   //-- 12/01/2024
   //-- Project equipment request
@@ -4390,7 +4254,11 @@ export class ProjectManageComponent implements OnInit {
       })
       this.proequipmentreq_list = await res;
       if (this.proequipmentreq_list.length > 0) {
-        this.selectedProequipmentreq = this.proequipmentreq_list[0]
+        this.selectedProequipmentreq = await this.proequipmentreq_list[0]
+
+        this.calculateInstallment();
+        this.calculateTotalAmount();
+
       }
     })
   }
