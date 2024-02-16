@@ -1,0 +1,26 @@
+<!-- <h4>Policy attendance</h4>
+<br> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
+<!-- <span>Links</span> -->
+<p></p>
+<div class="card">
+
+    <div class="grid">
+
+        <div class="col-12 md:col-3">
+            <!-- <b>Genaral</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_dicrequest[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of genaralMenuItems">
+                <a routerLink="/attendance/dicrequest/{{item.link}}">{{item.title}}</a>
+
+
+             </div>
+
+        </div>
+    </div>
+</div>

@@ -43,7 +43,7 @@ import { AttendanceSelfComponent } from './attendance-self/attendance-self.compo
 import { AttendanceImportComponent } from './attendance-import/attendance-import.component';
 import { AttendanceProcessComponent } from './attendance-process/attendance-process.component';
 import { AttendanceCalculateComponent } from './attendance-calculate/attendance-calculate.component';
- import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
+import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
 import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
@@ -82,7 +82,13 @@ import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/a
 import { AttendanceLostwagesComponent } from './attendance-lostwages/attendance-lostwages.component';
 import { AttendanceApproveComponent } from './attendance-approve/attendance-approve.component';
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
-
+import { DicRequestComponent } from './attendance-dicrequest/dic-request.component';
+import { RequestOvertimeComponent } from './attendance-dicrequest/request-overtimes/request-overtime.component';
+import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-time.component';
+import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin/request-checkin.component';
+ 
 
 @NgModule({
 	imports: [
@@ -127,6 +133,8 @@ import { AttendanceViewComponent } from './attendance-view/attendance-view.compo
 		CheckboxModule,
 		UsercontrolModule,
 		SystemModule,
+		RadioButtonModule,
+
 		ProgressBarModule
 
 
@@ -170,8 +178,13 @@ import { AttendanceViewComponent } from './attendance-view/attendance-view.compo
 		AttendanceSummaryComponent,
 		AttendanceShiftComponent,
 		AttendanceLostwagesComponent,
-		AttendanceApproveComponent
-	],
+		AttendanceApproveComponent,
+		RequestOvertimeComponent,
+		DicRequestComponent,
+		RequestTimeleaveComponent,
+		RecordTimeComponent,
+  RequestCheckinComponent,
+ 	],
 	exports: [ShiftComponent],
 })
 export class AttendanceModule { }
