@@ -77,6 +77,7 @@ import { SelfTransferComponent } from './self-transfer/self-transfer.component';
 import { RecruitmentModule } from '../recruitment/recruitment.module';
 import { ProjectModule } from '../project/project.module';
 import { SystemModule } from '../system/system.module';
+import { StepsModule } from 'primeng/steps';
 
 @NgModule({
 	imports: [
@@ -126,7 +127,8 @@ import { SystemModule } from '../system/system.module';
 		PdfViewerModule,
 		RecruitmentModule,
 		ProjectModule,
-		SystemModule
+		SystemModule,
+		StepsModule
 	],
 	declarations: [
 		SelfPolicyComponent,

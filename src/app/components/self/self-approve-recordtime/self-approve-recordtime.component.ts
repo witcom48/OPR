@@ -76,7 +76,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
       this.locatiodis = "location_name_th"
 
     }
-    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+    this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }, { name: this.selectlang == "EN" ? "All" : "ทั้งหมด", code: 1 }];
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -111,19 +111,40 @@ export class SelfApproveRecordtimeComponent implements OnInit {
   doLoadTimeonsite() {
     this.trtimonsite_list = [];
     this.selectedtrtimeonsiteall = [];
-    var tmp = new ApproveModel();
-    tmp.job_type = "ONS"
-    tmp.fromdate = this.start_date;
-    tmp.todate = this.end_date;
-    tmp.status = this.status_select.code;
-    this.approveService.approve_get(tmp).then(async (res) => {
-      res.data.forEach((elm: any) => {
-        elm.timeonsite_workdate = new Date(elm.timeonsite_workdate)
+    let statuss = [4, 3, 0]
+    if (this.status_select.code == 1) {
+      statuss.forEach(async (e: number) => {
+        var tmp = new ApproveModel();
+        tmp.job_type = "ONS"
+        tmp.fromdate = this.start_date;
+        tmp.todate = this.end_date;
+        tmp.status = e;
+        await this.approveService.approve_get(tmp).then(async (res) => {
+          await res.data.forEach((elm: any) => {
+            elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
+            elm.timeleave_todate = new Date(elm.timeleave_todate)
+            this.trtimonsite_list.push(elm)
+          });
+          this.approveTotal = await res.total;
+          this.initial_current.loading = false
+        });
+      })
+    } else {
+      var tmp = new ApproveModel();
+      tmp.job_type = "ONS"
+      tmp.fromdate = this.start_date;
+      tmp.todate = this.end_date;
+      tmp.status = this.status_select.code;
+      this.approveService.approve_get(tmp).then(async (res) => {
+        res.data.forEach((elm: any) => {
+          elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
+          elm.timeleave_todate = new Date(elm.timeleave_todate)
+        });
+        this.trtimonsite_list = await res.data;
+        this.approveTotal = await res.total;
+        this.initial_current.loading = false
       });
-      this.trtimonsite_list = await res.data
-      this.approveTotal = await res.total;
-      this.initial_current.loading = false;
-    });
+    }
   }
 
   async doGetfileTimeonsite(file_path: string, type: string) {
