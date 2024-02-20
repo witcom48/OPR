@@ -32,7 +32,8 @@ export class DicRequestComponent implements OnInit {
   title_attendance: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" };
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "Request Overtime" };
 
-
+  title_requestShift: { [key: string]: string } = { EN: "Request Change Shift", TH: "Request Change Shift" };
+  title_requestDay: { [key: string]: string } = { EN: "Request Change Daytype", TH: "Request Change Daytype" };
 
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลประกอบ" };
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฏิบัติงาน" };
@@ -77,6 +78,18 @@ export class DicRequestComponent implements OnInit {
         title: this.title_requestOvertime[this.initialData.Language],
         link: 'requestot',
         accessCode: 'ATT008-001'
+      },
+
+      {
+        title: this.title_requestShift[this.initialData.Language],
+        link: 'requestshift',
+        accessCode: 'ATT008-004'
+      },
+
+      {
+        title: this.title_requestDay[this.initialData.Language],
+        link: 'requestdaytype',
+        accessCode: 'ATT008-005'
       },
  
     ];

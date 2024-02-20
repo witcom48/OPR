@@ -84,6 +84,8 @@ import { AttendanceApproveComponent } from './attendance-approve/attendance-appr
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { DicRequestComponent } from './attendance-dicrequest/dic-request.component';
 import { RequestOvertimeComponent } from './attendance-dicrequest/request-overtimes/request-overtime.component';
+import { RequestShiftComponent } from './attendance-dicrequest/request-shift/request-shift.component';
+import { RequestDaytypeComponent } from './attendance-dicrequest/request-daytype/request-daytype.component';
   
 
 @NgModule({
@@ -175,6 +177,8 @@ import { RequestOvertimeComponent } from './attendance-dicrequest/request-overti
 		AttendanceApproveComponent,
 		RequestOvertimeComponent,
 		DicRequestComponent,
+  RequestShiftComponent,
+  RequestDaytypeComponent,
  	],
 	exports: [ShiftComponent],
 })
