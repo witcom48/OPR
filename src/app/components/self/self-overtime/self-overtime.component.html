@@ -14,7 +14,13 @@
 <p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
     [position]="position" (onHide)="closeManage()">
     <div class="formgrid grid align-items-end">
-
+        <div style="display: flex;
+        align-items: end;
+        gap: 15px;
+        padding-bottom: 10px;">
+            <p>{{selectlang=="EN"?'Document approval status':'สถานะการอนุมัติเอกสาร'}} :</p>
+            <p-breadcrumb class="max-w-full" [model]="itemsapprove"></p-breadcrumb>
+        </div>
 
         <div class="field col-12" style="margin-top: 2%;">
             <p-calendar [(ngModel)]="selectedtrtimeot.timeot_workdate" dateFormat="dd/mm/yy" inputId="date_from"

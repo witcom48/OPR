@@ -11,6 +11,7 @@ import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
+import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
@@ -43,8 +44,10 @@ export class SelfRecordtimeComponent implements OnInit {
     private locationService: LocationService,
     private accountServie: AccountServices,
     private datePipe: DatePipe,
+    private approveservice: ApproveServices,
     private router: Router,
   ) { }
+  itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -90,6 +93,30 @@ export class SelfRecordtimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation()
+  }
+  doLoadStatusApprove(doc: string) {
+    // this.itemsapprove = [];
+    let datas: { label: any; styleClass?: string; }[] = [];
+    this.approveservice.getDocApproveStatus("", this.initial_current.Username, 'ONS', doc).then(async (res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data[i].name_th)
+        if (res.doccount >= i + 1) {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+              styleClass: 'activelike'
+            },
+          )
+        } else {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+            },
+          )
+        }
+      }
+      this.itemsapprove = datas;
+    });
   }
   Search() {
     this.doLoadTimeonsite();
@@ -205,6 +232,7 @@ export class SelfRecordtimeComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.doLoadStatusApprove("");
           this.account_list_source = [];
           this.account_list_dest = [];
           this.selectedtrtimeonsite = new cls_TRTimeonsiteModel();
@@ -332,6 +360,7 @@ export class SelfRecordtimeComponent implements OnInit {
     this.doGetfileTimeonsite(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
+    this.doLoadStatusApprove(this.selectedtrtimeonsite.timeonsite_doc);
     this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == this.selectedtrtimeonsite.location_code) {
         this.locationselected = obj;
@@ -373,7 +402,7 @@ export class SelfRecordtimeComponent implements OnInit {
           this.account_list_dest.forEach((obj: TRAccountModel, index) => {
             var tmp: cls_TRTimeonsiteModel = new cls_TRTimeonsiteModel();
             tmp.timeonsite_id = this.selectedtrtimeonsite.timeonsite_id;
-            tmp.timeonsite_doc = "ONSITE_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
+            tmp.timeonsite_doc = "ClockIn_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
             tmp.timeonsite_workdate = this.selectedtrtimeonsite.timeonsite_workdate;
             tmp.timeonstie_todate = this.selectedtrtimeonsite.timeonstie_todate;
             tmp.timeonsite_in = this.selectedtrtimeonsite.timeonsite_in;
@@ -388,7 +417,7 @@ export class SelfRecordtimeComponent implements OnInit {
           this.doRecordTimeonsite(data_doc)
         } else {
           if (this.selectedtrtimeonsite.timeonsite_doc === "") {
-            this.selectedtrtimeonsite.timeonsite_doc = "ONSITE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+            this.selectedtrtimeonsite.timeonsite_doc = "ClockIn_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
           }
           // // console.log(this.selectedtrtimeonsite)
           this.doRecordTimeonsite([this.selectedtrtimeonsite])

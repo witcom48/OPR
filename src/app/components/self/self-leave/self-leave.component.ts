@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { timeStamp } from 'console';
-import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService, TreeNode } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_TRleave } from 'src/app/models/attendance/cls_TRleave';
@@ -13,6 +13,7 @@ import { TRAccountModel } from 'src/app/models/self/traccount';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.service';
 import { AccountServices } from 'src/app/services/self/account.service';
+import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqleave: any;
@@ -40,8 +41,10 @@ export class SelfLeaveComponent implements OnInit {
     private timeleaveService: TimeleaveServices,
     private reasonService: ReasonsService,
     private accountServie: AccountServices,
+    private approveservice: ApproveServices,
     private router: Router,
   ) { }
+  itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   edit_data: boolean = false
@@ -92,6 +95,30 @@ export class SelfLeaveComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadReason();
+  }
+  doLoadStatusApprove(doc: string) {
+    // this.itemsapprove = [];
+    let datas: { label: any; styleClass?: string; }[] = [];
+    this.approveservice.getDocApproveStatus("", this.initial_current.Username, 'LEA', doc).then(async (res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data[i].name_th)
+        if (res.doccount >= i + 1) {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+              styleClass: 'activelike'
+            },
+          )
+        } else {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+            },
+          )
+        }
+      }
+      this.itemsapprove = datas;
+    });
   }
   Search() {
     this.doLoadTimeleave();
@@ -230,6 +257,7 @@ export class SelfLeaveComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.doLoadStatusApprove("");
           this.leavetype = "F"
           this.selectedtrtimeleave = new cls_TRTimeleaveModel();
           this.selectedleave_type = this.leaveacc_list[0]
@@ -381,6 +409,7 @@ export class SelfLeaveComponent implements OnInit {
     this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8
   }
   onRowSelect(event: Event) {
+    this.doLoadStatusApprove(this.selectedtrtimeleave.timeleave_doc)
     this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
     this.leaveacc_list.forEach((obj: cls_TRleave) => {
       if (obj.leave_code == this.selectedtrtimeleave.leave_code) {

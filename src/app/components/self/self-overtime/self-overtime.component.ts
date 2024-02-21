@@ -11,6 +11,7 @@ import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
+import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
@@ -43,8 +44,10 @@ export class SelfOvertimeComponent implements OnInit {
     private reasonService: ReasonsService,
     private locationService: LocationService,
     private accountServie: AccountServices,
+    private approveservice: ApproveServices,
     private router: Router,
   ) { }
+  itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -91,6 +94,30 @@ export class SelfOvertimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation();
+  }
+  doLoadStatusApprove(doc: string) {
+    // this.itemsapprove = [];
+    let datas: { label: any; styleClass?: string; }[] = [];
+    this.approveservice.getDocApproveStatus("", this.initial_current.Username, 'OT', doc).then(async (res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data[i].name_th)
+        if (res.doccount >= i + 1) {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+              styleClass: 'activelike'
+            },
+          )
+        } else {
+          datas.push(
+            {
+              label: this.selectlang == "TH" ? res.data[i].name_th : res.data[i].name_en,
+            },
+          )
+        }
+      }
+      this.itemsapprove = datas;
+    });
   }
   Search() {
     this.doLoadTimeot();
@@ -206,6 +233,7 @@ export class SelfOvertimeComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.doLoadStatusApprove("");
           this.account_list_source = [];
           this.account_list_dest = [];
           this.selectedtrtimeot = new cls_TRTimeotModel();
@@ -333,6 +361,7 @@ export class SelfOvertimeComponent implements OnInit {
     this.doGetfileTimeot(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
+    this.doLoadStatusApprove(this.selectedtrtimeot.timeot_doc);
     this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == this.selectedtrtimeot.location_code) {
         this.locationselected = obj;

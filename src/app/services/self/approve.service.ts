@@ -83,4 +83,12 @@ export class ApproveServices {
                 return message;
             });
     }
+    public getDocApproveStatus(com: string, worker: string, job_type: string, doc: string) {
+
+        return this.http.get<any>(this.config.ApiAttendanceModule + '/ApprovegetdocStatus?com=' + this.initial_current.CompCode + '&worker=' + worker + '&jobtype=' + job_type + '&doc=' + doc).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
 }

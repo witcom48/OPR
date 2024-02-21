@@ -133,11 +133,11 @@ export class SelfApproveComponent implements OnInit {
     //   link: 'approve_daytype',
     //   accessCode: 'SELF002-004'
     // },
-    {
-      title: this.langs.get('punchcard')[this.selectedLanguage],
-      link: 'approve_record',
-      accessCode: 'SELF002-005'
-    },
+    // {
+    //   title: this.langs.get('punchcard')[this.selectedLanguage],
+    //   link: 'approve_record',
+    //   accessCode: 'SELF002-005'
+    // },
       // {
       //   title: this.langs.get('checkin')[this.selectedLanguage],
       //   link: 'approve_checkin',

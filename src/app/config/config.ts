@@ -5,7 +5,7 @@ export class AppConfig {
 
   }
 
-   UrlApi: string = "http://localhost:32208"
+   UrlApi: string = "https://83.118.28.242:8803"
   //UrlApi: string = "http://161.82.218.95:8806"
   // UrlApi: string = "https://hrfocusess.com:8806"
 
