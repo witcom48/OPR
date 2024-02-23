@@ -255,6 +255,9 @@
                     </p-accordion>
 
                 </div>
+                <div  *ngIf="loading">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+                </div>
 
             </ng-template>
 

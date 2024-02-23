@@ -1,0 +1,234 @@
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
+<!-- ---------END Link Page----------- -->
+<div class="grid">
+    <div class="col-6">
+        <table style="width: 100%; ">
+            <tr>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                </td>
+                <td style="width: 150px;">
+                    <input id="worker_code" type="text" value="{{worker_code}}" style="text-align: center; "
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
+                </td>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                </td>
+
+
+
+                <td style="width: 20px;">
+                    <i class="pi pi-search" (click)="open_searchemp()"></i>
+                </td>
+                <td style="width: 250px;" align="left">
+                    <input id="worker_name" type="text" value="{{worker_name}}" style="width: 250px;"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        &nbsp;
+    </div>
+
+    <div #TABLE class="col-12">
+        <p-menubar [model]="items"></p-menubar>
+        <p-table #dt1 [value]="timedaytype_list" selectionMode="single" [(selection)]="selectedtimedaytype"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}}  {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['timedaytype_doc','timedaytype_workdate','timedaytype_old','timedaytype_new','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable1">
+                    <!-- <div>
+
+                    </div> -->
+                    <!-- <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;"
+                            *ngIf="initial_current.Usertype == 'GRP'">
+                            {{langs.get('name')[selectlang]}} :
+                            <p-dropdown class="searchinput" [options]="account_list" [(ngModel)]="selectedAccount"
+                                (onChange)="Search()" optionLabel="{{namedis}}" [filter]="true"
+                                filterBy="{{namedis}}"></p-dropdown>
+                        </div>
+                        {{langs.get('fromdate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('todate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('status')[selectlang]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            optionLabel="name"></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span> -->
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{title_no[initial_current.Language]}}</th>
+                    <th>{{title_day_doc[initial_current.Language]}}</th>
+                    <th>{{title_date[initial_current.Language]}}</th>
+                    <th>{{title_day_old[initial_current.Language]}}</th>
+                    <th>{{title_day_new[initial_current.Language]}}</th>
+                    <th>{{title_reason[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{title_no[initial_current.Language]}}</span>{{i+1}}</td>
+                    <td><span>{{title_day_doc[initial_current.Language]}}</span>{{data.timedaytype_doc}}</td>
+                    <td><span>{{title_date[initial_current.Language]}}</span>{{data.timedaytype_workdate|
+                        date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{title_day_old[initial_current.Language]}}</span>{{getFullDay(data.timedaytype_old)}}
+                    </td>
+                    <td><span>{{title_day_new[initial_current.Language]}}</span>{{getFullDay(data.timedaytype_new)}}
+                    </td>
+                    <td><span>{{title_reason[initial_current.Language]}}</span>{{initial_current.Language
+                        =="EN"?data.reason_name_en:data.reason_name_th}}</td>
+                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="{{title_requestDaytype[initial_current.Language]}}" [(visible)]="displayManage"
+    [style]="{width: '50vw'}" [position]="position" (onHide)="closeManage()">
+    <div class="formgrid grid align-items-end">
+
+
+        <div class="field col-12" style="margin-top: 2%;">
+            <p-calendar [(ngModel)]="selectedtimedaytype.timedaytype_workdate" dateFormat="dd/mm/yy" inputId="date_from"
+                (onSelect)="doLoadDaytypeOld()" [disabled]="edit_data"></p-calendar>
+            &nbsp;&nbsp;&nbsp;
+            <span [ngStyle]="{'color': 'green'}">
+                {{getFullDay(selectedtimedaytype.timedaytype_old)}}</span>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{title_day_new[initial_current.Language]}}</label>
+            <p-dropdown class="selectyaer" [options]="daytype_list" [(ngModel)]="daytype_newselected"
+                (onChange)="selectdaytypenew()" optionLabel={{daytypeedis}}></p-dropdown>
+
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{title_reason[initial_current.Language]}}</label>
+            <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
+                (onChange)="selectDaytypereason()" optionLabel={{reasonedis}}></p-dropdown>
+
+        </div>
+
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{title_note[initial_current.Language]}}</label>
+            <textarea [(ngModel)]="selectedtimedaytype.timedaytype_note" pInputTextarea [autoResize]="true"></textarea>
+
+        </div>
+
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar>
+            <p-table #dt3 [value]="selectedtimedaytype.reqdoc_data" selectionMode="single"
+                [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}}  {totalRecords} {{title_page_record[initial_current.Language]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{title_no[initial_current.Language]}}</th>
+                        <th>{{title_file_name[initial_current.Language]}}</th>
+                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                        <th>{{title_delete[initial_current.Language]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{title_no[initial_current.Language]}}</span>{{i+1}}</td>
+                        <td><span>{{title_file_name[initial_current.Language]}}</span>{{data.document_name}}</td>
+                        <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}</td>
+                        <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <td><span>{{title_delete[initial_current.Language]}}</span><p-button icon="pi pi-trash"
+                                styleClass="p-button-danger" (click)="DeleteFile(data)"></p-button></td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+
+        <div class="field col-12">
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
+                class="p-button-danger" (click)="Delete()"></button>
+        </div>
+
+    </div>
+</p-dialog>
+
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="closeManage()"></div>
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_emp()"></p-button>
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Uploadfile -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileInputholidaylist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

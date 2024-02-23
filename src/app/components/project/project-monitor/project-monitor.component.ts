@@ -320,9 +320,12 @@ selectedResponsiblearea_fillter :string = ""
     this.doLoadProjectMonitor()
   }
 
+  loading:boolean = false
   project_monitor: PrjectMonitorModel[] = [];
   selectedProjectMonitor: PrjectMonitorModel = new PrjectMonitorModel;
   doLoadProjectMonitor(){
+
+    this.loading = true
     
     var probusiness = ""
     var protype = ""
@@ -364,6 +367,7 @@ selectedResponsiblearea_fillter :string = ""
 
     this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup,proresponsible,responsiblearea).then(async (res) => {
       this.project_monitor = await res;
+      this.loading = false
       setTimeout(() => {
         this.calculateTotal()
       }, 500);

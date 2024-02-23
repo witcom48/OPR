@@ -36,7 +36,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
-
+import { ProgressBarModule } from 'primeng/progressbar';
 
 
 import { ProjectPolicyComponent } from './project-policy/project-policy.component';
@@ -100,7 +100,7 @@ import {ImageModule} from 'primeng/image';
 		UsercontrolModule,
 		AttendanceModule,
 		ImageModule,
-
+		ProgressBarModule
 
 
 

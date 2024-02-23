@@ -834,7 +834,7 @@
                                                 <td>{{doGetHospitalDetail(emphospital.emphospital_code)}}</td>
                                                 <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{emphospital.emphospital_order}}</td>
-                                                <td>{{emphospital.emphospital_activate}}</td>
+                                                <td>{{doGetActiveStatus(emphospital.emphospital_activate)}}</td>
                                                 <td>{{emphospital.modified_by}}</td>
                                                 <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -1282,7 +1282,7 @@
                                                     <td>{{emptraining.emptraining_count}}</td>
                                                     <td>{{emptraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{emptraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
-                                                    <td>{{emptraining.emptraining_status}}</td>
+                                                    <td>{{getFullstatus(emptraining.emptraining_status)}}</td>
                                                     <td>{{emptraining.modified_by}}</td>
                                                     <td>{{emptraining.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>
@@ -1337,7 +1337,7 @@
                                                     </td>
                                                     <td>{{empassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empassessment.empassessment_count}}</td>
-                                                    <td>{{empassessment.empassessment_result}}</td>
+                                                    <td>{{getFullstatus(empassessment.empassessment_result)}}</td>
                                                     <td>{{empassessment.modified_by}}</td>
                                                     <td>{{empassessment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>
@@ -1388,7 +1388,7 @@
                                                     <td>{{empcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empcriminal.empcriminal_count}}</td>
-                                                    <td>{{empcriminal.empcriminal_result}}</td>
+                                                    <td>{{getFullstatus(empcriminal.empcriminal_result)}}</td>
                                                     <td>{{empcriminal.modified_by}}</td>
                                                     <td>{{empcriminal.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>
@@ -1624,9 +1624,9 @@
                                                     <td>{{empbenefit.empbenefit_capitalamount}}</td>
                                                     <td>{{empbenefit.empbenefit_period}}</td>
                                                     <td>{{empbenefit.empbenefit_amount}}</td>
-                                                    <td>{{empbenefit.empbenefit_conditionpay}}</td>
+                                                    <td>{{getPaycondition(empbenefit.empbenefit_conditionpay)}}</td>
                                                     <td>{{doGetreasonSalary(empbenefit.empbenefit_reason)}}</td>
-                                                    <td>{{empbenefit.empbenefit_break}}</td>
+                                                    <td>{{doGetActiveStatus(empbenefit.empbenefit_break)}}</td>
 
                                                     <td>{{empbenefit.modified_by}}</td>
                                                     <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>

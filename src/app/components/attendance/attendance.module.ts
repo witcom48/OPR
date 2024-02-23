@@ -86,7 +86,12 @@ import { DicRequestComponent } from './attendance-dicrequest/dic-request.compone
 import { RequestOvertimeComponent } from './attendance-dicrequest/request-overtimes/request-overtime.component';
 import { RequestShiftComponent } from './attendance-dicrequest/request-shift/request-shift.component';
 import { RequestDaytypeComponent } from './attendance-dicrequest/request-daytype/request-daytype.component';
-  
+
+import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-time.component';
+import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin/request-checkin.component';
+
 
 @NgModule({
 	imports: [
@@ -131,6 +136,8 @@ import { RequestDaytypeComponent } from './attendance-dicrequest/request-daytype
 		CheckboxModule,
 		UsercontrolModule,
 		SystemModule,
+		RadioButtonModule,
+
 		ProgressBarModule
 
 
@@ -177,9 +184,12 @@ import { RequestDaytypeComponent } from './attendance-dicrequest/request-daytype
 		AttendanceApproveComponent,
 		RequestOvertimeComponent,
 		DicRequestComponent,
-  RequestShiftComponent,
-  RequestDaytypeComponent,
- 	],
+		RequestShiftComponent,
+		RequestDaytypeComponent,
+		RequestTimeleaveComponent,
+		RecordTimeComponent,
+		RequestCheckinComponent,
+	],
 	exports: [ShiftComponent],
 })
 export class AttendanceModule { }

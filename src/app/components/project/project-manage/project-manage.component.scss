@@ -111,14 +111,14 @@ h3 {
     flex-wrap: wrap;
 
     p-image{
-        text-align-last: center;
+        text-align-last: left;
     }
 
     .upload{
         padding: 1vw;
         grid-column: 2/4;
         align-self: flex-end;
-        width: 25vw !important;
+        width: 20vw !important;
         max-width: 100%;
         border: none;
     }

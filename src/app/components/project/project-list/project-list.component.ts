@@ -151,6 +151,8 @@ export class ProjectListComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.accessData = this.initialData2.dotGetPolmenu('PRO');
+
+    return 1
   }
 
   constructor(private projectService: ProjectService,
@@ -164,23 +166,17 @@ export class ProjectListComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    this.doGetInitialCurrent()
-    this.doLoadMenu()
-    this.doLoadLanguage()
-    this.doLoadMaster()
+    var tmp = await this.doGetInitialCurrent()
 
-    setTimeout(() => {
+    if(tmp==1){
+      this.doLoadMenu()
+      this.doLoadLanguage()
+      this.doLoadMaster()
       this.doLoadProject()
-    }, 300);
-    // setTimeout(() => {
-    //   this.doGetDataFillter();
-    // }, 300);
-    //drop down
-    this.doLoadProjects()
-    this.doLoadResponsibleposList()
-    this.doLoadresponsibleareaList()
+    }
+   
   }
 
   doLoadMenu() {
@@ -205,20 +201,7 @@ export class ProjectListComponent implements OnInit {
           }
 
         }
-      }
-      // ,
-      // {
-      //     label:this.title_edit[this.initial_current.Language],
-      //     icon:'pi pi-fw pi-pencil',
-      //     command: (event) => {
-
-      //       if(this.selectedProject != null){
-      //         this.new_data= false;
-      //         this.edit_data = true
-      //         this.showManage()
-      //       }
-      //   }
-      // }
+      }      
       ,
       {
         label: this.title_template[this.initial_current.Language],
@@ -263,6 +246,10 @@ export class ProjectListComponent implements OnInit {
     this.genaralService.proarea_get(tmp5).then((res) => {
       this.proarea_list = res;
     });
+
+    this.doLoadProjects()
+    this.doLoadResponsibleposList()
+    this.doLoadresponsibleareaList()
   }
 
   clear(table: Table) {
@@ -304,12 +291,14 @@ export class ProjectListComponent implements OnInit {
       }
     }
   }
-
+ 
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject() {
-
+    this.loading = true
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
+
+      this.loading = false
       setTimeout(() => {
         this.calculateTotal()
       }, 1000);
@@ -565,6 +554,9 @@ export class ProjectListComponent implements OnInit {
   }
   ///
   doGetDataFillter() {
+
+    this.loading = true
+
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const workerfillters: ProresponsibleModel = new ProresponsibleModel();
 
@@ -619,8 +611,11 @@ export class ProjectListComponent implements OnInit {
     }
     //
 
-    this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
-      this.project_list = res;
+    this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then(async (res) => {
+      this.project_list = await res;
+
+      this.loading = false
+
      });
   }
   //-- Status สถานะ

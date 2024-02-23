@@ -28,12 +28,16 @@ export class DicRequestComponent implements OnInit {
   mainMenuItems: MenuItem[] = []
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
 
-  title_dicrequest: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" };
-  title_attendance: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" };
-  title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "Request Overtime" };
+  title_dicrequest: { [key: string]: string } = { EN: "Dicrequest", TH: "ใบคำร้อง" };
+  title_attendance: { [key: string]: string } = { EN: "Dicrequest", TH: "ใบคำร้อง" };
+  title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
+  title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
 
   title_requestShift: { [key: string]: string } = { EN: "Request Change Shift", TH: "Request Change Shift" };
   title_requestDay: { [key: string]: string } = { EN: "Request Change Daytype", TH: "Request Change Daytype" };
+  title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลงเวลา" };
+
+  title_checkinout: { [key: string]: string } = { EN: "Check IN/OUT", TH: "การเช็คอิน / การเช็คเอาท์" };
 
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลประกอบ" };
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฏิบัติงาน" };
@@ -79,19 +83,33 @@ export class DicRequestComponent implements OnInit {
         link: 'requestot',
         accessCode: 'ATT008-001'
       },
+      {
+        title: this.title_requestleave[this.initialData.Language],
+        link: 'timeleave',
+        accessCode: 'ATT008-002'
+      },
+      {
+        title: this.title_record_time[this.initialData.Language],
+        link: 'recordtime',
+        accessCode: 'ATT008-003'
+      },
+      {
+        title: this.title_checkinout[this.initialData.Language],
+        link: 'checkin-out',
+        accessCode: 'ATT008-004'
+      },
 
       {
         title: this.title_requestShift[this.initialData.Language],
         link: 'requestshift',
-        accessCode: 'ATT008-004'
+        accessCode: 'ATT008-005'
       },
 
       {
         title: this.title_requestDay[this.initialData.Language],
         link: 'requestdaytype',
-        accessCode: 'ATT008-005'
+        accessCode: 'ATT008-006'
       },
- 
     ];
 
     this.setMenus();

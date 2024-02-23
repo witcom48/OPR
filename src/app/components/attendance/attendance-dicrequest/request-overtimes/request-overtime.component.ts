@@ -1,13 +1,13 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SearchEmpComponent } from 'src/app/components/usercontrol/search-emp/search-emp.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { TRATTTimeotModel } from 'src/app/models/attendance/TRATTTimeotModel';
+import { ATTReqdocumentModel } from 'src/app/models/attendance/attreqdocument';
 import { EmployeeModel } from 'src/app/models/employee/employee';
-import { AccountModel } from 'src/app/models/self/account';
-import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
@@ -16,21 +16,21 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { AtttimeotService } from 'src/app/services/attendance/atttimeot.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
-import { AccountServices } from 'src/app/services/self/account.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import * as XLSX from 'xlsx';
+declare var attot: any;
 @Component({
   selector: 'app-request-overtime',
   templateUrl: './request-overtime.component.html',
   styleUrls: ['./request-overtime.component.scss']
 })
 export class RequestOvertimeComponent implements OnInit {
-  @ViewChild('TABLE') table: ElementRef | any = null;
-
-  itemslike: MenuItem[] = [];
-  home: any;
   @ViewChild(SearchEmpComponent) selectEmp: any;
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
+  @ViewChild('TABLE') table: ElementRef | any = null;
+  langs: any = attot;
+  selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
   namedis: string = "worker_detail_en"
@@ -44,16 +44,14 @@ export class RequestOvertimeComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private atttimeotService: AtttimeotService,
+    private datePipe: DatePipe,
     private reasonService: ReasonsService,
     private locationService: LocationService,
-    private accountServie: AccountServices,
     private router: Router,
+    private atttimeotService: AtttimeotService,
     private employeeService: EmployeeService,
     private periodsService: PeriodsServices,
-
   ) { }
-
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -63,17 +61,14 @@ export class RequestOvertimeComponent implements OnInit {
   location_list: SysLocationModel[] = [];
   locationselected: SysLocationModel = new SysLocationModel();
   trtimeot_list: TRATTTimeotModel[] = [];
-  selectedATTtimeot: TRATTTimeotModel = new TRATTTimeotModel();
-  selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
-  account_list: TRAccountModel[] = [];
-  account_list_source: TRAccountModel[] = [];
-  account_list_dest: TRAccountModel[] = [];
+  selectedtrtimeot: TRATTTimeotModel = new TRATTTimeotModel();
+  selectedreqdoc: ATTReqdocumentModel = new ATTReqdocumentModel();
+
   selectedAccount: TRAccountModel = new TRAccountModel();
   start_date: Date = new Date();
   end_date: Date = new Date();
-
-  accessData: AccessdataModel = new AccessdataModel();
   initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -84,6 +79,7 @@ export class RequestOvertimeComponent implements OnInit {
 
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
+    this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
@@ -91,11 +87,14 @@ export class RequestOvertimeComponent implements OnInit {
 
     }
     if (this.initial_current.Usertype == "GRP") {
-      this.doLoadAccount();
     } else {
       this.doLoadTimeot();
     }
+
   }
+
+
+
 
 
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
@@ -127,7 +126,7 @@ export class RequestOvertimeComponent implements OnInit {
   title_fromdate: { [key: string]: string } = { EN: "From", TH: "จากวันที่" }
   title_todate: { [key: string]: string } = { EN: "To", TH: "ถึงวันที่" }
 
-  title_page: { [key: string]: string } = { EN: "Dic Request", TH: "Dic Request" }
+  title_page: { [key: string]: string } = { EN: "Dic Request", TH: "ใบคำร้อง" }
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
   title_ot_doc: { [key: string]: string } = { EN: "OT Doc", TH: "เลขที่เอกสาร" }
@@ -140,19 +139,24 @@ export class RequestOvertimeComponent implements OnInit {
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผลการทำล่วงเวลา" }
   title_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
 
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation();
+    this.Periodclosed()
 
     setTimeout(() => {
       this.doLoadEmployee()
-
+      this.doLoadTimeot()
     }, 300);
   }
+  Search() {
+    this.doLoadTimeot();
+  }
 
-
+  //
   workerDetail: EmployeeModel = new EmployeeModel();
   worker_list: EmployeeModel[] = [];
   worker_index: number = 0;
@@ -193,7 +197,6 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;
       this.doSetDetailWorker();
-      this.doLoadEmployee();
 
     }
   }
@@ -202,7 +205,6 @@ export class RequestOvertimeComponent implements OnInit {
     if (this.worker_index > 0) {
       this.worker_index--;
       this.doSetDetailWorker();
-      this.doLoadEmployee();
 
     }
   }
@@ -229,9 +231,7 @@ export class RequestOvertimeComponent implements OnInit {
   open_searchemp() {
     this.searchEmp = true
   }
-  Search() {
-    this.doLoadTimeot();
-  }
+
   select_emp() {
 
     let select = this.selectEmp.selectedEmployee.worker_code
@@ -253,27 +253,14 @@ export class RequestOvertimeComponent implements OnInit {
     this.doSetDetailWorker();
 
   }
-  doLoadAccount() {
-    var tmp = new AccountModel();
-    tmp.account_user = this.initial_current.Username;
-    tmp.account_type = this.initial_current.Usertype;
-    this.accountServie.account_get(tmp).then(async (res) => {
-      res[0].worker_data.forEach((obj: TRAccountModel) => {
-        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
-        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
-      });
-      this.account_list = await res[0].worker_data;
-      this.selectedAccount = res[0].worker_data[0];
-      this.doLoadTimeot();
-    });
-  }
+  //
+
   doLoadTimeot() {
     this.trtimeot_list = [];
     var tmp = new TRATTTimeotModel();
     tmp.timeot_workdate = this.start_date;
     tmp.timeot_worktodate = this.end_date;
     tmp.worker_code = this.workerDetail.worker_code;
-    console.log(tmp.worker_code, 'uuuuu')
     this.atttimeotService.atttimeot_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeot_workdate = new Date(elm.timeot_workdate)
@@ -281,7 +268,6 @@ export class RequestOvertimeComponent implements OnInit {
 
       });
       this.trtimeot_list = await res
-      console.log(this.trtimeot_list = await res, 'ooooi')
     });
   }
   doLoadReason() {
@@ -299,50 +285,21 @@ export class RequestOvertimeComponent implements OnInit {
       this.location_list = await res;
     });
   }
-  isConfirmationDialogVisible: boolean = false;
+  async doRecordTimeot(data: TRATTTimeotModel[]) {
+    await this.atttimeotService.atttimeot_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadTimeot();
+        console.log(res.success, 'ttrtttttt')
 
-  async doRecordTimeot(data: TRATTTimeotModel) {
-
-    data.worker_code = this.workerDetail.worker_code;
-    data.timeot_workdate = this.start_date;
-    data.timeot_worktodate = this.end_date;
-    data.company_code = this.initial_current.CompCode;
-    // data.worker_code = this.worker_code;
-
-    data.timeot_beforemin = this.getMin(this.selectedATTtimeot.timeot_beforemin_hrs)
-    data.timeot_normalmin = this.getMin(this.selectedATTtimeot.timeot_normalmin_hrs)
-    data.timeot_break = this.getMin(this.selectedATTtimeot.timeot_breakmin_hrs)
-    data.timeot_aftermin = this.getMin(this.selectedATTtimeot.timeot_aftermin_hrs)
-    console.log(data.timeot_break, data.timeot_beforemin, data.timeot_normalmin, data.timeot_aftermin, 'uyuyu')
-    if (!this.hasTruePeriodCloseta) {
-      this.isConfirmationDialogVisible = true;
-      try {
-
-        const res = await this.atttimeotService.atttimeot_record(data);
-        if (res.success) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-          this.doLoadTimeot();
-          this.doSetDetailWorker();
-        }
-        else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-        }
-
-
-
-      } catch (error) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'An error occurred while recording payitem.',
-        });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
 
-      this.edit_data = false;
-      this.displayManage = false;
-    }
+    });
+    this.closeManage()
   }
-
   async doDeleteTimeot(data: TRATTTimeotModel) {
     await this.atttimeotService.atttimeot_delete(data).then((res) => {
       if (res.success) {
@@ -356,33 +313,79 @@ export class RequestOvertimeComponent implements OnInit {
     });
     this.closeManage()
   }
- 
-  doLoadMenu() {
 
+
+  //
+  confirmDelete(data: TRATTTimeotModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeot(data);
+      },
+      reject: () => {
+      },
+      key: "myDialog"
+    });
+  }
+  //
+  async doGetfileTimeot(file_path: string, type: string) {
+    this.atttimeotService.get_file(file_path).then((res) => {
+      var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+      window.open(url);
+      this.selectedreqdoc = new ATTReqdocumentModel();
+    })
+  }
+  doUploadFile() {
+    const filename = "OT_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    const filetype = this.fileToUpload.name.split(".")[1];
+    this.atttimeotService.file_import(this.fileToUpload, filename, filetype).then((res) => {
+      // console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.selectedtrtimeot.reqdoc_data = this.selectedtrtimeot.reqdoc_data.concat({
+          company_code: this.selectedtrtimeot.company_code || this.initial_current.CompCode,
+          document_id: 0,
+          job_id: this.selectedtrtimeot.timeot_id.toString(),
+          job_type: 'OT',
+          document_name: filename + "." + filetype,
+          document_type: this.fileToUpload.type,
+          document_path: res.message,
+          created_by: this.initial_current.Username,
+          created_date: new Date().toISOString()
+        })
+        this.Uploadfile = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
+  }
+
+
+  doLoadMenu() {
     this.mainMenuItems = [{ label: this.title_page[this.initial_current.Language], routerLink: '/attendance/dicrequest' },
     { label: this.title_requestOvertime[this.initial_current.Language], routerLink: '/dicrequest/requestot', styleClass: 'activelike' }]
     this.items = [
 
       {
-        label: this.title_new[this.initial_current.Language],
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.account_list_source = [];
-          this.account_list_dest = [];
-          this.selectedATTtimeot = new TRATTTimeotModel();
+          this.selectedtrtimeot = new TRATTTimeotModel();
           this.reasonselected = this.reason_list[0]
           this.locationselected = this.location_list[0]
-          this.selectedATTtimeot.reason_code = this.reason_list[0].reason_code
-          this.selectedATTtimeot.location_code = this.location_list[0].location_code
+          this.selectedtrtimeot.reason_code = this.reason_list[0].reason_code
+          this.selectedtrtimeot.location_code = this.location_list[0].location_code
           if (this.initial_current.Usertype == "GRP") {
-            this.account_list.forEach((obj: TRAccountModel) => {
-              this.account_list_source.push(obj)
-            })
           }
           this.showManage()
         }
 
       },
+
 
       {
         label: this.title_export[this.initial_current.Language],
@@ -392,26 +395,89 @@ export class RequestOvertimeComponent implements OnInit {
         }
       }
 
+ 
     ];
 
+    this.items_attfile = [
+      {
+        label: this.langs.get('new')[this.selectlang],
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.Uploadfile = true;
+        }
+      },
 
+    ];
 
   }
+  Uploadfiledoc() {
+    if (this.fileToUpload) {
+      this.confirmationService.confirm({
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.Uploadfile = false;
+          this.doUploadFile();
+          this.fileUploader.nativeElement.value = null;
+        },
+        reject: () => {
+          this.Uploadfile = false;
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+    }
+  }
+  DeleteFile(data: ATTReqdocumentModel) {
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang] + data.document_name,
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (data.document_id) {
+          this.atttimeotService.delete_file(data).then((res) => {
+            if (res.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+          })
+        } else {
+          this.selectedtrtimeot.reqdoc_data = this.selectedtrtimeot.reqdoc_data.filter((item) => {
+            return item !== data;
+          });
+        }
+        this.atttimeotService.deletefilepath_file(data.document_path).then((res) => {
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.selectedtrtimeot.reqdoc_data = this.selectedtrtimeot.reqdoc_data.filter((item) => {
+              return item !== data;
+            });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
+        })
+      },
+      reject: () => {
 
-
+      }
+    });
+  }
   handleFileInputholidaylist(file: FileList) {
     this.fileToUpload = file.item(0);
   }
   onRowSelectfile(event: Event) {
+    this.doGetfileTimeot(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
     this.location_list.forEach((obj: SysLocationModel) => {
-      if (obj.location_code == this.selectedATTtimeot.location_code) {
+      if (obj.location_code == this.selectedtrtimeot.location_code) {
         this.locationselected = obj;
       }
     })
     this.reason_list.forEach((obj: ReasonsModel) => {
-      if (obj.reason_code == this.selectedATTtimeot.reason_code) {
+      if (obj.reason_code == this.selectedtrtimeot.reason_code) {
         this.reasonselected = obj;
       }
     })
@@ -424,14 +490,14 @@ export class RequestOvertimeComponent implements OnInit {
 
   }
   selectotlocation() {
-    this.selectedATTtimeot.location_code = this.locationselected.location_code;
+    this.selectedtrtimeot.location_code = this.locationselected.location_code;
   }
   selectotreason() {
-    this.selectedATTtimeot.reason_code = this.reasonselected.reason_code;
+    this.selectedtrtimeot.reason_code = this.reasonselected.reason_code;
   }
 
   closeManage() {
-    this.selectedATTtimeot = new TRATTTimeotModel();
+    this.selectedtrtimeot = new TRATTTimeotModel();
     this.displayManage = false
 
   }
@@ -455,39 +521,84 @@ export class RequestOvertimeComponent implements OnInit {
     }
   }
   Save() {
-    this.doRecordTimeot(this.selectedATTtimeot);
-  }
-
-
-
-  Delete() {
     this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_ot')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doDeleteTimeot(this.selectedATTtimeot)
+        this.selectedtrtimeot.timeot_beforemin = this.getMin(this.selectedtrtimeot.timeot_beforemin_hrs)
+        this.selectedtrtimeot.timeot_normalmin = this.getMin(this.selectedtrtimeot.timeot_normalmin_hrs)
+        this.selectedtrtimeot.timeot_break = this.getMin(this.selectedtrtimeot.timeot_breakmin_hrs)
+        this.selectedtrtimeot.timeot_aftermin = this.getMin(this.selectedtrtimeot.timeot_aftermin_hrs)
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
+          let data_doc: TRATTTimeotModel[] = []
+          var tmp: TRATTTimeotModel = new TRATTTimeotModel();
+
+          tmp.company_code = this.initial_current.CompCode;
+          tmp.worker_code = this.workerDetail.worker_code;
+          tmp.timeot_id = this.selectedtrtimeot.timeot_id;
+          tmp.timeot_doc = "OT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+          tmp.timeot_workdate = this.selectedtrtimeot.timeot_workdate;
+          tmp.timeot_worktodate = this.selectedtrtimeot.timeot_worktodate;
+          tmp.timeot_beforemin = this.selectedtrtimeot.timeot_beforemin;
+          tmp.timeot_normalmin = this.selectedtrtimeot.timeot_normalmin;
+          tmp.timeot_break = this.selectedtrtimeot.timeot_break;
+          tmp.timeot_aftermin = this.selectedtrtimeot.timeot_aftermin;
+          tmp.timeot_note = this.selectedtrtimeot.timeot_note;
+          tmp.location_code = this.selectedtrtimeot.location_code;
+          tmp.reason_code = this.selectedtrtimeot.reason_code;
+          tmp.reqdoc_data = this.selectedtrtimeot.reqdoc_data;
+          tmp.modified_by = this.initial_current.Username,
+            data_doc.push(tmp);
+
+          this.doRecordTimeot(data_doc);
+        } else {
+          if (this.selectedtrtimeot.timeot_doc === "") {
+            this.selectedtrtimeot.timeot_doc = "OT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          }
+          let data_doc2: TRATTTimeotModel[] = []
+          var data: TRATTTimeotModel = new TRATTTimeotModel();
+          data.company_code = this.initial_current.CompCode;
+          data.worker_code = this.workerDetail.worker_code;
+          data.timeot_id = this.selectedtrtimeot.timeot_id;
+          data.timeot_doc = "OT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+          data.timeot_workdate = this.selectedtrtimeot.timeot_workdate;
+          data.timeot_worktodate = this.selectedtrtimeot.timeot_worktodate;
+          data.timeot_beforemin = this.selectedtrtimeot.timeot_beforemin;
+          data.timeot_normalmin = this.selectedtrtimeot.timeot_normalmin;
+          data.timeot_break = this.selectedtrtimeot.timeot_break;
+          data.timeot_aftermin = this.selectedtrtimeot.timeot_aftermin;
+          data.timeot_note = this.selectedtrtimeot.timeot_note;
+          data.location_code = this.selectedtrtimeot.location_code;
+          data.reason_code = this.selectedtrtimeot.reason_code;
+          data.reqdoc_data = this.selectedtrtimeot.reqdoc_data;
+          data.modified_by = this.initial_current.Username,
+
+            data_doc2.push(data);
+          this.doRecordTimeot(data_doc2)
+          console.log(data_doc2, 'itew')
+
+        }
+      },
+      reject: () => {
+      }
+    })
+  }
+  Delete() {
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeot.timeot_doc,
+      header: this.langs.get('title_ot')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeot(this.selectedtrtimeot)
       },
       reject: () => {
       }
     });
   }
 
-   //
-   confirmDelete(data: TRATTTimeotModel) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteTimeot(data);
-      },
-      reject: () => {
-       },
-      key: "myDialog"
-    });
-  }
-  //
+
+
   //เช็คชข้อมูลเมื่อมีการปิดงวด
   hasTruePeriodCloseta: boolean = false;
   async Periodclosed() {
@@ -513,7 +624,6 @@ export class RequestOvertimeComponent implements OnInit {
       }
     } catch { }
   }
-
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -522,5 +632,4 @@ export class RequestOvertimeComponent implements OnInit {
     XLSX.writeFile(wb, 'Export_Timeot.xlsx');
 
   }
-
 }

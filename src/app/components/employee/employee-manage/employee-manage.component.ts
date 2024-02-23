@@ -965,7 +965,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_end = "วันที่สิ้นสุด";
       this.title_description = "หมายเหตุ";
       this.title_branchname = "สาขา";
-      this.title_suggestname = "ผู้แนะนำ";
+      this.title_suggestname = "ชื่อผู้แนะนำ";
       this.title_addresstype = "ประเภทที่อยู่อาศัย";
       this.title_no = "เลขที่";
       this.title_moo = "หมู่";
@@ -5390,6 +5390,27 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
+  //get hopital status
+  doGetActiveStatus(status: Boolean) {
+    let statusname = ""
+    if(status){
+      if (this.initial_current.Language == "TH") {
+        statusname = "ใช้งาน"
+      }
+      else {
+        statusname = "Active"
+      }
+    }else{
+      if (this.initial_current.Language == "TH") {
+        statusname = "ไม่ใช้งาน"
+      }
+      else {
+        statusname = "Inactive"
+      }
+    }
+    return statusname;
+  }
+  
 
   //get dep1 name
   doGetDepL1Detail(depCode: string): any {
@@ -6163,5 +6184,60 @@ export class EmployeeManageComponent implements OnInit {
         return this.empbankAll[i].bank_account;
       }
     }
+  }
+
+  getFullstatus(status: string) {
+    let statusfull = ""
+    switch (status) {
+      case "Y":
+        if(this.initial_current.Language == "TH"){
+          statusfull = 'ผ่าน'
+        }else{
+          statusfull = 'Pass'
+        }
+        break;
+      case "N":
+        if(this.initial_current.Language == "TH"){
+          statusfull = 'ไม่ผ่าน'
+        }else{
+          statusfull = 'Not Pass'
+        }
+        break;
+      
+    }
+    return statusfull;
+  }
+
+  getPaycondition(ConP:string): any{
+    for (let i = 0; i < this.conPay.length; i++) {
+      if (this.conPay[i].value == ConP) {
+        if (this.initial_current.Language == "TH") {
+          return this.conPay[i].name_th;
+        }
+        else {
+          return this.conPay[i].name_en;
+        }
+      }
+    }
+  }
+
+  getBenefitBreakName(){
+    let statusname = ""
+    if(status){
+      if (this.initial_current.Language == "TH") {
+        statusname = "พักการจ่าย"
+      }
+      else {
+        statusname = "Active"
+      }
+    }else{
+      if (this.initial_current.Language == "TH") {
+        statusname = "ไม่พักการจ่าย"
+      }
+      else {
+        statusname = "Inactive"
+      }
+    }
+    return statusname;
   }
 }

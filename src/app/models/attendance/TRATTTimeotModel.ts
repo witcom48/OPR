@@ -1,4 +1,4 @@
-import { cls_MTReqdocumentModel } from "../self/cls_MTReqdocument";
+ import { ATTReqdocumentModel } from "./attreqdocument";
 
  
 export class TRATTTimeotModel {
@@ -26,8 +26,7 @@ export class TRATTTimeotModel {
     timeot_note: string = "";
     location_code: string = "";
     reason_code: string = "";
-    status: number = 0;
-    status_job: string = "";
+     status_job: string = "";
     jobtable_id:string="";
     modified_by: string = "";
     modified_date: string = "";
@@ -39,6 +38,6 @@ export class TRATTTimeotModel {
     reason_name_en: string = "";
     location_name_th: string = "";
     location_name_en: string = "";
-    reqdoc_data: cls_MTReqdocumentModel[] = []
+    reqdoc_data: ATTReqdocumentModel[] = []
 
 }
