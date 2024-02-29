@@ -128,16 +128,16 @@ export class SelfApproveComponent implements OnInit {
       link: 'approve_overtime',
       accessCode: 'SELF002-003'
     },
-    // {
-    //   title: this.langs.get('daytype')[this.selectedLanguage],
-    //   link: 'approve_daytype',
-    //   accessCode: 'SELF002-004'
-    // },
-    // {
-    //   title: this.langs.get('punchcard')[this.selectedLanguage],
-    //   link: 'approve_record',
-    //   accessCode: 'SELF002-005'
-    // },
+      // {
+      //   title: this.langs.get('daytype')[this.selectedLanguage],
+      //   link: 'approve_daytype',
+      //   accessCode: 'SELF002-004'
+      // },
+      // {
+      //   title: this.langs.get('punchcard')[this.selectedLanguage],
+      //   link: 'approve_record',
+      //   accessCode: 'SELF002-005'
+      // },
       // {
       //   title: this.langs.get('checkin')[this.selectedLanguage],
       //   link: 'approve_checkin',
@@ -195,7 +195,7 @@ export class SelfApproveComponent implements OnInit {
   }
 
   setMenus() {
-    if (this.initialData.Usertype == "APR") {
+    if (this.initialData.Usertype == "APR" || this.initialData.Usertype == "ADM") {
       this.approvalMenuItems = this.approvalMenuList;
       this.setupMenuItems = this.setupMenuList;
     } else {

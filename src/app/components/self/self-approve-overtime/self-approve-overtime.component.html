@@ -154,7 +154,7 @@
         <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeotall"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
+            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date','worker_detail_en','worker_detail_th']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -185,22 +185,60 @@
                     <th style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th>{{langs.get('ot_doc')[selectlang]}}</th>
-                    <th>{{langs.get('worker_code')[selectlang]}}</th>
-                    <th>{{langs.get('name')[selectlang]}}</th>
-                    <th>{{langs.get('date')[selectlang]}}</th>
-                    <th>{{langs.get('before')[selectlang]}}</th>
-                    <th>{{langs.get('normal')[selectlang]}}</th>
-                    <th>{{langs.get('break')[selectlang]}}</th>
-                    <th>{{langs.get('after')[selectlang]}}</th>
-                    <th>{{langs.get('reason')[selectlang]}}</th>
-                    <th>{{langs.get('modified_by')[selectlang]}}</th>
-                    <th>{{langs.get('modified_date')[selectlang]}}</th>
-                    <th>{{langs.get('approve')[selectlang]}}</th>
-                    <th>{{langs.get('notapprove')[selectlang]}}</th>
-                    <th>{{langs.get('verify')[selectlang]}}</th>
+                    <th field="timeot_doc">{{langs.get('ot_doc')[selectlang]}}</th>
+                    <th field="worker_code">{{langs.get('worker_code')[selectlang]}}</th>
+                    <th field="name">{{langs.get('name')[selectlang]}}</th>
+                    <th field="date">{{langs.get('date')[selectlang]}}</th>
+                    <th field="before">{{langs.get('before')[selectlang]}}</th>
+                    <th field="normal">{{langs.get('normal')[selectlang]}}</th>
+                    <th field="break">{{langs.get('break')[selectlang]}}</th>
+                    <th field="after">{{langs.get('after')[selectlang]}}</th>
+                    <th field="reason">{{langs.get('reason')[selectlang]}}</th>
+                    <th field="modified_by">{{langs.get('modified_by')[selectlang]}}</th>
+                    <th field="modified_date">{{langs.get('modified_date')[selectlang]}}</th>
+                    <th field="approve">{{langs.get('approve')[selectlang]}}</th>
+                    <th field="notapprove">{{langs.get('notapprove')[selectlang]}}</th>
+                    <th field="verify">{{langs.get('verify')[selectlang]}}</th>
 
                 </tr>
+                <!-- <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="timeot_doc" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="worker_code" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="name" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="date" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="before" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="normal" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="break" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="after" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="reason" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="modified_by" class="w-full"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="modified_date" class="w-full"></p-columnFilter>
+                    </th>
+                </tr> -->
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr class="tablenotselect">

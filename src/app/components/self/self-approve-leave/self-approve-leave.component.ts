@@ -127,6 +127,9 @@ export class SelfApproveLeaveComponent implements OnInit {
         res.data.forEach((elm: any) => {
           elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
           elm.timeleave_todate = new Date(elm.timeleave_todate)
+          elm.timeleave_fromdate_show = this.datePipe.transform(elm.timeleave_fromdate, 'dd/MM/yyyy')
+          elm.timeleave_todate_show = this.datePipe.transform(elm.timeleave_todate, 'dd/MM/yyyy')
+          elm.timeleave_type_show = this.getFulltyupeLeave(elm.timeleave_type)
         });
         this.trtimeleave_list = await res.data;
         this.approveTotal = await res.total;
@@ -262,10 +265,10 @@ export class SelfApproveLeaveComponent implements OnInit {
         day = this.langs.get('full_day')[this.selectlang]
         break;
       case "H1":
-        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('morning')[this.selectlang]})`
+        day = `${this.langs.get('half_day')[this.selectlang]} (${this.langs.get('morning')[this.selectlang]})`
         break;
       case "H2":
-        day = `${this.langs.get('full_day')[this.selectlang]} (${this.langs.get('afternoon')[this.selectlang]})`
+        day = `${this.langs.get('half_day')[this.selectlang]} (${this.langs.get('afternoon')[this.selectlang]})`
     }
     return day;
   }

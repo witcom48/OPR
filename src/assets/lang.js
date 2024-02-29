@@ -6,6 +6,14 @@ var langcalendarth = {
     monthNamesShort: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
     accept: "ใช่",
     reject: "ไม่",
+    startsWith: "ริ่มต้นด้วย",
+    contains: "มี",
+    notContains: "ไม่มี",
+    endsWith: "ลงท้ายด้วย",
+    equals: "เท่ากับ",
+    notEquals: "ไม่เท่ากับ",
+    noFilter: "ไม่มีตัวกรอง",
+
 
 };
 var langcalendaren = {
@@ -16,6 +24,13 @@ var langcalendaren = {
     monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     accept: "Yes",
     reject: "No",
+    startsWith: "Starts with",
+    contains: "Contains",
+    notContains: "Not contains",
+    endsWith: "Ends with",
+    equals: "Equals",
+    notEquals: "Not equals",
+    noFilter: "No Filter",
 }
 
 
@@ -1571,6 +1586,7 @@ var consent = new Map([
     ["agree", { TH: "ยินยอมฯ", EN: "Agree" }],
     ["not_agree", { TH: "ไม่ยินยอมฯ", EN: "not agree" }],
     ["setup", { TH: "การตั้งค่า", EN: "Setup" }],
+    ["confirm", { TH: "ตกลง", EN: "Confirm" }],
 ])
 
 var menu = new Map([

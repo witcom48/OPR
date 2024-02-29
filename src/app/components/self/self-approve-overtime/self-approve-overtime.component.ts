@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ApproveModel } from 'src/app/models/self/approve';
@@ -15,6 +15,8 @@ import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqot: any;
+declare var langcalendarth: any;
+declare var langcalendaren: any;
 interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-approve-overtime',
@@ -43,6 +45,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     private approveService: ApproveServices,
     private locationService: LocationService,
     private router: Router,
+    private config: PrimeNGConfig,
   ) { }
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
@@ -74,7 +77,10 @@ export class SelfApproveOvertimeComponent implements OnInit {
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
+      this.config.setTranslation(langcalendarth)
 
+    } else {
+      this.config.setTranslation(langcalendaren)
     }
     this.status_list = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }, { name: this.selectlang == "EN" ? "All" : "ทั้งหมด", code: 1 }];
   }
@@ -104,7 +110,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
         tmp.todate = this.end_date;
         tmp.status = e;
         await this.approveService.approve_get(tmp).then(async (res) => {
-          await res.data.forEach( (elm: any) => {
+          await res.data.forEach((elm: any) => {
             elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
             elm.timeleave_todate = new Date(elm.timeleave_todate)
             this.trtimeot_list.push(elm)

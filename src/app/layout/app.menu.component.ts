@@ -20,6 +20,7 @@ enum ModuleCode {
     PAY = "PAY",
     SYS = "SYS",
     SELF = "SELF",
+    ADM = "ADM",
     // Add more module codes here...
 }
 declare var menumain: any;
@@ -62,6 +63,15 @@ export class AppMenuComponent implements OnInit {
                     // Add more menu items for the 'Self Services' module based on access codes...
                 ]
             },
+            [ModuleCode.ADM]: {
+                label: 'Self Services',
+                icon: 'pi-id-card',
+                items: [
+                    { label: this.langs.get('manager')[this.selectlang], routerLink: ['/self/approve'], accessCode: 'SELF002' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/self/reports'], accessCode: 'SELF003' },
+                    // Add more menu items for the 'Self Services' module based on access codes...
+                ]
+            },
 
 
             [ModuleCode.UEMP]: {
@@ -92,15 +102,15 @@ export class AppMenuComponent implements OnInit {
             },
             [ModuleCode.PRO]: {
                 label: this.langs.get('projects')[this.selectlang],
-                 icon: 'pi-box',
+                icon: 'pi-box',
                 items: [
-                    {label: this.langs.get('policy')[this.selectlang]  , routerLink: ['/project/policy'], accessCode: 'PRO001' },
-                    {label: this.langs.get('project')[this.selectlang]  , routerLink: ['/project/list'], accessCode: 'PRO002' },
-                    { label: this.langs.get('monitor')[this.selectlang] , routerLink: ['/project/monitor'], accessCode: 'PRO003' },
-                    { label: this.langs.get('timesheet')[this.selectlang] , routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
-                    { label: this.langs.get('transferrecord')[this.selectlang] , routerLink: ['/project/transfer'], accessCode: 'PRO005' },
-                    { label: this.langs.get('costcomparison')[this.selectlang] , routerLink: ['/project/compare'], accessCode: 'PRO006' },
-                    { label: this.langs.get('approvalist')[this.selectlang] , routerLink: ['/project/approve'], accessCode: 'PRO007' },
+                    { label: this.langs.get('policy')[this.selectlang], routerLink: ['/project/policy'], accessCode: 'PRO001' },
+                    { label: this.langs.get('project')[this.selectlang], routerLink: ['/project/list'], accessCode: 'PRO002' },
+                    { label: this.langs.get('monitor')[this.selectlang], routerLink: ['/project/monitor'], accessCode: 'PRO003' },
+                    { label: this.langs.get('timesheet')[this.selectlang], routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
+                    { label: this.langs.get('transferrecord')[this.selectlang], routerLink: ['/project/transfer'], accessCode: 'PRO005' },
+                    { label: this.langs.get('costcomparison')[this.selectlang], routerLink: ['/project/compare'], accessCode: 'PRO006' },
+                    { label: this.langs.get('approvalist')[this.selectlang], routerLink: ['/project/approve'], accessCode: 'PRO007' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/project/reports'], accessCode: 'PRO008' },
                 ]
             },
@@ -169,7 +179,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: this.langs.get('manage')[this.selectlang], routerLink: ['/system/sys-manage'], accessCode: 'SYS001' },
                     { label: this.langs.get('general')[this.selectlang], routerLink: ['/system/general'], accessCode: 'SYS002' },
-                    { label: this.langs.get('security')[this.selectlang] , routerLink: ['/system/security'], accessCode: 'SYS003' },
+                    { label: this.langs.get('security')[this.selectlang], routerLink: ['/system/security'], accessCode: 'SYS003' },
                     { label: this.langs.get('notification')[this.selectlang], routerLink: ['/system/notification'], accessCode: 'SYS004' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/system/reports'], accessCode: 'SYS005' },
                 ]

@@ -111,4 +111,13 @@ export class AccountServices {
                 return message;
             });
     }
+
+    public getCountTypeAccount() {
+
+        return this.http.get<any>(this.config.ApiAttendanceModule + '/getCountTypeAccount?com=' + this.initial_current.CompCode + '&worker=' + this.initial_current.Username).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
 }

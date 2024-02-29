@@ -35,6 +35,11 @@
             <div>:</div>
             <span class="show">{{initialData.CompCode}}</span>
         </div>
+        <div class="company" style="cursor: pointer;" (click)="changeusertype()">
+            <i class="pi pi-user"></i>
+            <div>:</div>
+            <span class="show">{{initialData.Usertype}}</span>
+        </div>
         <!-- Menu buttons -->
         <!-- <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
@@ -72,5 +77,16 @@
             <button pButton type="button" [label]="consentLanguages.get('not_agree')[selectedLanguageCode]"
                 class="p-button-danger" (click)="recordPDPAStatus(false)"></button>
         </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="{{consentLanguages.get('type')[initialData.Language]}}" [(visible)]="displayManagetype" [style]="{width: '30vw'}"
+    [draggable]="false">
+    <div class="loginform">
+        <!-- <label for="ppos_shift_code">{{langs.get('type')[selectlang]}}</label> -->
+        <p-dropdown class="selectyaer" [options]="type_list" [(ngModel)]="typeselected"
+            optionLabel='name' (keyup.enter)="submittype()" appendTo="body"></p-dropdown>
+        <button pButton type="button" label="{{consentLanguages.get('confirm')[initialData.Language]}}" icon="pi pi-lock"
+            (click)="submittype()"></button>
     </div>
 </p-dialog>

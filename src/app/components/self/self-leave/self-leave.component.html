@@ -39,7 +39,7 @@
         <div class="field col-12">
             <div *ngIf="leavetype=='F'">
                 <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
-                    inputId="date_from" [disabled]="edit_data"></p-calendar>
+                    inputId="date_from" (onSelect)="doLoadLeaveactualday()" [disabled]="edit_data"></p-calendar>
                 -
                 <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_todate" dateFormat="dd/mm/yy" inputId="date_to"
                     (onSelect)="doLoadLeaveactualday()" [disabled]="edit_data"></p-calendar>
@@ -155,7 +155,10 @@
             </p-table> -->
         </div>
         <div class="field col-12">
-            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button>
+            <button [disabled]="selectedtrtimeleave.timeleave_actualday>day" pButton (click)="Save()"><i
+                    class="pi pi-save"> </i>&nbsp;{{langs.get('save')[selectlang]}}</button>
+            <!-- <p-button  [disabled]="selectedtrtimeleave.timeleave_actualday>day"
+                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button> -->
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
                 class="p-button-danger" (click)="Delete()"></button>
@@ -179,7 +182,7 @@
         <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleave"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeleave_doc','leave_detail_th','leave_detail_en','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status_job','modified_by','modified_date']"
+            [globalFilterFields]="['timeleave_todate_show','timeleave_fromdate_show','timeleave_status_show','timeleave_type_show','timeleave_doc','leave_detail_th','leave_detail_en','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -233,15 +236,14 @@
                     <td><span>{{langs.get('leave_doc')[selectlang]}}</span>{{data.timeleave_doc}}</td>
                     <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang
                         =="EN"?data.leave_detail_en:data.leave_detail_th}}</td>
-                    <td><span>{{langs.get('fromdate')[selectlang]}}</span>{{data.timeleave_fromdate |
-                        date:'dd/MM/yyyy'}}</td>
-                    <td><span>{{langs.get('todate')[selectlang]}}</span>{{data.timeleave_todate | date:'dd/MM/yyyy'}}
+                    <td><span>{{langs.get('fromdate')[selectlang]}}</span>{{data.timeleave_fromdate_show}}</td>
+                    <td><span>{{langs.get('todate')[selectlang]}}</span>{{data.timeleave_todate_show}}
                     </td>
-                    <td><span>{{langs.get('form_of_leave')[selectlang]}}</span>{{getFulltyupeLeave(data.timeleave_type)}}
+                    <td><span>{{langs.get('form_of_leave')[selectlang]}}</span>{{data.timeleave_type_show}}
                     </td>
                     <td><span>{{langs.get('reason')[selectlang]}}</span>{{selectlang
                         =="EN"?data.reason_en:data.reason_th}}</td>
-                    <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td>
+                    <td><span>{{langs.get('status')[selectlang]}}</span>{{data.timeleave_status_show}}</td>
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>

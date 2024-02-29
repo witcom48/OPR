@@ -35,5 +35,10 @@ export class cls_TRTimeleaveModel {
   project_code: string = ""
   reqdoc_data: cls_MTReqdocumentModel[] = []
 
+  timeleave_fromdate_show: string = "";
+  timeleave_todate_show: string = "";
+  timeleave_type_show: string = "";
+  timeleave_status_show: string = "";
+
 
 }

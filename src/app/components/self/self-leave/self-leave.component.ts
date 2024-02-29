@@ -154,6 +154,10 @@ export class SelfLeaveComponent implements OnInit {
         res.forEach((elm: any) => {
           elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
           elm.timeleave_todate = new Date(elm.timeleave_todate)
+          elm.timeleave_fromdate_show = this.datePipe.transform(elm.timeleave_fromdate, 'dd/MM/yyyy')
+          elm.timeleave_todate_show = this.datePipe.transform(elm.timeleave_todate, 'dd/MM/yyyy')
+          elm.timeleave_type_show = this.getFulltyupeLeave(elm.timeleave_type)
+          elm.timeleave_status_show = this.getFullStatus(elm.timeleave_type)
         });
       }
       this.trtimeleave_list = await res
@@ -169,6 +173,9 @@ export class SelfLeaveComponent implements OnInit {
     });
   }
   doLoadLeaveactualday() {
+    if (this.selectedtrtimeleave.timeleave_fromdate > this.selectedtrtimeleave.timeleave_todate) {
+      this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
+    }
     let data = new cls_TRTimeleaveModel()
     data.worker_code = this.selectedtrtimeleave.worker_code;
     data.timeleave_fromdate = this.selectedtrtimeleave.timeleave_fromdate

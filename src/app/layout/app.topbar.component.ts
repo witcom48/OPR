@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../config/initial_current';
@@ -11,7 +11,10 @@ import { cls_MTPdpafileModel } from '../models/self/cls_MTPdpafile';
 import { PdpaFileServices } from '../services/self/pdpafile';
 import { PolmenuServices } from '../services/system/security/polmenu.service';
 import { PolmenuModel } from '../models/system/security/polmenu';
+import { AccountServices } from '../services/self/account.service';
 declare var consent: any;
+declare var langcalendarth: any;
+declare var langcalendaren: any;
 interface Language {
     name: string;
     code: string;
@@ -19,7 +22,8 @@ interface Language {
 
 @Component({
     selector: 'app-topbar',
-    templateUrl: './app.topbar.component.html'
+    templateUrl: './app.topbar.component.html',
+    styleUrls: ['./app.topbar.component.scss']
 })
 export class AppTopBarComponent implements OnInit {
     consentLanguages: any = consent;
@@ -46,8 +50,12 @@ export class AppTopBarComponent implements OnInit {
         private pdpaService: PdpaServices,
         private pdpaFileService: PdpaFileServices,
         private polmenuServices: PolmenuServices,
+        private accountServeices: AccountServices,
+        private config: PrimeNGConfig,
     ) { }
-
+    displayManagetype: boolean = false;
+    type_list: any[] = [{ code: 'Emp', name: 'EMP' }, { code: 'APR', name: 'APR' }];
+    typeselected: any = { code: 'Emp', name: 'EMP' };
     ngOnInit() {
         // Fetch initial data and check token validity on component initialization
         this.fetchInitialData();
@@ -58,13 +66,22 @@ export class AppTopBarComponent implements OnInit {
     fetchInitialData() {
         this.initialData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
         this.selectedLanguageCode = this.initialData.Language;
+        if (this.initialData.Usertype == "APR") {
+            this.typeselected = { code: 'APR', name: 'APR' };
+        }
         if (!this.initialData.Token) {
             this.router.navigateByUrl('login');
+        }
+        if (this.initialData.Language == "TH") {
+            this.config.setTranslation(langcalendarth)
+
+        } else {
+            this.config.setTranslation(langcalendaren)
         }
         this.selectedLanguage = this.supportedLanguages.find(lang => lang.code === this.selectedLanguageCode);
 
         if (this.initialData.Usertype == "Emp") {
-            this.checkPDPA();
+            // this.checkPDPA();
         }
     }
 
@@ -131,5 +148,21 @@ export class AppTopBarComponent implements OnInit {
         //         localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
         //         window.location.reload();
         //     });
+    }
+
+    changeusertype() {
+        this.accountServeices.getCountTypeAccount().then(async (res) => {
+            console.log(res.data)
+            if (res.data === 2) {
+                this.displayManagetype = true;
+            }
+        });
+    }
+
+    submittype() {
+        this.displayManagetype = false;
+        this.initialData.Usertype = this.typeselected.code;
+        localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
+        window.location.href = '/'
     }
 }

@@ -162,7 +162,7 @@ export class VerifyComponent implements OnInit {
             }
             if (obj.account_type == "APR") {
               this.initail_current.Username = obj.account_user;
-              this.initail_current.Usertype = obj.account_type;
+              this.initail_current.Usertype = obj.account_user == "admin" ? "ADM" : obj.account_type;
               localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
               if (this.initail_current.Token) {
                 this.displayManage = false;
