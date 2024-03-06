@@ -342,7 +342,7 @@ export class RequestDaytypeComponent implements OnInit {
     var tmp = new TRATTTimeDaytypeModel();
     tmp.timedaytype_workdate = this.start_date;
     tmp.timedaytype_todate = this.end_date;
-    tmp.worker_code = this.selectedAccount.worker_code;
+    tmp.worker_code = this.workerDetail.worker_code;
     this.atttimedaytypeService.atttimeshift_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timedaytype_workdate = new Date(elm.timedaytype_workdate)
@@ -368,6 +368,7 @@ export class RequestDaytypeComponent implements OnInit {
     });
   }
   async doRecordTimedaytype(data: TRATTTimeDaytypeModel[]) {
+    console.log(data)
     await this.atttimedaytypeService.atttimeshift_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -542,10 +543,30 @@ export class RequestDaytypeComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         if (this.selectedtimedaytype.timedaytype_doc === "") {
-          this.selectedtimedaytype.timedaytype_doc = "DAYTYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          this.selectedtimedaytype.timedaytype_doc = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
         }
-        // // console.log(this.selectedtimedaytype)
-        this.doRecordTimedaytype([this.selectedtimedaytype])
+        let data_doc2: TRATTTimeDaytypeModel[] = []
+        var data: TRATTTimeDaytypeModel = new TRATTTimeDaytypeModel();
+        data.company_code = this.initial_current.CompCode;
+        data.worker_code = this.workerDetail.worker_code;
+        data.timedaytype_id = this.selectedtimedaytype.timedaytype_id;
+        data.timedaytype_doc = "SHIFT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')));
+        data.timedaytype_workdate = this.selectedtimedaytype.timedaytype_workdate;
+        data.timedaytype_todate = this.selectedtimedaytype.timedaytype_todate;
+        data.timedaytype_new = this.selectedtimedaytype.timedaytype_new;
+        data.reason_code = this.selectedtimedaytype.reason_code;
+        data.timedaytype_note = this.selectedtimedaytype.timedaytype_note;
+        data.reason_code = this.selectedtimedaytype.reason_code;
+        data.reqdoc_data = this.selectedtimedaytype.reqdoc_data;
+        data.modified_by = this.initial_current.Username,
+
+        data_doc2.push(data);
+        this.doRecordTimedaytype(data_doc2)
+        // if (this.selectedtimedaytype.timedaytype_doc === "") {
+        //   this.selectedtimedaytype.timedaytype_doc = "DAYTYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        // }
+        
+        // this.doRecordTimedaytype([this.selectedtimedaytype])
 
       },
       reject: () => {

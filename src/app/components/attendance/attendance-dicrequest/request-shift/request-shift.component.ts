@@ -363,7 +363,7 @@ export class RequestShiftComponent implements OnInit {
     var tmp = new TRATTTimeShiftModel();
     tmp.timeshift_workdate = this.start_date;
     tmp.timeshift_todate = this.end_date;
-    tmp.worker_code = this.selectedAccount.worker_code;
+    tmp.worker_code = this.workerDetail.worker_code;
     this.atttimeshiftService.atttimeshift_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeshift_workdate = new Date(elm.timeshift_workdate)
@@ -523,7 +523,6 @@ export class RequestShiftComponent implements OnInit {
     });
   }
   async doRecordTimeShift(data: TRATTTimeShiftModel[]) {
-    console.log(data)
     await this.atttimeshiftService.atttimeshift_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });

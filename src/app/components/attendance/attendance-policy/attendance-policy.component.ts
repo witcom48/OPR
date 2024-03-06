@@ -41,8 +41,8 @@ export class AttendancePolicyComponent implements OnInit {
   title_diligence: { [key: string]: string } = { EN: "Diligence", TH: "เงื่อนไขการให้เบี้ยขยัน" };
   title_late: { [key: string]: string } = { EN: "Late", TH: "การสาย" };
   title_timeallowance: { [key: string]: string } = { EN: "Time Allowance", TH: "เงินค่าเวลา" };
-  title_setpolicy: { [key: string]: string } = { EN: "Set Policy", TH: "นโยบายเงินได้" };
-  title_setdeductionincomecode: { [key: string]: string } = { EN: "Set Deduction Income code", TH: "นโยบายเงินหัก" };
+  title_setpolicy: { [key: string]: string } = { EN: "Set Policy", TH: "นโยบายเวลา" };
+  title_setdeductionincomecode: { [key: string]: string } = { EN: "Set Deduction Income code", TH: "นโยบายรหัสเงินได้เงินหัก" };
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "รายละเอียด" };
   title_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
   title_set_policy: { [key: string]: string } = { EN: "Set Policy", TH: "การตั้งค่า" };

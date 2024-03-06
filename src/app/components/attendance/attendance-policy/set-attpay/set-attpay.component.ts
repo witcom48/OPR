@@ -88,7 +88,7 @@ export class SetAttpayComponent implements OnInit {
   title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
   title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
   title_attendance: { [key: string]: string } = { EN: "Attendance", TH: "กำหนดนโยบาย" };
-  title_setdeductionincomecode: { [key: string]: string } = { EN: "Set Deduction Income code", TH: "กำหนดนโยบายเงินหัก" };
+  title_setdeductionincomecode: { [key: string]: string } = { EN: "Set Deduction Income code", TH: "กำหนดนโยบายรหัสเงินได้เงินหัก" };
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
