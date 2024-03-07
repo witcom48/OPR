@@ -28,6 +28,7 @@ import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.com
 import { SeftAccountManageComponent } from './seft-account-manage/seft-account-manage.component';
 import { SelfRequestComponent } from './self-request/self-request.component';
 import { SelfTransferComponent } from './self-transfer/self-transfer.component';
+import { SelfReportComponent } from './self-report/self-report.component';
 
 
 @NgModule({
@@ -64,6 +65,9 @@ import { SelfTransferComponent } from './self-transfer/self-transfer.component';
         { path: 'request', component: SelfRequestComponent },
         { path: 'transfer', component: SelfTransferComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
+
+        { path: 'reports', component: SelfReportComponent },
+
 
         { path: '**', redirectTo: '/notfound' }
     ])],

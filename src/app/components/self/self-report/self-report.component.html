@@ -1,0 +1,42 @@
+<!-- <p>self-report works!</p> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
+<!-- ---------END Link Page----------- -->
+<hr>
+
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>{{langs.get('process')[selectlang]}} </span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <div>
+                    <label>{{langs.get('report_type')[selectlang]}}</label>
+                    <p-dropdown placeholder="--" [options]="rptType" optionValue="code" [showClear]="true"
+                        [(ngModel)]="selected_report" [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th : item.type+' : '+item.name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th : item.type+' : '+item.name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+            </div>
+            <div class="field col-12 md:col-6"></div>
+            <div class="field col-12 md:col-6">
+                <p-button label="{{langs.get('process')[selectlang]}}" (click)="process()"></p-button>
+            </div>
+
+        </div>
+    </p-tabPanel>
+
+</p-tabView>

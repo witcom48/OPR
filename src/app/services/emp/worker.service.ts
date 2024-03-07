@@ -245,7 +245,7 @@ export class EmployeeService {
 
     };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_listbyfillter', fillterS, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/getMTWorkerFillterList', fillterS, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message.data;

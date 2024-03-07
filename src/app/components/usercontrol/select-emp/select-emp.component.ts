@@ -22,6 +22,17 @@ import { ProjectService } from 'src/app/services/project/project.service';
 import { ProjobmainModel } from 'src/app/models/project/project_jobmain';
 import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
 import { DatePipe } from '@angular/common';
+import { AccountModel } from 'src/app/models/self/account';
+import { AccountServices } from 'src/app/services/self/account.service';
+import { ApproveServices } from 'src/app/services/self/approve.service';
+import { TRAccountModel } from 'src/app/models/self/traccount';
+
+
+interface EmpType {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 @Component({
 
@@ -31,7 +42,7 @@ import { DatePipe } from '@angular/common';
 })
 export class SelectEmpComponent implements OnInit {
 
-
+  empType: EmpType[] = [{ name_th: 'รายเดือน', name_en: 'Monthly', code: 'M' },{ name_th: 'รายวัน', name_en: 'Daily', code: 'D' },{ name_th: 'รายเดือน/รายวัน', name_en: 'Monthly/Daily', code: '' }];
   employee_source: EmployeeModel[] = [];
   employee_dest: EmployeeModel[] = [];
   fillterIncludeResign: boolean = false;
@@ -49,6 +60,8 @@ export class SelectEmpComponent implements OnInit {
     private locationService: LocationService,
     private projobService: ProjectDetailService,
     private datePipe: DatePipe,
+    private accountServie: AccountServices,
+    private approveservice: ApproveServices,
   ) { }
 
   ngOnInit(): void {
@@ -103,6 +116,25 @@ export class SelectEmpComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    }
+  }
+
+  account_list: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+    });
   }
 
   //dropdown
@@ -220,6 +252,10 @@ export class SelectEmpComponent implements OnInit {
       fillter.periodresign = this.fillterPeriodResign;
       fillter.fromdate = '';
       fillter.todate = '';
+    }
+
+    if (this.initial_current.Usertype == 'Emp'){
+      fillter.worker_code = this.selectedAccount.worker_code || this.initial_current.Username;
     }
 
     this.employeeService.worker_getbyfillter(fillter).then(async (res) => {

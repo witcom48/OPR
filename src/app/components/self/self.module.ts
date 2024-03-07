@@ -79,6 +79,7 @@ import { ProjectModule } from '../project/project.module';
 import { SystemModule } from '../system/system.module';
 import { StepsModule } from 'primeng/steps';
 import { OrganizationChartModule } from 'primeng/organizationchart';
+import { SelfReportComponent } from './self-report/self-report.component';
 
 @NgModule({
 	imports: [
@@ -159,7 +160,8 @@ import { OrganizationChartModule } from 'primeng/organizationchart';
 		SelfEmpConsentComponent,
 		SeftAccountManageComponent,
 		SelfRequestComponent,
-		SelfTransferComponent
+		SelfTransferComponent,
+  		SelfReportComponent
 	],
 	exports: [SelfAccountComponent],
 })

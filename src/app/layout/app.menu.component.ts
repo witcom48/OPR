@@ -79,6 +79,7 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi-id-card',
                 items: [
                     { label: this.langs.get('employee')[this.selectlang], routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/self/reports'], accessCode: 'SELF003' },
                 ]
             },
 
@@ -87,6 +88,8 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi-id-card',
                 items: [
                     { label: this.langs.get('employee')[this.selectlang], routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/self/reports'], accessCode: 'SELF003' },
+
                 ]
             },
 

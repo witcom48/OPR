@@ -15,6 +15,7 @@ import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import * as XLSX from 'xlsx';
 declare var reqot: any;
 interface Status { name: string, code: number }
 @Component({
@@ -273,10 +274,13 @@ export class SelfOvertimeComponent implements OnInit {
       //   icon: 'pi pi-fw pi-file-import',
       // }
       // ,
-      // {
-      //   label: this.langs.get('export')[this.selectlang],
-      //   icon: 'pi pi-fw pi-file-export',
-      // }
+      {
+        label: this.langs.get('export')[this.selectlang],
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel();
+        }
+      }
 
     ];
 
@@ -485,5 +489,29 @@ export class SelfOvertimeComponent implements OnInit {
     }
     return status;
   }
+
+  @ViewChild('TABLE') table: ElementRef | any = null;
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Leave_Acc_'+this.initial_current.Username+'.xlsx');
+
+  }  
 
 }

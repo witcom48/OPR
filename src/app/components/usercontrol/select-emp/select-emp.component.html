@@ -9,14 +9,14 @@
                         (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                     <label for="lastname2">{{title_emptype}} :</label>
                 </div>
-                <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
+                <p-dropdown placeholder="--" [options]="empType" optionValue="code" [showClear]="true"
                     [(ngModel)]="selectedEmptype" (onChange)="doChangeSelectEmptype()" [disabled]="!fillterEmptype"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                        {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                     </ng-template>
                     <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                        {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                     </ng-template>
                 </p-dropdown>
             </div>
@@ -92,7 +92,8 @@
                 </p-dropdown>
             </div>
             <!-- position -->
-            <div class="select">
+            <div class="select"></div>
+            <!-- <div class="select">
                 <div>
                     <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
                         (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
@@ -108,7 +109,7 @@
                         {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
                     </ng-template>
                 </p-dropdown>
-            </div>
+            </div> -->
             <!-- Search Employee -->
             <div class="select">
                 <div>
@@ -121,7 +122,7 @@
             </div>
 
             <!-- project Job -->
-            <div class="select">
+            <!-- <div class="select">
                 <div>
                     <p-checkbox class="hide" [disabled]="true" name="projob"></p-checkbox> &nbsp;
                     <label for="lastname2">{{title_projob[initial_current.Language]}} :</label>
@@ -137,7 +138,7 @@
                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
                     </ng-template>
                 </p-dropdown>
-            </div>
+            </div> -->
 
             <div class="select">
 

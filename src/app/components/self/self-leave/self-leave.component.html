@@ -177,7 +177,7 @@
 
 <div class="grid">
 
-    <div class="col-12">
+    <div #TABLEMAIN class="col-12">
         <p-menubar [model]="items"></p-menubar>
         <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleave"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
@@ -299,7 +299,8 @@
         <small>{{this.initial_current.PR_Year}}</small>
     </div>
     <div #TABLE class="col-12">
-        <p-table #dt2 [value]="leaveacc_list" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        <p-menubar [model]="items_accumalate"></p-menubar>
+        <p-table #dt2 [value]="leaveacc_list" [rows]="20" [rowsPerPageOptions]="[20,40,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
             [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain','leave_detail']"
             responsiveLayout="stack" [breakpoint]="'744px'">
