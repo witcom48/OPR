@@ -58,6 +58,18 @@ this.initialData.Username=="admin"
         <a>Consent</a>
         <a>Submit a request</a>
     </div> -->
+    <div class="col-12 md:col-3" *ngIf="this.initialData.Username!='admin'">
+        <!-- <b>Setup</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>{{langs.get('setup')[selectedLanguage]}}</b>
+            </div>
+        </p-divider>
+        <div *ngFor="let item of proMenuItems">
+            <a routerLink="../../self/{{item.link}}">{{item.title}}</a>
+        </div>
+    </div>
 
     <div class="col-12 md:col-3" *ngIf="this.initialData.Username=='admin'">
         <!-- <b>Setup</b> -->

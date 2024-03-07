@@ -29,6 +29,7 @@ import { SeftAccountManageComponent } from './seft-account-manage/seft-account-m
 import { SelfRequestComponent } from './self-request/self-request.component';
 import { SelfTransferComponent } from './self-transfer/self-transfer.component';
 import { SelfReportComponent } from './self-report/self-report.component';
+import { SelfChangepasswordComponent } from './self-changepassword/self-changepassword.component';
 
 
 @NgModule({
@@ -67,6 +68,8 @@ import { SelfReportComponent } from './self-report/self-report.component';
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: 'reports', component: SelfReportComponent },
+
+        { path: 'changepass', component: SelfChangepasswordComponent },
 
 
         { path: '**', redirectTo: '/notfound' }

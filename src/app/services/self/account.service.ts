@@ -112,6 +112,15 @@ export class AccountServices {
             });
     }
 
+    public ChangePassowrd(cur_password: string, new_password: string) {
+
+        return this.http.get<any>(this.config.ApiAttendanceModule + '/doManageChangePassowrd?com=' + this.initial_current.CompCode + '&username=' + this.initial_current.Username + '&usertype=' + this.initial_current.Usertype + '&cur_pass=' + cur_password + '&new_pass=' + new_password).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
+
     public getCountTypeAccount() {
 
         return this.http.get<any>(this.config.ApiAttendanceModule + '/getCountTypeAccount?com=' + this.initial_current.CompCode + '&worker=' + this.initial_current.Username).toPromise()

@@ -185,10 +185,15 @@ export class SelfApproveComponent implements OnInit {
       // },
     ]
     this.proMenuList = [
+      // {
+      //   title: this.langs.get('transfer')[this.selectedLanguage],
+      //   link: 'transfer',
+      //   accessCode: 'SELF002-014'
+      // },
       {
-        title: this.langs.get('transfer')[this.selectedLanguage],
-        link: 'transfer',
-        accessCode: 'SELF002-014'
+        title: this.selectedLanguage == 'TH' ? 'เปลี่ยนรหัสผ่าน' : 'Change Password',
+        link: 'changepass',
+        accessCode: 'SELF001-008'
       },
     ]
     this.setMenus();
@@ -198,6 +203,7 @@ export class SelfApproveComponent implements OnInit {
     if (this.initialData.Usertype == "APR" || this.initialData.Usertype == "ADM") {
       this.approvalMenuItems = this.approvalMenuList;
       this.setupMenuItems = this.setupMenuList;
+      this.proMenuItems = this.proMenuList;
     } else {
       this.accessData = this.initialData2.dotGetPolmenu('SELF');
 

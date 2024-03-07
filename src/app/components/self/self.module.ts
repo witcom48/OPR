@@ -80,6 +80,7 @@ import { SystemModule } from '../system/system.module';
 import { StepsModule } from 'primeng/steps';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { SelfReportComponent } from './self-report/self-report.component';
+import { SelfChangepasswordComponent } from './self-changepassword/self-changepassword.component';
 
 @NgModule({
 	imports: [
@@ -161,7 +162,8 @@ import { SelfReportComponent } from './self-report/self-report.component';
 		SeftAccountManageComponent,
 		SelfRequestComponent,
 		SelfTransferComponent,
-  		SelfReportComponent
+  		SelfReportComponent,
+    SelfChangepasswordComponent
 	],
 	exports: [SelfAccountComponent],
 })

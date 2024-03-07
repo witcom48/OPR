@@ -90,9 +90,14 @@ export class SelfEmployeeComponent implements OnInit {
     this.selectedLanguage = this.initialData.Language;
     this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectedLanguage], routerLink: '/self/employee', styleClass: 'activelike' }];
     this.pdpaMenuList = [
+      // {
+      //   title: this.langs.get('consent')[this.selectedLanguage],
+      //   link: 'empconsent',
+      //   accessCode: 'SELF001-008'
+      // },
       {
-        title: this.langs.get('consent')[this.selectedLanguage],
-        link: 'empconsent',
+        title: this.selectedLanguage == 'TH' ? 'เปลี่ยนรหัสผ่าน' : 'Change Password',
+        link: 'changepass',
         accessCode: 'SELF001-008'
       },
     ]
@@ -111,16 +116,16 @@ export class SelfEmployeeComponent implements OnInit {
       link: 'req_overtime',
       accessCode: 'SELF001-003'
     },
-    // {
-    //   title: this.langs.get('daytype')[this.selectedLanguage],
-    //   link: 'req_daytype',
-    //   accessCode: 'SELF001-004'
-    // },
-    // {
-    //   title: this.langs.get('punchcard')[this.selectedLanguage],
-    //   link: 'req_record',
-    //   accessCode: 'SELF001-005'
-    // },
+      // {
+      //   title: this.langs.get('daytype')[this.selectedLanguage],
+      //   link: 'req_daytype',
+      //   accessCode: 'SELF001-004'
+      // },
+      // {
+      //   title: this.langs.get('punchcard')[this.selectedLanguage],
+      //   link: 'req_record',
+      //   accessCode: 'SELF001-005'
+      // },
       // {
       //   title: this.langs.get('checkin')[this.selectedLanguage],
       //   link: 'req_checkin',
