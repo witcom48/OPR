@@ -13,6 +13,8 @@ var langcalendarth = {
     equals: "เท่ากับ",
     notEquals: "ไม่เท่ากับ",
     noFilter: "ไม่มีตัวกรอง",
+    matchAll: "จับคู่ทั้งหมด",
+    matchAny: "จับคู่อะไรก็ได้",
 
 
 };
@@ -31,6 +33,8 @@ var langcalendaren = {
     equals: "Equals",
     notEquals: "Not equals",
     noFilter: "No Filter",
+    matchAll: "Match All",
+    matchAny: "Match Any",
 }
 
 

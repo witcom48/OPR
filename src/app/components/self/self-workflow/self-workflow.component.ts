@@ -63,7 +63,7 @@ export class SelfWorkflowComponent implements OnInit {
       { code: 'OT', name: this.langs.get('otreq')[this.selectlang] },
       // { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
       // { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
-      // { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
+      { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
       // { code: 'CI', name: this.langs.get('checkinreq')[this.selectlang] },
       // { code: 'REQ', name: this.langs.get('reqdocreq')[this.selectlang] },
     ];

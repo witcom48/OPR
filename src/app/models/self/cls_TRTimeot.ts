@@ -23,7 +23,7 @@ export class cls_TRTimeotModel {
     reason_code: string = "";
     status: number = 0;
     status_job: string = "";
-    jobtable_id:string="";
+    jobtable_id: string = "";
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
@@ -36,4 +36,10 @@ export class cls_TRTimeotModel {
     location_name_en: string = "";
     reqdoc_data: cls_MTReqdocumentModel[] = []
 
+    worker_detail_show: string = "";
+    timeot_workdate_show: string = "";
+    reason_name_show: string = "";
+    modified_date_show: string = "";
+
+    status_show: string = "";
 }

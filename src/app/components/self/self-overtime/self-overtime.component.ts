@@ -146,10 +146,15 @@ export class SelfOvertimeComponent implements OnInit {
     this.timeotService.timeot_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeot_workdate = new Date(elm.timeot_workdate)
+        elm.timeot_workdate_show = this.datePipe.transform(elm.timeot_workdate, 'dd/MM/yyyy')
+        elm.reason_name_show = this.selectlang == 'TH' ? elm.reason_name_th : elm.reason_name_en;
+        elm.status_show = this.getFullStatus(elm.status);
+        elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
       });
       this.trtimeot_list = await res
     });
   }
+
   doLoadReason() {
     this.reason_list = [];
     let data = new ReasonsModel()
@@ -466,16 +471,16 @@ export class SelfOvertimeComponent implements OnInit {
       }
     });
   }
-  getFullStatus(code: string) {
+  getFullStatus(code: number) {
     let status = ""
     switch (code) {
-      case "W":
+      case 0:
         status = this.langs.get('wait')[this.selectlang];
         break;
-      case "F":
+      case 3:
         status = this.langs.get('finish')[this.selectlang];
         break;
-      case "C":
+      case 4:
         status = this.langs.get('reject')[this.selectlang];
     }
     return status;

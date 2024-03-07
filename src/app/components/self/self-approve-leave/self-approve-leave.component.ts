@@ -112,6 +112,14 @@ export class SelfApproveLeaveComponent implements OnInit {
           await res.data.forEach((elm: any) => {
             elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
             elm.timeleave_todate = new Date(elm.timeleave_todate)
+            elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
+            elm.timeleave_fromdate_show = this.datePipe.transform(elm.timeleave_fromdate, 'dd/MM/yyyy')
+            elm.timeleave_todate_show = this.datePipe.transform(elm.timeleave_todate, 'dd/MM/yyyy')
+            elm.timeleave_type_show = this.getFulltyupeLeave(elm.timeleave_type)
+            elm.name_show = this.selectlang == 'TH' ? elm.worker_detail_th : elm.worker_detail_en
+            elm.leave_type_show = this.selectlang == 'TH' ? elm.leave_detail_th : elm.leave_detail_en
+            elm.reson_show = this.selectlang == 'TH' ? elm.reason_th : elm.reason_en
+            elm.timeleave_status_show = this.getFullStatus(elm.status_job)
             this.trtimeleave_list.push(elm)
           });
           this.approveTotal = await res.total;
@@ -127,14 +135,33 @@ export class SelfApproveLeaveComponent implements OnInit {
         res.data.forEach((elm: any) => {
           elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
           elm.timeleave_todate = new Date(elm.timeleave_todate)
+          elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
           elm.timeleave_fromdate_show = this.datePipe.transform(elm.timeleave_fromdate, 'dd/MM/yyyy')
           elm.timeleave_todate_show = this.datePipe.transform(elm.timeleave_todate, 'dd/MM/yyyy')
           elm.timeleave_type_show = this.getFulltyupeLeave(elm.timeleave_type)
+          elm.name_show = this.selectlang == 'TH' ? elm.worker_detail_th : elm.worker_detail_en
+          elm.leave_type_show = this.selectlang == 'TH' ? elm.leave_detail_th : elm.leave_detail_en
+          elm.reson_show = this.selectlang == 'TH' ? elm.reason_th : elm.reason_en
+          elm.timeleave_status_show = this.getFullStatus(elm.status_job)
         });
         this.trtimeleave_list = await res.data;
         this.approveTotal = await res.total;
       });
     }
+  }
+  getFullStatus(code: string) {
+    let status = ""
+    switch (code) {
+      case "W":
+        status = this.langs.get('wait')[this.selectlang];
+        break;
+      case "F":
+        status = this.langs.get('finish')[this.selectlang];
+        break;
+      case "C":
+        status = this.langs.get('reject')[this.selectlang];
+    }
+    return status;
   }
   doLoadLeaveacc(userid: string) {
     this.leaveacc_list = [];

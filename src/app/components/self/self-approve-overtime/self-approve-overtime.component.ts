@@ -113,8 +113,14 @@ export class SelfApproveOvertimeComponent implements OnInit {
           await res.data.forEach((elm: any) => {
             elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
             elm.timeleave_todate = new Date(elm.timeleave_todate)
-            this.trtimeot_list.push(elm)
+            elm.worker_detail_show = this.selectlang == "TH" ? elm.worker_detail_th : elm.worker_detail_en;
+            elm.timeot_workdate_show = this.datePipe.transform(elm.timeot_workdate, 'dd/MM/yyyy')
+            elm.reason_name_show = this.selectlang == "TH" ? elm.reason_name_th : elm.reason_name_en;
+            elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
+            elm.status_show = this.getFullStatus(elm.status_job)
+              this.trtimeot_list.push(elm)
           });
+          console.log(res.data)
           this.approveTotal = await res.total;
         });
       })
@@ -128,11 +134,30 @@ export class SelfApproveOvertimeComponent implements OnInit {
         res.data.forEach((elm: any) => {
           elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
           elm.timeleave_todate = new Date(elm.timeleave_todate)
+          elm.worker_detail_show = this.selectlang == "TH" ? elm.worker_detail_th : elm.worker_detail_en;
+          elm.timeot_workdate_show = this.datePipe.transform(elm.timeot_workdate, 'dd/MM/yyyy')
+          elm.reason_name_show = this.selectlang == "TH" ? elm.reason_name_th : elm.reason_name_en;
+          elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
+          elm.status_show = this.getFullStatus(elm.status_job)
         });
         this.trtimeot_list = await res.data;
         this.approveTotal = await res.total;
       });
     }
+  }
+  getFullStatus(code: string) {
+    let status = ""
+    switch (code) {
+      case "W":
+        status = this.langs.get('wait')[this.selectlang];
+        break;
+      case "F":
+        status = this.langs.get('finish')[this.selectlang];
+        break;
+      case "C":
+        status = this.langs.get('reject')[this.selectlang];
+    }
+    return status;
   }
   doLoadReason() {
     this.reason_list = [];

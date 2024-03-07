@@ -156,10 +156,14 @@ export class SelfLeaveComponent implements OnInit {
           elm.timeleave_todate = new Date(elm.timeleave_todate)
           elm.timeleave_fromdate_show = this.datePipe.transform(elm.timeleave_fromdate, 'dd/MM/yyyy')
           elm.timeleave_todate_show = this.datePipe.transform(elm.timeleave_todate, 'dd/MM/yyyy')
+          elm.reson_show = this.selectlang == 'TH' ? elm.reason_th : elm.reason_en;
           elm.timeleave_type_show = this.getFulltyupeLeave(elm.timeleave_type)
-          elm.timeleave_status_show = this.getFullStatus(elm.timeleave_type)
+          elm.timeleave_status_show = this.getFullStatus(elm.status)
+          elm.worker_detail_show = this.selectlang == 'TH' ? elm.leave_detail_th : elm.leave_detail_en;
+          elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
         });
       }
+      console.log(res)
       this.trtimeleave_list = await res
     });
 
@@ -457,16 +461,16 @@ export class SelfLeaveComponent implements OnInit {
     }
     return day;
   }
-  getFullStatus(code: string) {
+  getFullStatus(code: number) {
     let status = ""
     switch (code) {
-      case "W":
+      case 0:
         status = this.langs.get('wait')[this.selectlang];
         break;
-      case "F":
+      case 3:
         status = this.langs.get('finish')[this.selectlang];
         break;
-      case "C":
+      case 4:
         status = this.langs.get('reject')[this.selectlang];
     }
     return status;

@@ -34,11 +34,14 @@ export class cls_TRTimeleaveModel {
 
   project_code: string = ""
   reqdoc_data: cls_MTReqdocumentModel[] = []
-
+  worker_detail_show: string = "";
+  modified_date_show: string = "";
   timeleave_fromdate_show: string = "";
   timeleave_todate_show: string = "";
   timeleave_type_show: string = "";
   timeleave_status_show: string = "";
-
+  name_show: string = "";
+  leave_type_show: string = "";
+  reson_show: string = "";
 
 }
