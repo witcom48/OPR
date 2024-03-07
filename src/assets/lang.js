@@ -1697,3 +1697,11 @@ var slefappemp = new Map([
     ["project", { TH: "โปรเจค", EN: "Project" }],
     ["transfer", { TH: "Transfer Record", EN: "Transfer Record" }],
 ]);
+
+var reports = new Map([
+    ["reports", { TH: "รายงาน", EN: "Report" }],
+    ["process", { TH: "การทำงาน", EN: "Process" }],
+    ["report_type", { TH: "รายงาน", EN: "Reports" }],
+    ["alertselect", { TH: "กรุณาเลือกพนักงานด้วยค่ะ", EN: "Please selected employee" }],
+    ["alerterror", { TH: "Reports Error", EN: "Reports Error" }],
+]);
