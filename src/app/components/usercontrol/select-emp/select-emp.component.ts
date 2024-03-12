@@ -42,7 +42,7 @@ interface EmpType {
 })
 export class SelectEmpComponent implements OnInit {
 
-  empType: EmpType[] = [{ name_th: 'รายเดือน', name_en: 'Monthly', code: 'M' },{ name_th: 'รายวัน', name_en: 'Daily', code: 'D' },{ name_th: 'รายเดือน/รายวัน', name_en: 'Monthly/Daily', code: '' }];
+  empType: EmpType[] = [{ name_th: 'รายเดือน', name_en: 'Monthly', code: 'M' }, { name_th: 'รายวัน', name_en: 'Daily', code: 'D' }, { name_th: 'รายเดือน/รายวัน', name_en: 'Monthly/Daily', code: '' }];
   employee_source: EmployeeModel[] = [];
   employee_dest: EmployeeModel[] = [];
   fillterIncludeResign: boolean = false;
@@ -104,8 +104,8 @@ export class SelectEmpComponent implements OnInit {
       this.title_resign = "รวมพนักงานลาออก";
       this.title_searchemp = "ค้นหาพนักงาน";
       this.title_project = "โครงการ"
-      this.title_source_list= "รายการที่ไม่ได้เลือก"
-      this.title_target_list= "รายการที่เลือก"
+      this.title_source_list = "รายการที่ไม่ได้เลือก"
+      this.title_target_list = "รายการที่เลือก"
 
     }
   }
@@ -192,7 +192,7 @@ export class SelectEmpComponent implements OnInit {
   }
   projobList: ProjobmainModel[] = [];
   doLoadProjobmain() {
-    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
+    this.projobService.projobmain_get('', this.selectedProject, '', this.initial_current.PR_FromDate, this.initial_current.PR_ToDate).then(async (res) => {
       this.projobList = await res
     })
   }
@@ -246,21 +246,38 @@ export class SelectEmpComponent implements OnInit {
     //resignPeriod
     if (this.fillterPeriodResign) {
       fillter.periodresign = this.fillterPeriodResign;
-      fillter.fromdate = this.datePipe.transform(this.initial_current.PR_FromDate,'yyyy-MM-ddTHH:mm:ss') ;
-      fillter.todate = this.datePipe.transform(this.initial_current.PR_ToDate,'yyyy-MM-ddTHH:mm:ss');
+      fillter.fromdate = this.datePipe.transform(this.initial_current.PR_FromDate, 'yyyy-MM-ddTHH:mm:ss');
+      fillter.todate = this.datePipe.transform(this.initial_current.PR_ToDate, 'yyyy-MM-ddTHH:mm:ss');
     } else {
       fillter.periodresign = this.fillterPeriodResign;
       fillter.fromdate = '';
       fillter.todate = '';
     }
 
-    if (this.initial_current.Usertype == 'Emp'){
+    if (this.initial_current.Usertype == 'Emp') {
       fillter.worker_code = this.selectedAccount.worker_code || this.initial_current.Username;
+      this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+        this.employee_source = res;
+      })
     }
-
-    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
-      this.employee_source = res;
-    })
+    if (this.initial_current.Usertype == 'APR') {
+      this.employee_source = []
+      this.accountServie.getEmpinApproveUser().then(async (resdata) => {
+        console.log(resdata);
+        await this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+          console.log(res);
+         let dataemp: EmployeeModel[] = [];
+          await res.forEach(async (emp: EmployeeModel) => {
+            // console.log(resdata.data.includes(emp.worker_code))
+            if (resdata.data.includes(emp.worker_code)) {
+              console.log(emp)
+              dataemp.push(emp)
+            }
+          })
+          this.employee_source = dataemp;
+        })
+      })
+    }
   }
 
   //-- Type master
