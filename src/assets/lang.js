@@ -1708,4 +1708,8 @@ var reports = new Map([
     ["report_type", { TH: "รายงาน", EN: "Reports" }],
     ["alertselect", { TH: "กรุณาเลือกพนักงานด้วยค่ะ", EN: "Please selected employee" }],
     ["alerterror", { TH: "Reports Error", EN: "Reports Error" }],
+    ["from", { TH: "จากวันที่", EN: "Fromdate" }],
+    ["to", { TH: "ถึงวันที่", EN: "Todate" }],
+    ["pay_year", { TH: "ปี", EN: "Year" }],
+    ["payment", { TH: "วันที่จ่าย", EN: "Paymnet" }],
 ]);
