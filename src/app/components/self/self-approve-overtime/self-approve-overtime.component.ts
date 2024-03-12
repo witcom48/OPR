@@ -47,6 +47,8 @@ export class SelfApproveOvertimeComponent implements OnInit {
     private router: Router,
     private config: PrimeNGConfig,
   ) { }
+  displayrejecttype: boolean = false;
+  reject_note: string = '';
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -118,7 +120,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
             elm.reason_name_show = this.selectlang == "TH" ? elm.reason_name_th : elm.reason_name_en;
             elm.modified_date_show = this.datePipe.transform(elm.modified_date, 'dd/MM/yyyy')
             elm.status_show = this.getFullStatus(elm.status_job)
-              this.trtimeot_list.push(elm)
+            this.trtimeot_list.push(elm)
           });
           console.log(res.data)
           this.approveTotal = await res.total;
@@ -238,6 +240,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     this.initial_current.loading = true;
     data.job_type = "OT";
     data.lang = this.selectlang;
+    data.reject_note = this.reject_note;
     await this.approveService.approveJob(data).then((res) => {
       if (res.result) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -449,24 +452,60 @@ export class SelfApproveOvertimeComponent implements OnInit {
     }
 
   }
-  Delete(data: cls_TRTimeotModel) {
-    if (!this.selectedtrtimeotall.length && !this.status_doc) {
-      this.confirmationService.confirm({
-        message: this.langs.get('connotapprove')[this.selectlang],
-        header: this.langs.get('connotdoc')[this.selectlang],
-        icon: 'pi pi-times',
-        accept: () => {
-          let tmp = new ApproveModel();
-          tmp.job_id = [data.jobtable_id];
-          tmp.approve_status = "C";
-          tmp.company_code = data.company_code;
-          this.doApproveJob(tmp)
-        },
-        reject: () => {
-
+  closedispaly() {
+    this.displayrejecttype = false;
+  }
+  submitreject() {
+    this.displayrejecttype = false;
+    console.log(!this.selectedtrtimeotall.length)
+    this.confirmationService.confirm({
+      message: this.langs.get('connotapprove')[this.selectlang],
+      header: this.langs.get('connotdoc')[this.selectlang],
+      icon: 'pi pi-times',
+      accept: () => {
+        let tmp = new ApproveModel();
+        tmp.approve_status = "C";
+        if (this.selectedtrtimeotall.length > 0) {
+          this.selectedtrtimeotall.forEach((data: cls_TRTimeotModel) => {
+            tmp.job_id.push(data.jobtable_id)
+            tmp.company_code = data.company_code;
+          })
+        } else {
+          tmp.job_id = [this.datareject.jobtable_id];
+          tmp.company_code = this.datareject.company_code;
         }
-      });
-    }
+        console.log('dddddddd')
+        console.log(tmp);
+        this.doApproveJob(tmp)
+      },
+      reject: () => {
+
+      }
+    });
+  }
+  datareject: cls_TRTimeotModel = new cls_TRTimeotModel();
+  Delete(data: cls_TRTimeotModel) {
+    this.reject_note = '';
+    this.datareject = new cls_TRTimeotModel;
+    this.datareject = data;
+    this.displayrejecttype = true;
+    // if (!this.selectedtrtimeotall.length && !this.status_doc) {
+    //   this.confirmationService.confirm({
+    //     message: this.langs.get('connotapprove')[this.selectlang],
+    //     header: this.langs.get('connotdoc')[this.selectlang],
+    //     icon: 'pi pi-times',
+    //     accept: () => {
+    //       let tmp = new ApproveModel();
+    //       tmp.job_id = [data.jobtable_id];
+    //       tmp.approve_status = "C";
+    //       tmp.company_code = data.company_code;
+    //       this.doApproveJob(tmp)
+    //     },
+    //     reject: () => {
+
+    //     }
+    //   });
+    // }
   }
   Saveall() {
     if (this.selectedtrtimeotall.length && !this.status_doc) {
@@ -491,26 +530,28 @@ export class SelfApproveOvertimeComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtrtimeotall.length && !this.status_doc) {
-      this.confirmationService.confirm({
-        message: this.langs.get('connotapprove')[this.selectlang],
-        header: this.langs.get('connotdoc')[this.selectlang],
-        icon: 'pi pi-times',
-        accept: () => {
-          let tmp = new ApproveModel();
-          this.selectedtrtimeotall.forEach((data: cls_TRTimeotModel) => {
-            tmp.job_id.push(data.jobtable_id)
-            tmp.approve_status = "C";
-            tmp.company_code = data.company_code;
-          })
-          // console.log(tmp)
-          this.doApproveJob(tmp)
-        },
-        reject: () => {
+    this.reject_note = '';
+    this.displayrejecttype = true;
+    // if (this.selectedtrtimeotall.length && !this.status_doc) {
+    //   this.confirmationService.confirm({
+    //     message: this.langs.get('connotapprove')[this.selectlang],
+    //     header: this.langs.get('connotdoc')[this.selectlang],
+    //     icon: 'pi pi-times',
+    //     accept: () => {
+    //       let tmp = new ApproveModel();
+    //       this.selectedtrtimeotall.forEach((data: cls_TRTimeotModel) => {
+    //         tmp.job_id.push(data.jobtable_id)
+    //         tmp.approve_status = "C";
+    //         tmp.company_code = data.company_code;
+    //       })
+    //       // console.log(tmp)
+    //       this.doApproveJob(tmp)
+    //     },
+    //     reject: () => {
 
-        }
-      });
-    }
+    //     }
+    //   });
+    // }
   }
   viwe(data: cls_TRTimeotModel) {
     this.selectedtrtimeot = data;

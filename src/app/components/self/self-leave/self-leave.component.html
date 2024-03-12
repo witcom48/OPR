@@ -95,7 +95,10 @@
             <!-- <input id="project_name_th" type="text"
                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
         </div>
-
+        <div class="field col-12 md:col-6 mb-5" *ngIf="selectedtrtimeleave.status==4">
+            <span>{{selectlang=='TH'?'เหตุผลที่ปฏิเสธ : ': 'Reason for reject : '}}</span>
+            <span style="color: red;">{{selectedtrtimeleave.reject_note}}</span>
+        </div>
         <div class="field col-12">
             <p-menubar [model]="items_attfile"></p-menubar>
             <p-table #dt3 [value]="selectedtrtimeleave.reqdoc_data" selectionMode="single"

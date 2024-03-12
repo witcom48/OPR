@@ -43,5 +43,6 @@ export class cls_TRTimeleaveModel {
   name_show: string = "";
   leave_type_show: string = "";
   reson_show: string = "";
+  reject_note: string = "";
 
 }

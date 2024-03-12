@@ -207,7 +207,11 @@ export class SelfLeaveComponent implements OnInit {
         this.doLoadLeaveacc();
       }
       else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        if (res.result == "3") {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        }
       }
 
     });
@@ -555,9 +559,9 @@ export class SelfLeaveComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Leave_'+this.initial_current.Username+'.xlsx');
+    XLSX.writeFile(wb, 'Leave_' + this.initial_current.Username + '.xlsx');
 
-  }  
+  }
 
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
@@ -578,9 +582,9 @@ export class SelfLeaveComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Leave_Acc_'+this.initial_current.Username+'.xlsx');
+    XLSX.writeFile(wb, 'Leave_Acc_' + this.initial_current.Username + '.xlsx');
 
-  }  
+  }
 
 
 }

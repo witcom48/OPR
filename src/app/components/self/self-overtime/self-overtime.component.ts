@@ -12,6 +12,7 @@ import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { ApproveServices } from 'src/app/services/self/approve.service';
+import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
@@ -46,8 +47,10 @@ export class SelfOvertimeComponent implements OnInit {
     private locationService: LocationService,
     private accountServie: AccountServices,
     private approveservice: ApproveServices,
+    private timleaveServices: TimeleaveServices,
     private router: Router,
   ) { }
+  indayleve: boolean = false;
   itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
@@ -178,7 +181,11 @@ export class SelfOvertimeComponent implements OnInit {
         this.doLoadTimeot();
       }
       else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        if (res.result == "3") {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        }
       }
 
     });
@@ -490,6 +497,15 @@ export class SelfOvertimeComponent implements OnInit {
     return status;
   }
 
+
+  doLoadchecldayinleave() {
+    console.log(this.selectedtrtimeot.timeot_workdate)
+    this.timleaveServices.getdayinleave(this.selectedtrtimeot.timeot_workdate).then((res) => {
+      console.log(res);
+      this.indayleve = res.indayleave;
+    })
+  }
+
   @ViewChild('TABLE') table: ElementRef | any = null;
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
@@ -510,8 +526,8 @@ export class SelfOvertimeComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Leave_Acc_'+this.initial_current.Username+'.xlsx');
+    XLSX.writeFile(wb, 'Leave_Acc_' + this.initial_current.Username + '.xlsx');
 
-  }  
+  }
 
 }

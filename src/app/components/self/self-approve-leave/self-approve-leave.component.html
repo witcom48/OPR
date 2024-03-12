@@ -259,7 +259,8 @@
                     <th style="min-width: 13rem" pSortableColumn="timeleave_status_show">
                         {{langs.get('status')[selectlang]}}
                         <p-sortIcon field="timeleave_status_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeleave_status_show" display="menu" class="ml-auto"></p-columnFilter>
+                        <p-columnFilter type="text" field="timeleave_status_show" display="menu"
+                            class="ml-auto"></p-columnFilter>
                     </th>
                     <!-- <th>{{langs.get('status')[selectlang]}}</th> -->
                     <th style="min-width: 12rem" pSortableColumn="modified_by">{{langs.get('modified_by')[selectlang]}}
@@ -336,5 +337,16 @@
         </p-table>
     </div>
 </div>
+
+
+<p-dialog header="{{selectlang=='TH'?'เหตุผลที่ปฏิเสธ': 'Reason for reject'}}" [(visible)]="displayrejecttype"
+    [style]="{width: '30vw'}" [draggable]="false" (onHide)="closedispaly()">
+    <div style="display: flex;flex-direction: column;gap: 8px;">
+        <textarea [(ngModel)]="reject_note" pInputTextarea [autoResize]="true"></textarea>
+        <button pButton type="button" label="{{'ยืนยัน'}}" icon="pi pi-lock" (click)="submitreject()"></button>
+    </div>
+</p-dialog>
+
+
 
 <app-spinner [loadding]="initial_current.loading"></app-spinner>

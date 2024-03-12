@@ -193,4 +193,13 @@ export class TimeleaveServices {
                 return message;
             });
     }
+
+    public getdayinleave(Date: Date) {
+        // console.log('ATT001..');
+        return this.http.get<any>(this.config.ApiSelfServicesModule + '/checkdayleave?com=' + this.initial_current.CompCode + '&worker=' + this.initial_current.Username + '&date=' + this.datePipe.transform(Date, 'yyy-MM-dd')).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
 }

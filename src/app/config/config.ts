@@ -6,11 +6,11 @@ export class AppConfig {
   }
   UrlApi: string = "http://localhost:32208"
   //  UrlApi: string = "https://83.118.28.242:8803"
-  //UrlApi: string = "http://161.82.218.95:8806"
+  // UrlApi: string = "http://161.82.218.95:8803"
   // UrlApi: string = "https://hrfocusess.com:8806"
 
-  // WebReporting:string = "http://161.82.218.95:8807/GenarateReport.aspx?token=";
-  WebReporting: string = "https://83.118.28.242:8807/GenarateReport.aspx?token=";
+  WebReporting:string = "http://161.82.218.95:8807/GenarateReport.aspx?token=";
+  // WebReporting: string = "https://83.118.28.242:8807/GenarateReport.aspx?token=";
   // WebReporting:string = "http://localhost:5454/GenarateReport.aspx?token="
 
 

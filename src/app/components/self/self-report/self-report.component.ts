@@ -105,7 +105,7 @@ export class SelfReportComponent implements OnInit {
     }
 
     this.reportjobService.doManage(this.reportjob, this.selectEmp.employee_dest).then((res) =>{      
-      if(res.success){
+      if(res.result){
         //console.log('Success');
         //this.doPrintMessage("Success", "1");    
         this.doPreview(res.result_text);

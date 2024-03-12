@@ -74,6 +74,7 @@ export class ApproveServices {
             job_type: approve.job_type,
             approve_status: approve.approve_status,
             job_id: approve.job_id,
+            reject_note: approve.reject_note,
             lang: approve.lang || this.initial_current.Language
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/approve', data, this.options).toPromise()

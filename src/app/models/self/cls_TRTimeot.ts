@@ -42,4 +42,6 @@ export class cls_TRTimeotModel {
     modified_date_show: string = "";
 
     status_show: string = "";
+
+    reject_note:string = ""
 }

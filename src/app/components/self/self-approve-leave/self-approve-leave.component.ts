@@ -43,6 +43,8 @@ export class SelfApproveLeaveComponent implements OnInit {
     private reasonService: ReasonsService,
     private router: Router,
   ) { }
+  displayrejecttype: boolean = false;
+  reject_note: string = '';
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   edit_data: boolean = false
@@ -206,6 +208,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     this.initial_current.loading = true;
     data.job_type = "LEA";
     data.lang = this.selectlang;
+    data.reject_note = this.reject_note;
     await this.approveService.approveJob(data).then((res) => {
       if (res.result) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -320,27 +323,46 @@ export class SelfApproveLeaveComponent implements OnInit {
     }
 
   }
-  Delete(data: cls_TRTimeleaveModel) {
-    if (!this.selectedtrtimeleaveall.length && !this.status_doc) {
-      this.confirmationService.confirm({
-        message: this.langs.get('connotapprove')[this.selectlang],
-        header: this.langs.get('connotdoc')[this.selectlang],
-        icon: 'pi pi-times',
-        accept: () => {
-          let tmp = new ApproveModel();
-          tmp.job_id = [data.jobtable_id];
-          tmp.approve_status = "C";
-          tmp.company_code = data.company_code;
-          this.doApproveJob(tmp)
-        },
-        reject: () => {
-
+  closedispaly() {
+    this.displayrejecttype = false;
+  }
+  datareject: cls_TRTimeleaveModel = new cls_TRTimeleaveModel;
+  submitreject() {
+    this.displayrejecttype = false;
+    console.log(!this.selectedtrtimeleaveall.length)
+    this.confirmationService.confirm({
+      message: this.langs.get('connotapprove')[this.selectlang],
+      header: this.langs.get('connotdoc')[this.selectlang],
+      icon: 'pi pi-times',
+      accept: () => {
+        let tmp = new ApproveModel();
+        tmp.approve_status = "C";
+        if (this.selectedtrtimeleaveall.length > 0) {
+          this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+            tmp.job_id.push(data.jobtable_id)
+            tmp.company_code = data.company_code;
+          })
+        } else {
+          tmp.job_id = [this.datareject.jobtable_id];
+          tmp.company_code = this.datareject.company_code;
         }
-      });
-    }
+        console.log('dddddddd')
+        console.log(tmp);
+        this.doApproveJob(tmp)
+      },
+      reject: () => {
+
+      }
+    });
+  }
+  Delete(data: cls_TRTimeleaveModel) {
+    this.reject_note = '';
+    this.datareject = new cls_TRTimeleaveModel;
+    this.datareject = data;
+    this.displayrejecttype = true;
   }
   Saveall() {
-    if (this.selectedtrtimeleaveall.length && !this.status_doc) {
+    if (this.selectedtrtimeleaveall.length) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -362,26 +384,28 @@ export class SelfApproveLeaveComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtrtimeleaveall.length && !this.status_doc) {
-      this.confirmationService.confirm({
-        message: this.langs.get('connotapprove')[this.selectlang],
-        header: this.langs.get('connotdoc')[this.selectlang],
-        icon: 'pi pi-times',
-        accept: () => {
-          let tmp = new ApproveModel();
-          this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
-            tmp.job_id.push(data.jobtable_id)
-            tmp.approve_status = "C";
-            tmp.company_code = data.company_code;
-          })
-          // console.log(tmp)
-          this.doApproveJob(tmp)
-        },
-        reject: () => {
+    this.reject_note = '';
+    this.displayrejecttype = true;
+    // if (this.selectedtrtimeleaveall.length && !this.status_doc) {
+    //   this.confirmationService.confirm({
+    //     message: this.langs.get('connotapprove')[this.selectlang],
+    //     header: this.langs.get('connotdoc')[this.selectlang],
+    //     icon: 'pi pi-times',
+    //     accept: () => {
+    //       let tmp = new ApproveModel();
+    //       this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+    //         tmp.job_id.push(data.jobtable_id)
+    //         tmp.approve_status = "C";
+    //         tmp.company_code = data.company_code;
+    //       })
+    //       // console.log(tmp)
+    //       this.doApproveJob(tmp)
+    //     },
+    //     reject: () => {
 
-        }
-      });
-    }
+    //     }
+    //   });
+    // }
   }
   viwe(data: cls_TRTimeleaveModel) {
     this.selectedtrtimeleave = data;

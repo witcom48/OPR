@@ -24,7 +24,7 @@
 
         <div class="field col-12" style="margin-top: 2%;">
             <p-calendar [(ngModel)]="selectedtrtimeot.timeot_workdate" dateFormat="dd/mm/yy" inputId="date_from"
-                [disabled]="edit_data"></p-calendar>
+                [disabled]="edit_data" (onSelect)="doLoadchecldayinleave()"></p-calendar>
             <!-- -
             <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy" inputId="date_to"></p-calendar> -->
         </div>
@@ -36,12 +36,12 @@
             </div>
             <div class="field col-12 md:col-3">
                 <p>{{langs.get('normal')[selectlang]}}</p>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_normalmin_hrs"
+                <p-inputMask [disabled]="indayleve" mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_normalmin_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
             <div class="field col-12 md:col-3">
                 <p>{{langs.get('break')[selectlang]}}</p>
-                <p-inputMask mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_break_hrs"
+                <p-inputMask [disabled]="indayleve" mask="99:99" [(ngModel)]="selectedtrtimeot.timeot_break_hrs"
                     placeholder="HH:mm"></p-inputMask>
             </div>
             <div class="field col-12 md:col-3">
@@ -77,6 +77,10 @@
             <!-- <label for="project_name_th">เพิ่มเติม</label>
             <input id="project_name_th" type="text"
                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
+        </div>
+        <div class="field col-12 md:col-6 mb-5" *ngIf="selectedtrtimeot.status==4">
+            <span>{{selectlang=='TH'?'เหตุผลที่ปฏิเสธ : ': 'Reason for reject : '}}</span>
+            <span style="color: red;">{{selectedtrtimeot.reject_note}}</span>
         </div>
         <div class="field col-12" *ngIf="!edit_data&&initial_current.Usertype == 'GRP'">
             <p-pickList [source]="account_list_source" [target]="account_list_dest"
