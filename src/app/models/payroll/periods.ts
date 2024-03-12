@@ -20,4 +20,7 @@ export class PeriodsModels {
     modified_by: string = "";
     modified_date!: Date;
     flag: boolean = false;
+    period_closeta: boolean = false;
+    period_closepr: boolean = false;
+
 }

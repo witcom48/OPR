@@ -20,15 +20,70 @@
                 <div>
                     <label>{{langs.get('report_type')[selectlang]}}</label>
                     <p-dropdown placeholder="--" [options]="rptType" optionValue="code" [showClear]="true"
-                        [(ngModel)]="selected_report" [style]="{ width: '100%', overflow: 'visible' }">
+                        [filter]="true" filterBy="type,name_th,name_en,code" [(ngModel)]="selected_report"
+                        [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
-                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th : item.type+' : '+item.name_en}}
+                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th :
+                            item.type+' : '+item.name_en}}
                         </ng-template>
                         <ng-template let-item pTemplate="item">
-                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th : item.type+' : '+item.name_en}}
+                            {{initial_current.Language=="TH"? item.type+' : '+item.name_th :
+                            item.type+' : '+item.name_en}}
                         </ng-template>
                     </p-dropdown>
                 </div>
+
+
+                <div *ngIf="selected_report !== 'PR6'">
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-3">
+                            <label>{{langs.get('from')[selectlang]}}</label>
+                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="dateFrom" dateFormat="dd/mm/yy"
+                                [showTime]="false" (onSelect)="updateFromDate($event)" inputId="dateFrom"></p-calendar>
+
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label>{{langs.get('to')[selectlang]}}</label>
+                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="dateTo" dateFormat="dd/mm/yy"
+                                [showTime]="false" (onSelect)="updateToDate($event)" inputId="dateTo"></p-calendar>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="selected_report == 'PR6'">
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-3">
+                            <label>{{langs.get('pay_year')[selectlang]}}</label>
+                            <p-dropdown placeholder="--" [options]="yearList" optionValue="year_code" [showClear]="true"
+                                [(ngModel)]="selectedYear" [style]="{ width: '100%', overflow: 'visible' }"
+                                (onChange)="doGetPeriodList()">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{item.year_code}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{item.year_code}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label>{{langs.get('payment')[selectlang]}}</label>
+                            <p-dropdown placeholder="--" [options]="periodList"  [showClear]="true"
+                                [(ngModel)]="periodSeleted" [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{ item.period_no }} - {{item.period_payment | date:'dd MMM yyyy' }}
+                                    ({{item.period_from | date:'dd MMM yyyy' }} -
+                                    {{item.period_to | date:'dd MMM yyyy' }})
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{ item.period_no }} - {{item.period_payment | date:'dd MMM yyyy' }}
+                                    ({{item.period_from | date:'dd MMM yyyy' }} -
+                                    {{item.period_to | date:'dd MMM yyyy' }})
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
             <div class="field col-12 md:col-6"></div>
