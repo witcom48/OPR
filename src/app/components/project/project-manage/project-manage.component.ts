@@ -98,6 +98,7 @@ import { PaytranAccModel } from 'src/app/models/payroll/paytranacc';
 import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PeriodsModels } from 'src/app/models/payroll/periods';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+import { SizeModel } from 'src/app/models/project/project_size';
 
 interface Result {
   worker: string;
@@ -148,6 +149,10 @@ export class ProjectManageComponent implements OnInit {
   yeargroup_list: YearPeriodModels[] = [];
   provinceList: ProvinceModel[] = [];
   Proequipmenttype_list: ProequipmenttypeModel[] = [];
+
+  //
+  Size_list: SizeModel[] = [];
+
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -479,6 +484,7 @@ export class ProjectManageComponent implements OnInit {
   title_total: { [key: string]: string } = { EN: "Total'", TH: "ทั้งหมด" };
   title_uniformname: { [key: string]: string } = { EN: "Uniform'", TH: "Uniform" };
   //#endregion "Language"
+  title_size :{ [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
 
   constructor(
     private router: Router,
@@ -1746,6 +1752,13 @@ export class ProjectManageComponent implements OnInit {
     this.genaralService.proequipmenttype_get(tmp8).then((res) => {
       this.Proequipmenttype_list = res;
     });
+
+
+    var tmp9 = new SizeModel();
+    this.genaralService.size_get(tmp9).then((res) => {
+      this.Size_list = res;
+    });
+
 
 
     this.doLoadInitial()

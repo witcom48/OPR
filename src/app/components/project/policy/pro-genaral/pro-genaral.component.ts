@@ -23,6 +23,7 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
 import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
+import { SizeModel } from 'src/app/models/project/project_size';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -81,7 +82,10 @@ export class ProGenaralComponent implements OnInit {
   responsiblearea_list: ResponsibleareaModel[] = [];
   selectedResponsiblearea: ResponsibleareaModel = new ResponsibleareaModel();
   ////
-
+  size: boolean = false;
+  size_list: SizeModel[] = [];
+  selectedSize: SizeModel = new SizeModel();
+  ////
   procosttype_list: RadiovalueModel[] = [];
   procostitem_list: RadiovalueModel[] = [];
 
@@ -146,6 +150,7 @@ export class ProGenaralComponent implements OnInit {
 
     this.responsiblepos = false
     this.responsiblearea = false
+    this.size = false
 
 
 
@@ -184,6 +189,10 @@ export class ProGenaralComponent implements OnInit {
         this.responsiblearea = true
         break;
 
+        case "size":
+        this.size = true
+        break;
+
       default:
         // 
         break;
@@ -205,6 +214,7 @@ export class ProGenaralComponent implements OnInit {
   title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
   title_project_responsiblepos: { [key: string]: string } = { EN: "Responsiblepos ", TH: "ตำแหน่ง" }
   title_project_responsiblearea: { [key: string]: string } = { EN: "Responsiblearea ", TH: "เขต" }
+  title_size :{ [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
 
   title_page: string = "Geanral";
   title_new: string = "New";
@@ -340,6 +350,12 @@ export class ProGenaralComponent implements OnInit {
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         break;
 
+        case "size":
+          this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+          { label: this.title_size[this.initial_current.Language], styleClass: 'activelike' }];
+          this.home = { icon: 'pi pi-home', routerLink: '/' };
+          break;
+
     }
 
 
@@ -390,6 +406,12 @@ export class ProGenaralComponent implements OnInit {
             ref = this.responsiblearea_list.length + 100
             this.selectedResponsiblearea = new ResponsibleareaModel();
             this.selectedResponsiblearea.responsiblearea_id = ref.toString()
+
+            //
+            ref = this.size_list.length + 100
+            this.selectedSize = new SizeModel();
+            this.selectedSize.size_id = ref.toString()
+
 
             this.new_data = true;
             this.edit_data = false;
@@ -480,7 +502,13 @@ export class ProGenaralComponent implements OnInit {
 
               break;
 
-
+              case "size":
+                this.size = true
+                ref = this.size_list.length + 100
+  
+                window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Size.xlsx', '_blank');
+  
+                break;
 
             default:
               // 
@@ -585,6 +613,16 @@ export class ProGenaralComponent implements OnInit {
 
         this.genaralService.MTResponsiblearea_get(tmp10).then((res) => {
           this.responsiblearea_list = res;
+
+        });
+        break;
+
+        //
+        case "size":
+        var tmp11 = new SizeModel();
+
+        this.genaralService.size_get(tmp11).then((res) => {
+          this.size_list = res;
 
         });
         break;
@@ -751,6 +789,19 @@ export class ProGenaralComponent implements OnInit {
 
       case "responsiblearea":
         this.genaralService.MTResponsiblearea_record(this.selectedResponsiblearea).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadGenaral()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
+        case "size":
+        this.genaralService.size_record(this.selectedSize).then((res) => {
           let result = JSON.parse(res);
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
@@ -1005,6 +1056,31 @@ export class ProGenaralComponent implements OnInit {
       key: "myDialog"
     });
   }
+
+  //
+  Delete_MTSize(data: SizeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.size_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
   // ลบ
 
   doDeleteGenaral() {
@@ -1137,6 +1213,19 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
 
+        case "size":
+        this.genaralService.size_delete(this.selectedSize).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
@@ -1215,7 +1304,13 @@ export class ProGenaralComponent implements OnInit {
     this.doLoadSelectedProcostItem(this.selectedProcost.procost_itemcode)
 
   }
-
+//
+onRowSelectSize(event: Event) {
+  this.edit_data = true;
+  this.new_data = false;
+  this.displaymanage = true;
+}
+//
 
   fileToUpload: File | any = null;
   handleFileInput(file: FileList) {
@@ -1356,6 +1451,19 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
 
+        case "size":
+        this.genaralService.size_import(this.fileToUpload, filename, filetype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
@@ -1460,6 +1568,7 @@ export class ProGenaralComponent implements OnInit {
     this.selectedProequipmenttype = new ProequipmenttypeModel()
     this.selectedResponsiblepos = new ResponsibleposModel()
     this.selectedResponsiblearea = new ResponsibleareaModel()
+    this.selectedSize = new SizeModel()
 
 
   }

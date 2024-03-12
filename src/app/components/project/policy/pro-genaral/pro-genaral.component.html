@@ -80,7 +80,10 @@
     <hr>
 </div>
 
-
+<div *ngIf="size">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
 
 
 
@@ -580,6 +583,59 @@
                 </ng-template>
             </p-table>
         </div>
+        <!-- //size -->
+        <!-- // -->
+
+        <div *ngIf="size">
+            <p-table #dt8 [value]="size_list" selectionMode="single" [(selection)]="selectedSize"
+                (onRowSelect)="onRowSelectSize($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['size_code','size_name_th','size_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt8.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="{{title_search}}" />
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_code}}</th>
+                        <th>{{title_name_th}}</th>
+                        <th>{{title_name_en}}</th>
+                        <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th>
+                        <th> </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr [pSelectableRow]="data">
+                        <td>{{data.size_code}}</td>
+                        <td>{{data.size_name_th}}</td>
+                        <td>{{data.size_name_en}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="size"
+                                (click)="Delete_MTSize(data)">
+                            </button>
+                        </td>
+
+
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- // -->
         <div *ngIf="responsiblepos">
             <p-table #dt8 [value]="responsiblepos_list" selectionMode="single" [(selection)]="selectedResponsiblepos"
                 (onRowSelect)="onRowSelectResponsiblepos($event)" [rows]="10" [showCurrentPageReport]="true"
@@ -959,6 +1015,39 @@
                 </div>
 
             </div>
+            <!-- // size-->
+            <div *ngIf="size">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+                    <i (click)="close()"></i>
+
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code"
+                        [(ngModel)]="selectedSize.size_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="size_code"
+                        #size_code="ngModel" required>
+                    <p>{{selectedSize.size_code.length}}/10</p>
+
+
+
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedSize.size_name_th"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="size_name_th"
+                        #size_name_th="ngModel" required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedSize.size_name_en"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="size_name_en"
+                        #size_name_en="ngModel" required></textarea>
+
+
+
+
+                </div>
+
+            </div>
+            <!-- // -->
 
             <!-- // -->
             <div *ngIf="proequipmenttype">

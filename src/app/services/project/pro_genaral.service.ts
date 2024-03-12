@@ -10,6 +10,7 @@ import { ProgroupModel } from 'src/app/models/project/project_group';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
 import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
+import { SizeModel } from 'src/app/models/project/project_size';
 
 
 @Injectable({
@@ -564,6 +565,74 @@ export class ProgenaralService {
     para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProequipmenttype?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
+  
+  //-- SIZE
+  public size_get(model: SizeModel) {
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      size_id: model.size_id,
+      size_code: model.size_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/size_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+ 
+
+  public size_record(model: SizeModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      size_id: model.size_id,
+      size_code: model.size_code,
+      size_name_th: model.size_name_th,
+      size_name_en: model.size_name_en,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/size', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  public size_delete(model: SizeModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      size_id: model.size_id,
+      size_code: model.size_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/size_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
+  public size_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTSize?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

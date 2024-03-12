@@ -879,6 +879,28 @@
                     </ng-template>
                 </p-dropdown>
             </div>
+
+            <!-- // size-->
+            <div class="field col-12">
+                <label>{{title_size[initial_current.Language]}}</label>
+                <p-dropdown appendTo="body" placeholder="--" [options]="Size_list"
+                    optionValue="size_code" [showClear]="true"
+                    [(ngModel)]="selectedProequipmentreq.empuniform_size"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="size_code,size_name_th,size_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.size_code+" - "+item.size_name_th
+                        :
+                        item.size_code+" - "+item.size_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.size_code+" - "+item.size_name_th
+                        :
+                        item.size_code+" - "+item.size_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <!-- // -->
             <div class="field col-12">
 
                 <label>{{title_uniformprice[initial_current.Language]}}</label>

@@ -115,6 +115,9 @@ export class ProjectPolicyComponent implements OnInit {
 
   title_project_responsiblepos: { [key: string]: string } = { EN: "Responsiblepos ", TH: "ตำแหน่ง" }
   title_project_responsiblearea: { [key: string]: string } = { EN: "Responsiblearea ", TH: "เขต" }
+
+  title_size :{ [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
+
   loadInitialData(): void {
     this.initialData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initialData.Token) {
@@ -187,6 +190,14 @@ export class ProjectPolicyComponent implements OnInit {
         accessCode: 'PRO001-007',
         queryParamsdata: "responsiblepos"
       },
+       
+      {
+        title: this.title_size[this.initialData.Language],
+        link: 'pro_genaral',
+        accessCode: 'PRO001-010',
+        queryParamsdata: "size"
+      },
+
       // ... other approval menu items ...
     ];
 
