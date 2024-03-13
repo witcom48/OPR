@@ -47,10 +47,12 @@
                 <span
                     [ngStyle]="{'color': (selectedtrtimeleave.timeleave_actualday <= day) ? 'green' : 'red'}">{{langs.get('actualday')[selectlang]}}
                     {{selectedtrtimeleave.timeleave_actualday}} {{langs.get('day')[selectlang]}}</span>
+                <br>
+                <span *ngIf="selectedtrtimeleave.timeleave_actualday<8">{{selectlang=='TH'?'วันที่ลา : ':'Leave date : '}}{{dayleave}}</span>
             </div>
             <div *ngIf="leavetype=='H'" class="half">
                 <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
-                    inputId="date_from" [disabled]="edit_data"></p-calendar>
+                    inputId="date_from" [disabled]="edit_data" (onSelect)="doLoadLeaveactualday()"></p-calendar>
                 &nbsp;&nbsp;&nbsp;
                 <div class="field col-12">
                     <div class="formgroup-inline">
@@ -158,8 +160,8 @@
             </p-table> -->
         </div>
         <div class="field col-12">
-            <button [disabled]="selectedtrtimeleave.timeleave_actualday>day" pButton (click)="Save()"><i
-                    class="pi pi-save"> </i>&nbsp;{{langs.get('save')[selectlang]}}</button>
+            <button [disabled]="selectedtrtimeleave.timeleave_actualday>day||selectedtrtimeleave.timeleave_actualday==0"
+                pButton (click)="Save()"><i class="pi pi-save"> </i>&nbsp;{{langs.get('save')[selectlang]}}</button>
             <!-- <p-button  [disabled]="selectedtrtimeleave.timeleave_actualday>day"
                 label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button> -->
             &nbsp;

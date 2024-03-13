@@ -353,7 +353,7 @@
     [style]="{width: '30vw'}" [draggable]="false" (onHide)="closedispaly()">
     <div style="display: flex;flex-direction: column;gap: 8px;">
         <textarea [(ngModel)]="reject_note" pInputTextarea [autoResize]="true"></textarea>
-        <button pButton type="button" label="{{'ยืนยัน'}}" icon="pi pi-lock" (click)="submitreject()"></button>
+        <button pButton type="button" label="{{selectlang=='TH'?'ยืนยัน': 'confirm'}}" icon="pi pi-lock" (click)="submitreject()"></button>
     </div>
 </p-dialog>
 

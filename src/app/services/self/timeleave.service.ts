@@ -140,7 +140,7 @@ export class TimeleaveServices {
         return this.http.get<any>(this.config.ApiSelfServicesModule + '/doGetLeaveActualDay?com=' + this.initial_current.CompCode + '&emp=' + this.initial_current.Username + '&fromdate=' + this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd') + '&todate=' + this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd')).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                return message.data;
+                return message;
             });
     }
 

@@ -153,150 +153,157 @@
         </p-toolbar>
         <div #TABLEMAIN class="field col-12">
             <p-menubar [model]="items_attfile"></p-menubar>
-        <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeotall"
-            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeot_doc','worker_code','worker_detail_show','timeot_workdate_show','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_show','modified_by','modified_date_show','timeot_note','status_show']"
-            responsiveLayout="stack" [breakpoint]="'744px'">
-            <!-- Form Search Table -->
-            <ng-template pTemplate="caption">
-                <div class="searchtable1">
-                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
-                        {{langs.get('fromdate')[selectlang]}} :
-                        <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
-                            inputId="date_from"></p-calendar>
-                        {{langs.get('todate')[selectlang]}} :
-                        <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
-                            inputId="date_from"></p-calendar>
-                        {{langs.get('status')[selectlang]}} :
-                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
-                            optionLabel="name"></p-dropdown>
-                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
+            <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeotall"
+                (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['timeot_doc','worker_code','worker_detail_show','timeot_workdate_show','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_show','modified_by','modified_date_show','timeot_note','status_show']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable1">
+                        <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                            {{langs.get('fromdate')[selectlang]}} :
+                            <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
+                                inputId="date_from"></p-calendar>
+                            {{langs.get('todate')[selectlang]}} :
+                            <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
+                                inputId="date_from"></p-calendar>
+                            {{langs.get('status')[selectlang]}} :
+                            <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                                optionLabel="name"></p-dropdown>
+                            <p-button icon="pi pi-search" (click)="Search()"></p-button>
+                        </div>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input class="searchinput" pInputText type="text"
+                                (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="{{langs.get('search')[selectlang]}}" />
+                        </span>
                     </div>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input class="searchinput" pInputText type="text"
-                            (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{langs.get('search')[selectlang]}}" />
-                    </span>
-                </div>
-            </ng-template>
-            <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th style="width: 4rem">
-                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_doc">{{langs.get('ot_doc')[selectlang]}}
-                        <p-sortIcon field="timeot_doc"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_doc" display="menu" class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 13rem" pSortableColumn="worker_code">{{langs.get('worker_code')[selectlang]}}
-                        <p-sortIcon field="worker_code"></p-sortIcon>
-                        <p-columnFilter type="text" field="worker_code" display="menu" class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="worker_detail_show">{{langs.get('name')[selectlang]}}
-                        <p-sortIcon field="worker_detail_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="worker_detail_show" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_workdate_show">
-                        {{langs.get('date')[selectlang]}}
-                        <p-sortIcon field="timeot_workdate_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_workdate_show" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_beforemin_hrs">
-                        {{langs.get('before')[selectlang]}}
-                        <p-sortIcon field="timeot_beforemin_hrs"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_beforemin_hrs" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_normalmin_hrs">
-                        {{langs.get('normal')[selectlang]}}
-                        <p-sortIcon field="timeot_normalmin_hrs"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_normalmin_hrs" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_break_hrs">
-                        {{langs.get('break')[selectlang]}}
-                        <p-sortIcon field="timeot_break_hrs"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_break_hrs" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_aftermin_hrs">
-                        {{langs.get('after')[selectlang]}}
-                        <p-sortIcon field="timeot_aftermin_hrs"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_aftermin_hrs" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 16rem" pSortableColumn="reason_name_show">
-                        {{langs.get('reason')[selectlang]}}
-                        <p-sortIcon field="reason_name_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="reason_name_show" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="timeot_note">
-                        {{langs.get('note')[selectlang]}}
-                        <p-sortIcon field="timeot_note"></p-sortIcon>
-                        <p-columnFilter type="text" field="timeot_note" display="menu" class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 13rem" pSortableColumn="status_show">
-                        {{langs.get('status')[selectlang]}}
-                        <p-sortIcon field="status_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="status_show" display="menu" class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 12rem" pSortableColumn="modified_by">
-                        {{langs.get('modified_by')[selectlang]}}
-                        <p-sortIcon field="modified_by"></p-sortIcon>
-                        <p-columnFilter type="text" field="modified_by" display="menu" class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th style="min-width: 13rem" pSortableColumn="modified_date_show">
-                        {{langs.get('modified_date')[selectlang]}}
-                        <p-sortIcon field="modified_date_show"></p-sortIcon>
-                        <p-columnFilter type="text" field="modified_date_show" display="menu"
-                            class="ml-auto"></p-columnFilter>
-                    </th>
-                    <th field="approve">{{langs.get('approve')[selectlang]}}</th>
-                    <th field="notapprove">{{langs.get('notapprove')[selectlang]}}</th>
-                    <th field="verify">{{langs.get('verify')[selectlang]}}</th>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 4rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_doc">{{langs.get('ot_doc')[selectlang]}}
+                            <p-sortIcon field="timeot_doc"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_doc" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 13rem" pSortableColumn="worker_code">
+                            {{langs.get('worker_code')[selectlang]}}
+                            <p-sortIcon field="worker_code"></p-sortIcon>
+                            <p-columnFilter type="text" field="worker_code" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="worker_detail_show">
+                            {{langs.get('name')[selectlang]}}
+                            <p-sortIcon field="worker_detail_show"></p-sortIcon>
+                            <p-columnFilter type="text" field="worker_detail_show" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_workdate_show">
+                            {{langs.get('date')[selectlang]}}
+                            <p-sortIcon field="timeot_workdate_show"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_workdate_show" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_beforemin_hrs">
+                            {{langs.get('before')[selectlang]}}
+                            <p-sortIcon field="timeot_beforemin_hrs"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_beforemin_hrs" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_normalmin_hrs">
+                            {{langs.get('normal')[selectlang]}}
+                            <p-sortIcon field="timeot_normalmin_hrs"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_normalmin_hrs" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_break_hrs">
+                            {{langs.get('break')[selectlang]}}
+                            <p-sortIcon field="timeot_break_hrs"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_break_hrs" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_aftermin_hrs">
+                            {{langs.get('after')[selectlang]}}
+                            <p-sortIcon field="timeot_aftermin_hrs"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_aftermin_hrs" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 16rem" pSortableColumn="reason_name_show">
+                            {{langs.get('reason')[selectlang]}}
+                            <p-sortIcon field="reason_name_show"></p-sortIcon>
+                            <p-columnFilter type="text" field="reason_name_show" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="timeot_note">
+                            {{langs.get('note')[selectlang]}}
+                            <p-sortIcon field="timeot_note"></p-sortIcon>
+                            <p-columnFilter type="text" field="timeot_note" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 13rem" pSortableColumn="status_show">
+                            {{langs.get('status')[selectlang]}}
+                            <p-sortIcon field="status_show"></p-sortIcon>
+                            <p-columnFilter type="text" field="status_show" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 12rem" pSortableColumn="modified_by">
+                            {{langs.get('modified_by')[selectlang]}}
+                            <p-sortIcon field="modified_by"></p-sortIcon>
+                            <p-columnFilter type="text" field="modified_by" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th style="min-width: 13rem" pSortableColumn="modified_date_show">
+                            {{langs.get('modified_date')[selectlang]}}
+                            <p-sortIcon field="modified_date_show"></p-sortIcon>
+                            <p-columnFilter type="text" field="modified_date_show" display="menu"
+                                class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th field="approve">{{langs.get('approve')[selectlang]}}</th>
+                        <th field="notapprove">{{langs.get('notapprove')[selectlang]}}</th>
+                        <th field="verify">{{langs.get('verify')[selectlang]}}</th>
 
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-                <tr class="tablenotselect">
-                    <td>
-                        <p-tableCheckbox [value]="data"></p-tableCheckbox>
-                    </td>
-                    <td><span>{{langs.get('ot_doc')[selectlang]}}</span>{{data.timeot_doc}}</td>
-                    <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
-                    <td><span>{{langs.get('name')[selectlang]}}</span>{{data.worker_detail_show}}</td>
-                    <td><span>{{langs.get('date')[selectlang]}}</span>{{data.timeot_workdate_show}}
-                    </td>
-                    <td><span>{{langs.get('before')[selectlang]}}</span>{{data.timeot_beforemin_hrs}}</td>
-                    <td><span>{{langs.get('normal')[selectlang]}}</span>{{data.timeot_normalmin_hrs}}</td>
-                    <td><span>{{langs.get('break')[selectlang]}}</span>{{data.timeot_break_hrs}}</td>
-                    <td><span>{{langs.get('after')[selectlang]}}</span>{{data.timeot_aftermin_hrs}}</td>
-                    <td><span>{{langs.get('reason')[selectlang]}}</span>{{data.reason_name_show}}</td>
-                    <td><span>{{langs.get('note')[selectlang]}}</span>{{data.timeot_note}}</td>
-                    <td><span>{{langs.get('status')[selectlang]}}</span>{{data.status_show}}</td>
-                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
-                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date_show}}</td>
-                    <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
-                            styleClass="p-button-primary" (click)="Save(data)"
-                            [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
-                    </td>
-                    <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
-                            styleClass="p-button-danger" (click)="Delete(data)"
-                            [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
-                    </td>
-                    <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
-                            styleClass="p-button-success" (click)="viwe(data)"></p-button>
-                    </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr class="tablenotselect">
+                        <td>
+                            <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                        </td>
+                        <td><span>{{langs.get('ot_doc')[selectlang]}}</span>{{data.timeot_doc}}</td>
+                        <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
+                        <td><span>{{langs.get('name')[selectlang]}}</span>{{data.worker_detail_show}}</td>
+                        <td><span>{{langs.get('date')[selectlang]}}</span>{{data.timeot_workdate_show}}
+                        </td>
+                        <td><span>{{langs.get('before')[selectlang]}}</span>{{data.timeot_beforemin_hrs}}</td>
+                        <td><span>{{langs.get('normal')[selectlang]}}</span>{{data.timeot_normalmin_hrs}}</td>
+                        <td><span>{{langs.get('break')[selectlang]}}</span>{{data.timeot_break_hrs}}</td>
+                        <td><span>{{langs.get('after')[selectlang]}}</span>{{data.timeot_aftermin_hrs}}</td>
+                        <td><span>{{langs.get('reason')[selectlang]}}</span>{{data.reason_name_show}}</td>
+                        <td><span>{{langs.get('note')[selectlang]}}</span>{{data.timeot_note}}</td>
+                        <td><span>{{langs.get('status')[selectlang]}}</span>{{data.status_show}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date_show}}</td>
+                        <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
+                                styleClass="p-button-primary" (click)="Save(data)"
+                                [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
+                        </td>
+                        <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
+                                styleClass="p-button-danger" (click)="Delete(data)"
+                                [disabled]="selectedtrtimeotall.length>0 || data.status"></p-button>
+                        </td>
+                        <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
+                                styleClass="p-button-success" (click)="viwe(data)"></p-button>
+                        </td>
 
-                </tr>
-            </ng-template>
-        </p-table>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
         <p-table #dt2 [value]="approveTotal" responsiveLayout="stack" [breakpoint]="'744px'"
             styleClass="p-datatable-gridlines">
@@ -327,7 +334,8 @@
     [style]="{width: '30vw'}" [draggable]="false" (onHide)="closedispaly()">
     <div style="display: flex;flex-direction: column;gap: 8px;">
         <textarea [(ngModel)]="reject_note" pInputTextarea [autoResize]="true"></textarea>
-        <button pButton type="button" label="{{'ยืนยัน'}}" icon="pi pi-lock" (click)="submitreject()"></button>
+        <button pButton type="button" label="{{selectlang=='TH'?'ยืนยัน': 'confirm'}}" icon="pi pi-lock"
+            (click)="submitreject()"></button>
     </div>
 </p-dialog>
 <app-spinner [loadding]="initial_current.loading"></app-spinner>

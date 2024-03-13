@@ -45,6 +45,7 @@ export class SelfLeaveComponent implements OnInit {
     private approveservice: ApproveServices,
     private router: Router,
   ) { }
+  dayleave: string = "1 2 3 ";
   itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
@@ -182,12 +183,16 @@ export class SelfLeaveComponent implements OnInit {
     if (this.selectedtrtimeleave.timeleave_fromdate > this.selectedtrtimeleave.timeleave_todate) {
       this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
     }
+    if (this.leavetype == "H") {
+      this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
+    }
     let data = new cls_TRTimeleaveModel()
     data.worker_code = this.selectedtrtimeleave.worker_code;
     data.timeleave_fromdate = this.selectedtrtimeleave.timeleave_fromdate
     data.timeleave_todate = this.selectedtrtimeleave.timeleave_todate
     this.timeleaveService.timeleaveactualday_get(data).then(async (res) => {
-      this.selectedtrtimeleave.timeleave_actualday = await res;
+      this.selectedtrtimeleave.timeleave_actualday = await res.data;
+      this.dayleave = res.dayall;
     });
   }
   doLoadReason() {
@@ -200,21 +205,22 @@ export class SelfLeaveComponent implements OnInit {
     });
   }
   async doRecordTimeleave(data: cls_TRTimeleaveModel[]) {
-    await this.timeleaveService.timeleave_record(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeleave();
-        this.doLoadLeaveacc();
-      }
-      else {
-        if (res.result == "3") {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-        }
-      }
+    console.log(data);
+    // await this.timeleaveService.timeleave_record(data).then((res) => {
+    //   if (res.success) {
+    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+    //     this.doLoadTimeleave();
+    //     this.doLoadLeaveacc();
+    //   }
+    //   else {
+    //     if (res.result == "3") {
+    //       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
+    //     } else {
+    //       this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+    //     }
+    //   }
 
-    });
+    // });
     this.leavetype = "F"
     this.closeManage()
   }
