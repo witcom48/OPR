@@ -72,9 +72,9 @@ export class SelectEmpComponent implements OnInit {
     // this.doLoadDeplevelList();
     this.doLoadLocationList();
     this.doLoadPositionList();
-    this.doLoadEmptypeList();
+    // this.doLoadEmptypeList();
     this.doLoadLanguage();
-    this.doLoadProjectList();
+    // this.doLoadProjectList();
     // console.log(window.location.hash.split("/").pop())
     setTimeout(() => {
       // this.doLoadEmployee()

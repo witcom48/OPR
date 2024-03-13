@@ -14,6 +14,7 @@ import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import * as XLSX from 'xlsx';
 declare var reqot: any;
 declare var langcalendarth: any;
 declare var langcalendaren: any;
@@ -299,12 +300,12 @@ export class SelfApproveOvertimeComponent implements OnInit {
     this.items_attfile = [
 
       {
-        label: this.langs.get('new')[this.selectlang],
-        icon: 'pi pi-fw pi-plus',
+        label: this.langs.get('export')[this.selectlang],
+        icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.Uploadfile = true;
+          this.exportAsExcelMain();
         }
-      },
+      }
       // {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
@@ -394,6 +395,30 @@ export class SelfApproveOvertimeComponent implements OnInit {
     // })
     // this.edit_data = true;
     // this.displayManage = true
+  }
+  @ViewChild('TABLE') table: ElementRef | any = null;
+  @ViewChild('TABLEMAIN') tablemain: ElementRef | any = null;
+  exportAsExcelMain() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tablemain.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'ApproveOT_' + this.initial_current.Username + '.xlsx');
+
   }
   showManage() {
     this.displayManage = true

@@ -16,6 +16,7 @@ import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.servi
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import * as XLSX from 'xlsx';
 declare var reqleave: any;
 interface Status { name: string, code: number }
 @Component({
@@ -241,14 +242,37 @@ export class SelfApproveLeaveComponent implements OnInit {
     this.items_attfile = [
 
       {
-        label: this.langs.get('new')[this.selectlang],
-        icon: 'pi pi-fw pi-plus',
+        label: this.langs.get('export')[this.selectlang],
+        icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.Uploadfile = true;
+          this.exportAsExcelMain();
         }
-      },
-
+      }
     ];
+
+  }
+  @ViewChild('TABLE') table: ElementRef | any = null;
+  @ViewChild('TABLEMAIN') tablemain: ElementRef | any = null;
+  exportAsExcelMain() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tablemain.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'ApproveLeave_' + this.initial_current.Username + '.xlsx');
 
   }
   showManage() {
