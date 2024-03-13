@@ -99,6 +99,9 @@ import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PeriodsModels } from 'src/app/models/payroll/periods';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { SizeModel } from 'src/app/models/project/project_size';
+import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
+import { ItemsModel } from 'src/app/models/payroll/items';
+import { ItemService } from 'src/app/services/payroll/item.service';
 
 interface Result {
   worker: string;
@@ -152,7 +155,7 @@ export class ProjectManageComponent implements OnInit {
 
   //
   Size_list: SizeModel[] = [];
-
+  item_list: ItemsModel[] = [];
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -484,7 +487,8 @@ export class ProjectManageComponent implements OnInit {
   title_total: { [key: string]: string } = { EN: "Total'", TH: "ทั้งหมด" };
   title_uniformname: { [key: string]: string } = { EN: "Uniform'", TH: "Uniform" };
   //#endregion "Language"
-  title_size :{ [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
+  title_size: { [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
+  title_deduct: { [key: string]: string } = { EN: "Deduct ", TH: "เงินหัก" };
 
   constructor(
     private router: Router,
@@ -493,6 +497,9 @@ export class ProjectManageComponent implements OnInit {
     private projectService: ProjectService,
     private projectDetailService: ProjectDetailService,
     private genaralService: ProgenaralService,
+    private itemService: ItemService,
+
+
     private procostService: ProcostService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -527,7 +534,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.page_status = "Please wait.."
 
-    this.doLoadLanguage()    
+    this.doLoadLanguage()
 
     this.route.queryParams.subscribe(async params => {
       this.project_code = await params['project'];
@@ -535,7 +542,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.project_code != "") {
         this.doLoadProject();
         this.doLoadProjobversion()
-        this.doFillter(this.project_code);        
+        this.doFillter(this.project_code);
         this.doLoadPolJobmain(this.project_code);
         //this.doLoadPolJobmain2(this.project_code);
       }
@@ -543,9 +550,9 @@ export class ProjectManageComponent implements OnInit {
 
     var tmp = await this.doGetInitialCurrent()
 
-    if(tmp==1){
+    if (tmp == 1) {
       this.doLoadMenu()
-      this.doLoadMaster()    
+      this.doLoadMaster()
       this.doLoadEmployee()
     }
 
@@ -1666,7 +1673,7 @@ export class ProjectManageComponent implements OnInit {
     ];
   }
 
-  loading:boolean = false
+  loading: boolean = false
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject() {
     this.loading = true
@@ -1675,9 +1682,9 @@ export class ProjectManageComponent implements OnInit {
       project_list = await res;
       if (project_list.length > 0) {
         this.selectedProject = await project_list[0]
-        
-        setTimeout(async () => {         
-                    
+
+        setTimeout(async () => {
+
           //
           this.doLoadImage();
           //
@@ -1686,7 +1693,7 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProcontract()
           this.doLoadProresponsible()
           this.doLoadProtimepol()
-          
+
           this.doGetFilePro()
           this.doLoadProjobemp()
           this.doLoadProtimepol()
@@ -1760,6 +1767,10 @@ export class ProjectManageComponent implements OnInit {
     });
 
 
+    var tmp10 = new ItemsModel();
+    this.itemService.item_get(tmp10).then((res) => {
+      this.item_list = res.filter((item: { item_type: string }) => item.item_type === 'DE');
+    });
 
     this.doLoadInitial()
     this.doLoadPosition()
@@ -1797,10 +1808,10 @@ export class ProjectManageComponent implements OnInit {
       accept: () => {
         this.selectedProject.company_code = this.initial_current.CompCode
 
-        if(this.selectedProject.project_proarea == null){
+        if (this.selectedProject.project_proarea == null) {
           this.selectedProject.project_proarea = ""
         }
-        if(this.selectedProject.project_progroup == null){
+        if (this.selectedProject.project_progroup == null) {
           this.selectedProject.project_progroup = ""
         }
 
@@ -2122,7 +2133,7 @@ export class ProjectManageComponent implements OnInit {
     });
 
   }
-  
+
   Responsiblepos_List: ResponsibleposModel[] = [];
   doLoadResponsibleposList() {
     var tmp = new ResponsibleposModel();
@@ -2562,12 +2573,12 @@ export class ProjectManageComponent implements OnInit {
       this.projobversion_list = await res;
       if (this.projobversion_list.length > 0) {
         this.selectedProjobversion = await this.projobversion_list[0];
-        
+
         this.printVersion();
-        
+
       }
     });
-   
+
   }
 
   onSelectProjobversion(event: any) {
@@ -2670,18 +2681,18 @@ export class ProjectManageComponent implements OnInit {
       })
       this.projobmain_list = await res;
 
-      if(this.projobmain_list.length > 0){
+      if (this.projobmain_list.length > 0) {
         this.selectedProjobmain = await this.projobmain_list[0]
-      
+
         this.loading_job = false
         setTimeout(() => {
           this.projobmain_summary()
           this.projobmain_loadtran()///
           this.doLoadProequipmentreq()///
         }, 200);
-      
+
       }
-      
+
     })
   }
 
@@ -4237,7 +4248,7 @@ export class ProjectManageComponent implements OnInit {
         this.projectDetailService.projobversion_delete(this.selectedProjobversion).then(async (res) => {
           let result = await JSON.parse(res);
           if (result.success) {
-            this.doLoadProjobversion()           
+            this.doLoadProjobversion()
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Remove Success.." });
           }

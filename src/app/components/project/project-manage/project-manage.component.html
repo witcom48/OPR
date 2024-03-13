@@ -880,12 +880,30 @@
                 </p-dropdown>
             </div>
 
+            <div class="field col-12">
+                <label>{{title_deduct[initial_current.Language]}}</label>
+                <p-dropdown appendTo="body" placeholder="--" [options]="item_list" optionValue="item_code"
+                    [showClear]="true" [(ngModel)]="selectedProequipmentreq.item_code"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="item_type,item_name_th,item_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.item_type+" - "+item.item_name_th
+                        :
+                        item.item_type+" - "+item.item_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.item_type+" - "+item.item_name_th
+                        :
+                        item.item_type+" - "+item.item_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
             <!-- // size-->
             <div class="field col-12">
                 <label>{{title_size[initial_current.Language]}}</label>
-                <p-dropdown appendTo="body" placeholder="--" [options]="Size_list"
-                    optionValue="size_code" [showClear]="true"
-                    [(ngModel)]="selectedProequipmentreq.empuniform_size"
+                <p-dropdown appendTo="body" placeholder="--" [options]="Size_list" optionValue="size_code"
+                    [showClear]="true" [(ngModel)]="selectedProequipmentreq.empuniform_size"
                     [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
                     filterBy="size_code,size_name_th,size_name_en">
                     <ng-template let-item pTemplate="selectedItem">
@@ -909,7 +927,7 @@
                     [maxFractionDigits]="2">
                 </p-inputNumber>
             </div>
-            <div class="field col-12"(click)="calculateTotalAmount()">
+            <div class="field col-12" (click)="calculateTotalAmount()">
 
                 <label>{{title_uniformamount[initial_current.Language]}}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
@@ -926,7 +944,7 @@
                     [maxFractionDigits]="2">
                 </p-inputNumber>
             </div>
-            
+
 
             <div class="field col-6 unipay">
                 <div (click)="calculateInstallment()">
@@ -1020,8 +1038,8 @@
 
 
 <p-card header="{{title_page[initial_current.Language]}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
-    
-    
+
+
     <p-tabView (onChange)="tabChange($event)">
 
 
@@ -1032,7 +1050,7 @@
             </ng-template>
 
             <div class="formgrid grid ">
-                
+
                 <!-- ///image -->
                 <div class="field col-12 custom-height empinfo ">
 
@@ -1046,9 +1064,9 @@
                         <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
                     </div>
                 </div>
-                
+
                 <!-- ///image -->
-                
+
 
                 <div class="field col-12 md:col-3">
                     <label>{{title_project_code[initial_current.Language]}}</label>
@@ -1077,7 +1095,7 @@
                         name="project_name_en" #project_name_en="ngModel" required
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                 </div>
-                
+
                 <div class="field col-12 md:col-6">
                     <label for="project_name_sub">{{title_project_name_sub[initial_current.Language]}}</label>
                     <input id="project_name_sub" type="text" [(ngModel)]="selectedProject.project_name_sub"
@@ -1289,7 +1307,7 @@
                 <div class="col-12">
                     <p></p>
                     <p-accordion>
-                        <p-accordionTab header="{{title_contact[initial_current.Language]}}" >
+                        <p-accordionTab header="{{title_contact[initial_current.Language]}}">
                             <p-menubar [model]="menu_procontact"></p-menubar>
                             <p-table #dtContact [value]="procontact_list" styleClass="p-datatable-sm"
                                 [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px"
@@ -1567,7 +1585,7 @@
 
 
         </p-tabPanel>
-        
+
         <!-- job -->
         <p-tabPanel>
             <ng-template pTemplate="header">
@@ -1597,7 +1615,7 @@
             </table>
             <br>
             <div class="formgrid grid align-items-end">
-               
+
                 <div class="col-12 md:col-3">
                     <label>{{title_cost_version[initial_current.Language]}}</label><br>
                     <p-dropdown [options]="projobversion_list" optionLabel="version" [(ngModel)]="selectedProjobversion"
@@ -1608,9 +1626,9 @@
                 <div class="col-12 md:col-9">
                     <button pButton pRipple type="button" label="+" (click)="addVersion()"
                         class="p-button-sm p-button-secondary"></button>
-                        &nbsp;
+                    &nbsp;
                     <button pButton pRipple type="button" label="-" (click)="confirmDeleteJobversion()"
-                    class="p-button-sm p-button-secondary"></button>
+                        class="p-button-sm p-button-secondary"></button>
 
                 </div>
                 <br>
@@ -1641,7 +1659,8 @@
             </div>
 
             <!-- detail -->
-            <p-card header="{{title_jobmain_detail[initial_current.Language]}} : {{selectedProjobmain.projobmain_code}} "
+            <p-card
+                header="{{title_jobmain_detail[initial_current.Language]}} : {{selectedProjobmain.projobmain_code}} "
                 [style]="{'margin-top': '0px','margin-bottom': '2em' }">
                 <p-menubar [model]="menu_projobmain"></p-menubar>
 
@@ -2422,5 +2441,5 @@
         </p-tabPanel>
     </p-tabView>
     <p></p>
-   
+
 </p-card>

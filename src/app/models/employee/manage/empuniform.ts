@@ -26,4 +26,5 @@ export class EmpUniformModel {
     empuniform_payamount:string = "";
     empuniform_period!: Date;
     empuniform_size:string = "";
+    item_code:string = "";
   }
