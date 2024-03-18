@@ -128,6 +128,7 @@ import { ProjectDetailService } from 'src/app/services/project/project_detail.se
 import { ProequipmentTypeModel } from 'src/app/models/project/project_equipment';
 import { RadiovalueModel } from 'src/app/models/project/radio_value';
 import { ProjobsubModel } from 'src/app/models/project/project_jobsub';
+import { SizeModel } from 'src/app/models/project/project_size';
 
 
 interface Result {
@@ -507,6 +508,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadUniformProList();
     this.doLoadUniformJobList();
     this.doLoadUniformTypeList();
+    this.doLoadSizeList();
+    this.doLoadItem_List();
 
     this.doPeriod();
     setTimeout(() => {
@@ -867,7 +870,8 @@ export class EmployeeManageComponent implements OnInit {
   title_total: { [key: string]: string } = { EN: "Total'", TH: "ทั้งหมด" };
 
   title_supplyqty: { [key: string]: string } = { EN: "Quantity'", TH: "จำนวน" };
-
+  title_size: { [key: string]: string } = { EN: "Size ", TH: "ขนาดชุดฟอร์ม" };
+  title_deduct: { [key: string]: string } = { EN: "Deduct ", TH: "เงินหัก" };
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -3062,8 +3066,15 @@ export class EmployeeManageComponent implements OnInit {
   saveInstallment(event: number) {
     this.selectedEmpUniform.empuniform_payamount = event.toString();
   }
-  
-  
+
+  //drop item
+  ItemList: ItemsModel[] = [];
+  doLoadItemList() {
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then((res) => {
+      this.ItemList = res;
+    })
+  }
 
 
 
@@ -3091,11 +3102,20 @@ export class EmployeeManageComponent implements OnInit {
     })
   }
   //drop item
-  ItemList: ItemsModel[] = [];
-  doLoadItemList() {
+  item_list: ItemsModel[] = [];
+  doLoadItem_List() {
     var tmp = new ItemsModel();
     this.itemService.item_get(tmp).then((res) => {
-      this.ItemList = res;
+      this.item_list = res.filter((item: { item_type: string }) => item.item_type === 'DE');
+    })
+  }
+
+  //drop Size
+  Size_list: SizeModel[] = [];
+  doLoadSizeList() {
+    var tmp = new SizeModel();
+    this.genaralService.size_get(tmp).then((res) => {
+      this.Size_list = res;
     })
   }
   //drop provident
@@ -4164,32 +4184,32 @@ export class EmployeeManageComponent implements OnInit {
   calculateTotalAmount() {
     const amount1 = parseFloat(this.selectedEmpUniform.empuniform_amount);
     const quantity1 = parseFloat(this.selectedEmpUniform.empuniform_qauntity);
-  
+
     if (!isNaN(amount1) && !isNaN(quantity1)) {
       const result = amount1 * quantity1;
-      this.selectedEmpUniform.empuniform_total = result.toFixed(2); 
+      this.selectedEmpUniform.empuniform_total = result.toFixed(2);
       this.record_empuniform();
     } else {
-      this.selectedEmpUniform.empuniform_total = '0.00';  
+      this.selectedEmpUniform.empuniform_total = '0.00';
     }
   }
   calculateInstallment() {
     const amount = parseFloat(this.selectedEmpUniform.empuniform_total);
     const payPeriod = parseInt(this.selectedEmpUniform.empuniform_payperiod);
-    
+
     if (!isNaN(amount) && !isNaN(payPeriod) && amount > 0 && payPeriod > 0) {
       this.installmentAmount = amount / payPeriod;
-      this.record_empuniform();  
+      this.record_empuniform();
     } else {
       this.installmentAmount = 0;
     }
   }
-  
+
   record_empuniform() {
     if (this.empuniformList.length == 0) {
       this.empuniform_delete();
     } else {
-      this.selectedEmpUniform.empuniform_payamount = this.installmentAmount.toString();  
+      this.selectedEmpUniform.empuniform_payamount = this.installmentAmount.toString();
       this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
@@ -4211,6 +4231,9 @@ export class EmployeeManageComponent implements OnInit {
   //     });
   //   }
   // }
+
+
+
 
   //emp suggest
   empsuggestList: EmpSuggestModel[] = [];
@@ -5393,14 +5416,14 @@ export class EmployeeManageComponent implements OnInit {
   //get hopital status
   doGetActiveStatus(status: Boolean) {
     let statusname = ""
-    if(status){
+    if (status) {
       if (this.initial_current.Language == "TH") {
         statusname = "ใช้งาน"
       }
       else {
         statusname = "Active"
       }
-    }else{
+    } else {
       if (this.initial_current.Language == "TH") {
         statusname = "ไม่ใช้งาน"
       }
@@ -5410,7 +5433,7 @@ export class EmployeeManageComponent implements OnInit {
     }
     return statusname;
   }
-  
+
 
   //get dep1 name
   doGetDepL1Detail(depCode: string): any {
@@ -6190,25 +6213,25 @@ export class EmployeeManageComponent implements OnInit {
     let statusfull = ""
     switch (status) {
       case "Y":
-        if(this.initial_current.Language == "TH"){
+        if (this.initial_current.Language == "TH") {
           statusfull = 'ผ่าน'
-        }else{
+        } else {
           statusfull = 'Pass'
         }
         break;
       case "N":
-        if(this.initial_current.Language == "TH"){
+        if (this.initial_current.Language == "TH") {
           statusfull = 'ไม่ผ่าน'
-        }else{
+        } else {
           statusfull = 'Not Pass'
         }
         break;
-      
+
     }
     return statusfull;
   }
 
-  getPaycondition(ConP:string): any{
+  getPaycondition(ConP: string): any {
     for (let i = 0; i < this.conPay.length; i++) {
       if (this.conPay[i].value == ConP) {
         if (this.initial_current.Language == "TH") {
@@ -6221,16 +6244,16 @@ export class EmployeeManageComponent implements OnInit {
     }
   }
 
-  getBenefitBreakName(){
+  getBenefitBreakName() {
     let statusname = ""
-    if(status){
+    if (status) {
       if (this.initial_current.Language == "TH") {
         statusname = "พักการจ่าย"
       }
       else {
         statusname = "Active"
       }
-    }else{
+    } else {
       if (this.initial_current.Language == "TH") {
         statusname = "ไม่พักการจ่าย"
       }

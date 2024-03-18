@@ -2508,6 +2508,40 @@
             </ng-template>
         </p-dropdown>
 
+        <label>{{title_deduct[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="item_list" optionValue="item_code" [showClear]="true"
+            [(ngModel)]="selectedEmpUniform.item_code" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="item_type,item_name_th,item_name_en">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.item_type+" - "+item.item_name_th
+                :
+                item.item_type+" - "+item.item_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.item_type+" - "+item.item_name_th
+                :
+                item.item_type+" - "+item.item_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <!-- // size-->
+        <label>{{title_size[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="Size_list" optionValue="size_code" [showClear]="true"
+            [(ngModel)]="selectedEmpUniform.empuniform_size" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="size_code,size_name_th,size_name_en">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.size_code+" - "+item.size_name_th
+                :
+                item.size_code+" - "+item.size_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.size_code+" - "+item.size_name_th
+                :
+                item.size_code+" - "+item.size_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- // -->
+
         <label>{{title_uniformprice}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
             [(ngModel)]="selectedEmpUniform.empuniform_amount" [minFractionDigits]="2" [maxFractionDigits]="2">
@@ -2517,20 +2551,19 @@
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
             [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="0" [maxFractionDigits]="0">
         </p-inputNumber>
- 
+
         <!-- <label>{{title_total[initial_current.Language]}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
             [(ngModel)]="selectedEmpUniform.empuniform_total" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber> -->
 
-        <div  (click)="calculateTotalAmount()">
+        <div (click)="calculateTotalAmount()">
             <label>{{title_total[initial_current.Language]}}</label>
             <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
-                [(ngModel)]="selectedEmpUniform.empuniform_total" [minFractionDigits]="2"
-                [maxFractionDigits]="2">
+                [(ngModel)]="selectedEmpUniform.empuniform_total" [minFractionDigits]="2" [maxFractionDigits]="2">
             </p-inputNumber>
         </div>
-        
+
 
 
 
