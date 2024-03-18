@@ -206,21 +206,21 @@ export class SelfLeaveComponent implements OnInit {
   }
   async doRecordTimeleave(data: cls_TRTimeleaveModel[]) {
     console.log(data);
-    // await this.timeleaveService.timeleave_record(data).then((res) => {
-    //   if (res.success) {
-    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-    //     this.doLoadTimeleave();
-    //     this.doLoadLeaveacc();
-    //   }
-    //   else {
-    //     if (res.result == "3") {
-    //       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
-    //     } else {
-    //       this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-    //     }
-    //   }
+    await this.timeleaveService.timeleave_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadTimeleave();
+        this.doLoadLeaveacc();
+      }
+      else {
+        if (res.result == "3") {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.selectlang == 'TH' ? 'มีวันลาซ้ำที่เคยขอไปแล้ว' : 'There are repeat days of leave that have already been requested.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        }
+      }
 
-    // });
+    });
     this.leavetype = "F"
     this.closeManage()
   }
