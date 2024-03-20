@@ -299,7 +299,9 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empproject>
                                         <tr [pSelectableRow]="empproject">
-                                            <td>{{doGetProjectDetail(empproject.project_code)}}</td>
+                                            <td>{{ empproject.project_code }}</td>
+
+                                            <!-- <td>{{doGetProjectDetail(empproject.project_code)}}</td> -->
                                             <td>{{empproject.modified_by}}</td>
                                             <td>{{empproject.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -1804,7 +1806,9 @@
     <!-- Form Req Project -->
     <div class="formatt" *ngIf="edit_reqproject==true || new_project==true">
         <label>{{title_project[initial_current.Language]}}</label>
-        <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
+        <textarea [(ngModel)]="selectedReqProject.project_code" pInputTextarea [autoResize]="true"></textarea>
+
+        <!-- <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
             [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th
@@ -1814,7 +1818,7 @@
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th
                 : item.request_code+" - "+item.project_name_en}}
             </ng-template>
-        </p-dropdown>
+        </p-dropdown> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
