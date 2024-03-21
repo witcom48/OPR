@@ -1,0 +1,78 @@
+<!-- <p>recruitment-reports works!</p> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<hr>
+
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>{{title_process[initial_current.Language]}} </span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <div>
+                    <label>{{title_report_type[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="rptType" optionValue="code" [showClear]="true"
+                        [filter]="true" filterBy="type,name_th,name_en,code" [(ngModel)]="selected_report"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <!-- <div>
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-3">
+                            <label>{{title_pay_year[initial_current.Language]}}</label>
+                            <p-dropdown placeholder="--" [options]="yearList" optionValue="year_code" [showClear]="true"
+                                [(ngModel)]="selectedYear" [style]="{ width: '100%', overflow: 'visible' }"
+                                (onChange)="doGetPeriodList()">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{item.year_code}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{item.year_code}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label>{{title_payment[initial_current.Language]}}</label>
+                            <p-dropdown placeholder="--" [options]="periodList"  [showClear]="true"
+                                [(ngModel)]="periodSeleted" [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{ item.period_no }} - {{item.period_payment | date:'dd MMM yyyy' }}
+                                    ({{item.period_from | date:'dd MMM yyyy' }} -
+                                    {{item.period_to | date:'dd MMM yyyy' }})
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{ item.period_no }} - {{item.period_payment | date:'dd MMM yyyy' }}
+                                    ({{item.period_from | date:'dd MMM yyyy' }} -
+                                    {{item.period_to | date:'dd MMM yyyy' }})
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div> -->
+
+
+            </div>
+            <div class="field col-12 md:col-6"></div>
+            <div class="field col-12 md:col-6">
+                <p-button label="{{title_process2[initial_current.Language]}}" (click)="process()"></p-button>
+            </div>
+
+        </div>
+    </p-tabPanel>
+
+</p-tabView>

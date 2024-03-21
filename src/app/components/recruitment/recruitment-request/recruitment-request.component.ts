@@ -158,6 +158,8 @@ export class RecruitmentRequestComponent implements OnInit {
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
 
+  title_no: { [key: string]: string } = { EN: "No", TH: "ลำดับ" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ร้องขอพนักงานเพิ่ม";

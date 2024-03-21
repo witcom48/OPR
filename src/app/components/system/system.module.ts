@@ -85,6 +85,8 @@ import { SystemUniformComponent } from './system-policy/system-uniform/system-un
 import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SystemForetypeComponent } from './system-policy/system-foretype/system-foretype.component';
+import { SystemReportsComponent } from './system-reports/system-reports.component';
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 
 @NgModule({
@@ -125,6 +127,7 @@ import { SystemForetypeComponent } from './system-policy/system-foretype/system-
         ToastModule,
         ConfirmDialogModule,
         DialogModule,
+        UsercontrolModule,
     ],
     declarations: [
         SystemPolicyComponent,
@@ -174,6 +177,7 @@ import { SystemForetypeComponent } from './system-policy/system-foretype/system-
         PolroundsComponent,
         SpinnerComponent,
         SystemForetypeComponent,
+        SystemReportsComponent,
     ],
     exports: [YearComponent, ReasonComponent, LocationComponent, SystemReduceComponent, SpinnerComponent],
 })

@@ -50,6 +50,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-approve.component';
+import { RecruitmentReportsComponent } from './recruitment-reports/recruitment-reports.component';
 
 @NgModule({
 	imports: [
@@ -108,7 +109,8 @@ import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-a
 		ApplyListComponent,
 		RecruimentBlacklistComponent,
 		SetBlacklistComponent,
-		RecruitmentApproveComponent
+		RecruitmentApproveComponent,
+  RecruitmentReportsComponent
 	],
 	exports: [RecruitmentRequestComponent],
 })

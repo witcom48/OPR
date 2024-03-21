@@ -23,6 +23,7 @@ import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group
 import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
 import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-paysuspend.component';
+import { EmployeeReportsComponent } from './employee-reports/employee-reports.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -55,6 +56,9 @@ import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-pays
 
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
+
+        //reports
+        { path: 'reports', component: EmployeeReportsComponent },
 
         { path: '**', redirectTo: '/notfound' }
     ])],

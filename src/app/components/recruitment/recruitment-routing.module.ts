@@ -9,6 +9,7 @@ import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-l
 import { RecruimentBlacklistComponent } from './recruiment-blacklist/recruiment-blacklist.component';
 import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-blacklist.component';
 import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-approve.component';
+import { RecruitmentReportsComponent } from './recruitment-reports/recruitment-reports.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -22,6 +23,8 @@ import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-a
         { path: 'approve', component: RecruitmentApproveComponent },
 
 
+        //reports
+        { path: 'reports', component: RecruitmentReportsComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

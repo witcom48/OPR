@@ -9,6 +9,8 @@ export class AppConfig {
   //UrlApi: string = "http://161.82.218.95:8806"
   // UrlApi: string = "https://hrfocusess.com:8806"
 
+  WebReporting:string = "http://localhost:5454"
+  //UrlApi: string = ""
 
   ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
   ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";
@@ -19,6 +21,7 @@ export class AppConfig {
   ApiSelfServicesModule: string = this.UrlApi + "/Module_SelfServices/ModuleSelfServices.svc/SelfServices";
   ApiPayrollModule: string = this.UrlApi + "/Module_Payroll/ModulePayroll.svc/Payroll";
 
+  ApiReport:string = this.WebReporting + "/GenarateReport.aspx?token="
 
   static SESSIONInitial: string = "SESSIONInitial";
   static PolMenu: PolmenuModel = new PolmenuModel();
