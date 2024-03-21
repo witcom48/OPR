@@ -73,6 +73,7 @@ import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.co
 import { TransferProvidentComponent } from './payroll-transfer/transfer-provident/transfer-provident.component';
 import { ReferralComponent } from './payroll-policy/referral/referral.component';
 import { CloseperiodComponent } from './payroll-policy/closeperiod/closeperiod.component';
+import { PayrollReportsComponent } from './payroll-reports/payroll-reports.component';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { CloseperiodComponent } from './payroll-policy/closeperiod/closeperiod.c
         TransferProvidentComponent,
         ReferralComponent,
         CloseperiodComponent,
+        PayrollReportsComponent,
         
     ],
     imports: [

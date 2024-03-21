@@ -50,6 +50,7 @@ import { PolroundsComponent } from './system-manage/polrounds/polrounds.componen
 
 import { BloodtypeComponent } from './system-policy/bloodtype/bloodtype.component';
 import { SystemForetypeComponent } from './system-policy/system-foretype/system-foretype.component';
+import { SystemReportsComponent } from './system-reports/system-reports.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -105,7 +106,8 @@ import { SystemForetypeComponent } from './system-policy/system-foretype/system-
         
 
 
-
+        //reports
+        { path: 'reports', component: SystemReportsComponent },
 
 
 

@@ -103,6 +103,8 @@ export class RecruimentBlacklistComponent implements OnInit {
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   
+  title_no: { [key: string]: string } = { EN: "No", TH: "ลำดับ" };
+
   doLoadMenu() {
 
     this.items = [

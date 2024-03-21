@@ -31,6 +31,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
+                    <th>{{title_no[initial_current.Language]}}</th>
                     <th>{{title_card[initial_current.Language]}}</th>
                     <th>{{title_name[initial_current.Language]}}</th>
                     <th>{{title_reason[initial_current.Language]}}</th>
@@ -42,6 +43,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
+                    <td><span>{{title_no}}</span>{{i+1}}</td>
                     <td><span>{{title_card[initial_current.Language]}}</span>{{data.card_no}}</td>
                     <td><span>{{title_name[initial_current.Language]}}</span>{{initial_current.Language == "TH"?
                         data.blacklist_fname_th+" "+data.blacklist_lname_th :

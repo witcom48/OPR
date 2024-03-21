@@ -43,6 +43,7 @@ import { RequestDaytypeComponent } from './attendance-dicrequest/request-daytype
 import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timeleave/request-timeleave.component';
 import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-time.component';
 import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin/request-checkin.component';
+import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 
 
 @NgModule({
@@ -96,6 +97,9 @@ import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin
 
         { path: 'dicrequest/requestshift', component: RequestShiftComponent },
         { path: 'dicrequest/requestdaytype', component: RequestDaytypeComponent },
+
+        //reports
+        { path: 'reports', component: AttendanceReportComponent },
 
         { path: '**', redirectTo: '/notfound' }
     ])],

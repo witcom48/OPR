@@ -69,6 +69,7 @@ import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettra
 import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-paysuspend.component';
+import { EmployeeReportsComponent } from './employee-reports/employee-reports.component';
 
 
 @NgModule({
@@ -144,6 +145,7 @@ import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-pays
     EmpsettrainingComponent,
     EmpsetassessmentComponent,
     EmployeePaysuspendComponent,
+    EmployeeReportsComponent,
   ],
   exports: [EmployeeMonitorComponent],
 

@@ -91,6 +91,7 @@ import { RequestTimeleaveComponent } from './attendance-dicrequest/request-timel
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RecordTimeComponent } from './attendance-dicrequest/record-time/record-time.component';
 import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin/request-checkin.component';
+import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 
 
 @NgModule({
@@ -189,6 +190,7 @@ import { RequestCheckinComponent } from './attendance-dicrequest/request-checkin
 		RequestTimeleaveComponent,
 		RecordTimeComponent,
 		RequestCheckinComponent,
+  AttendanceReportComponent,
 	],
 	exports: [ShiftComponent],
 })

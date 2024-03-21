@@ -55,9 +55,7 @@ export class PayrollPolicyComponent implements OnInit {
         this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy', styleClass: 'activelike' }];
 
         this.home = { icon: 'pi pi-home', routerLink: '/' };
-        // setTimeout(() => {
 
-        // }, 500);
     }
 
 
