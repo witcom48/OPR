@@ -43,5 +43,7 @@ export class cls_TRTimeotModel {
 
     status_show: string = "";
 
-    reject_note:string = ""
+    reject_note: string = "";
+
+    depart_so: string = "";
 }

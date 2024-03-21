@@ -455,6 +455,7 @@ export class SelfOvertimeComponent implements OnInit {
             tmp.worker_code = obj.worker_code;
             tmp.company_code = obj.company_code;
             tmp.reqdoc_data = this.selectedtrtimeot.reqdoc_data;
+            tmp.depart_so = this.selectedtrtimeot.depart_so;
             data_doc.push(tmp);
           })
           this.doRecordTimeot(data_doc);

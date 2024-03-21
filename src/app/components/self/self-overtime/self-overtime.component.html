@@ -70,7 +70,10 @@
                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         </div>
-
+        <div class="field col-12 md:col-6">
+            <label>Depart/SO</label>
+            <input class="w-full" [(ngModel)]="selectedtrtimeot.depart_so" type="text" pInputText />
+        </div>
         <div class="field col-12" style="display:flex;flex-direction: column;">
             <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
             <textarea [(ngModel)]="selectedtrtimeot.timeot_note" pInputTextarea [autoResize]="true"></textarea>
@@ -169,7 +172,7 @@
         <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeot"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeot_doc','timeot_workdate_show','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_show','status_show','modified_by','modified_date_show']"
+            [globalFilterFields]="['timeot_doc','timeot_workdate_show','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_show','status_show','modified_by','modified_date_show','depart_so']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -251,6 +254,11 @@
                         <p-sortIcon field="status_show"></p-sortIcon>
                         <p-columnFilter type="text" field="status_show" display="menu" class="ml-auto"></p-columnFilter>
                     </th>
+                    <th pSortableColumn="depart_so">
+                        Depart/SO
+                        <p-sortIcon field="depart_so"></p-sortIcon>
+                        <p-columnFilter type="text" field="depart_so" display="menu" class="ml-auto"></p-columnFilter>
+                    </th>
                     <!-- <th>{{langs.get('status')[selectlang]}}</th> -->
                     <th pSortableColumn="modified_by">
                         {{langs.get('modified_by')[selectlang]}}
@@ -278,7 +286,7 @@
                     <td><span>{{langs.get('after')[selectlang]}}</span>{{data.timeot_aftermin_hrs}}</td>
                     <td><span>{{langs.get('reason')[selectlang]}}</span>{{data.reason_name_show}}</td>
                     <td><span>{{langs.get('status')[selectlang]}}</span>{{data.status_show}}</td>
-
+                    <td><span>Depart/SO</span>{{data.depart_so}}</td>
                     <!-- <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td> -->
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date_show}}</td>
