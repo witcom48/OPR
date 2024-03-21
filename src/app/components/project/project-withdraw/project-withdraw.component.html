@@ -1,0 +1,236 @@
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+
+
+<p-dialog header="{{title_timesheet[initial_current.Language]}}" [(visible)]="searchEmp" [(visible)]="displayManage"
+    [style]="{width: '60vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '100%', height: '650px'}">
+        <div class="formgrid grid">
+            <!-- <span class=" spn_title_edit field col-12">{{title_working_timesheet[initial_current.Language]}}</span>
+            <br> -->
+
+            <div class="field col-12" *ngIf="edit_timecard==false">
+                <app-select-emp></app-select-emp>
+            </div>
+            <div class="field col-12" *ngIf="edit_timecard">
+                <div class="formgrid grid align-items-end">
+
+                    <div class="field col-12 md:col-3 ">
+                        <input type="text" id="worker_code" [(ngModel)]="selectedWithdraw.worker_code" readonly
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                    </div>
+                    <div class="field col-12 md:col-6 ">
+                        <label for="ppos_shift_code">{{initial_current.Language=="TH"? selectedWithdraw.worker_name_th : selectedWithdraw.worker_name_en }}</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="field col-12">
+                                
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-4 ">
+                            <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
+                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter"
+                                dateFormat="dd/mm/yy" [showTime]="false" 
+                                inputId="selectedDate_fillter"></p-calendar>
+                        </div>                        
+                        <div class="field col-12 md:col-4 ">
+                            <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
+                            <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
+                                [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadJob()">
+                                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                                </ng-template>
+                            </p-dropdown>    
+
+                        </div>
+
+                        
+                        <div class="field col-12 md:col-4 ">
+                            <div class="input_radio">
+                                <input type="radio" name="fav_job" value="0" [(ngModel)]="job_type" (change)="selectJobmainType()" >
+                                <label>{{ title_tab_normal[initial_current.Language] }}</label>
+                                &nbsp;
+        
+                                <input type="radio" name="fav_job" value="1" [(ngModel)]="job_type" (change)="selectJobType()">
+                                <label>{{ title_tab_jobclear[initial_current.Language] }}<span
+                                        style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                    </div>       
+            </div>
+
+            <!--  -->
+            <div class="field col-12" *ngIf="job_type === '0' ">
+                <label>{{title_jobname[initial_current.Language]}}</label><br>
+                <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
+                    [(ngModel)]="selectedWithdraw.projob_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12" *ngIf="job_type === '1' ">
+                <label>{{ title_jobname[initial_current.Language] }}</label><br>
+                <p-dropdown placeholder="--" [options]="projobsub_list" [(ngModel)]="selectedWithdraw.projob_code"
+                    optionValue="projobsub_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{ initial_current.Language === 'TH' ? item.projobsub_name_th : item.projobsub_name_en }}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{ initial_current.Language === 'TH' ? item.projobsub_name_th : item.projobsub_name_en }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            
+            <div class="field col-12">
+                <p-menubar [model]="menu_timecard"></p-menubar>
+                <p-table>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>รหัสเงินได้</th>
+                            <th>รายละเอียดเงินได้</th>
+                            <th>จำนวนเงิน</th>                            
+                        </tr>
+                    </ng-template>
+                    
+                </p-table>
+            </div>
+            
+            <div class="field col-12">
+                <hr>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                [disabled]="hasTruePeriodCloseta" (click)="process()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                    class="p-button-secondary" (click)="close_searchemp()" (click)="close_manage()"></button>
+
+                <!-- <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
+                    (click)="close_manage()"></button> -->
+            </div>
+        </div>
+    </p-scrollPanel>
+
+</p-dialog>
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
+ 
+
+<div class="grid">
+    <div class="col-12">
+
+        <div class="formgrid grid align-items-end">
+            
+            <div class="field col-12 md:col-2 ">
+                <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"
+                    [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
+            </div>
+
+            <div class="field col-12 md:col-2 ">
+                <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
+                    [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
+            </div>
+
+            <!-- โครงการ -->
+            <div class="field col-12 md:col-4 ">
+                <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
+                <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
+                    [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-2 ">
+                <button pButton type="button" class="p-button-secondary button-size-small btndel"
+                    (click)="reloadPage()">
+                    <i class="pi pi-refresh icon-small"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12" *ngIf="loading">
+        <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+    </div>
+
+    <div class="col-12 md:col-12">
+        <!-- <span style="padding: 10px; color:green">Please wait..</span> -->
+        <p-menubar [model]="menu_timecard"></p-menubar>
+
+        <p-table #dtTime [value]="withdraw_list" selectionMode="single" [(selection)]="selectedWithdraw"
+            [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true" [tableStyle]="{'min-width': '55vw'}" 
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+           responsiveLayout="stack"
+            [breakpoint]="'900px'">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th></th>
+                    <th>{{title_date[initial_current.Language]}}</th>
+                    <th>{{title_jobcode[initial_current.Language]}}</th>                  
+                    <th>{{title_empcode[initial_current.Language]}}</th>
+                    <th>{{title_empname[initial_current.Language]}}</th>                    
+                    <th *ngFor="let col of polcost_list_cbb; let idx=index;">{{col.text}}</th>                    
+                    <th>{{title_total[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-withdraw>
+                <tr [pSelectableRow]="withdraw">
+                    <td>
+                        <!-- เลือกที่ละฟิล -->
+
+                        <p-checkbox [(ngModel)]="withdraw.checked" [binary]="true" inputId="checked"
+                            [ngModelOptions]="{standalone: true}" [value]="withdraw"
+                            (click)="toggleSelect(withdraw)"></p-checkbox>
+                    </td>
+                    <td>{{withdraw.prowithdraw_date | date:'dd/MM/yyyy'}} </td>    
+                    <td>{{withdraw.projob_code}}</td>
+                    <td>{{withdraw.worker_code}}</td>
+                    <td align="left">{{initial_current.Language=="TH"? withdraw.worker_name_th : withdraw.worker_name_en }}</td>                    
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">0.00</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">0.00</td>                    
+                    <td style="text-align: right; padding-right: 10px;" >0.00</td>
+                    <td>{{withdraw.modified_by}}</td>
+                    <td>{{withdraw.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

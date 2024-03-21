@@ -98,6 +98,9 @@ export class AppMenuComponent implements OnInit {
                     { label: this.langs.get('project')[this.selectlang], routerLink: ['/project/list'], accessCode: 'PRO002' },
                     { label: this.langs.get('monitor')[this.selectlang], routerLink: ['/project/monitor'], accessCode: 'PRO003' },
                     { label: this.langs.get('timesheet')[this.selectlang], routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
+
+                    { label: 'Withdraw', routerLink: ['/project/withdraw'], accessCode: 'PRO001' },
+
                     { label: this.langs.get('transferrecord')[this.selectlang], routerLink: ['/project/transfer'], accessCode: 'PRO005' },
                     { label: this.langs.get('costcomparison')[this.selectlang], routerLink: ['/project/compare'], accessCode: 'PRO006' },
                     { label: this.langs.get('approvalist')[this.selectlang], routerLink: ['/project/approve'], accessCode: 'PRO007' },
