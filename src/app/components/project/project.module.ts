@@ -58,6 +58,7 @@ import { ProShiftComponent } from './policy/pro-shift/pro-shift.component';
 import { AttendanceModule } from '../attendance/attendance.module';
 
 import {ImageModule} from 'primeng/image';
+import { ProjectWithdrawComponent } from './project-withdraw/project-withdraw.component';
 
 
 @NgModule({
@@ -105,7 +106,7 @@ import {ImageModule} from 'primeng/image';
 
 
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent, ProShiftComponent],
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent, ProShiftComponent, ProjectWithdrawComponent],
 	exports: [ProjectTransferComponent],
 })
 export class ProjectModule { }

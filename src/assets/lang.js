@@ -1062,6 +1062,9 @@ var reqleave = new Map([
     ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
     ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
     ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
+    ["quoted", { TH: "ยอดยกมา", EN: "Quoted" }],
+    
+     
 ]);
 
 

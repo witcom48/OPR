@@ -1869,6 +1869,8 @@ export class EmpDetailService {
       item_data = item_data + ",\"project_code\":\"" + list[i].project_code + "\"";
       item_data = item_data + ",\"projob_code\":\"" + list[i].projob_code + "\"";
       item_data = item_data + ",\"proequipmenttype_code\":\"" + list[i].proequipmenttype_code + "\"";
+      item_data = item_data + ",\"empuniform_size\":\"" + list[i].empuniform_size + "\"";
+      item_data = item_data + ",\"item_code\":\"" + list[i].item_code + "\"";
 
       item_data = item_data + ",\"empuniform_qauntity\":\"" + list[i].empuniform_qauntity + "\"";
       item_data = item_data + ",\"empuniform_amount\":\"" + list[i].empuniform_amount + "\"";

@@ -107,7 +107,7 @@ export class SystemQualificationComponent implements OnInit {
 
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
-      this.title_page = "คุณสมบัติ";
+      this.title_page = "วุฒิการศึกษาที่ครับ";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";

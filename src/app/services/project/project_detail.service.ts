@@ -1817,5 +1817,5 @@ export class ProjectDetailService {
       });
   }
 
-
+ 
 }
