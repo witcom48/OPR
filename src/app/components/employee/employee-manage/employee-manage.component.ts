@@ -6240,4 +6240,12 @@ export class EmployeeManageComponent implements OnInit {
     }
     return statusname;
   }
+
+  setResign(){
+    if (this.selectedEmployee.worker_resignstatus) {
+      this.selectedEmployee.worker_resigndate = new Date(); // Set to current date
+    } else {
+      this.selectedEmployee.worker_resigndate = new Date(0);
+    }
+  }
 }

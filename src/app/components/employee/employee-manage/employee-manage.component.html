@@ -203,7 +203,8 @@
 
                         <div class="checkresign">
                             <p-checkbox name="selectedEmployee.worker_resignstatus"
-                                [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
+                                [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"
+                                (onChange)="setResign()"></p-checkbox>
                             <label>{{title_resignstatus}}</label>
                             &nbsp;
 
