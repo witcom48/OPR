@@ -54,7 +54,7 @@ export class ShiftServices {
             shift_code: Shift.shift_code,
             project: Shift.project
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/shift_list', data, this.options).toPromise()
+        return this.http.get<any>(this.config.ApiAttendanceModule + `/getMTShiftList?com=${this.initial_current.CompCode}&code=${Shift.shift_code}`).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;

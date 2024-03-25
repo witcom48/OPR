@@ -86,6 +86,9 @@ export class TimeotServices {
                 flag: timeot.flag,
                 reqdoc_data: timeot.reqdoc_data,
                 depart_so: timeot.depart_so,
+                time_in: timeot.time_in,
+                time_out: timeot.time_out,
+                allow_break: timeot.allow_break,
 
             }
             ot_datas.push(datas)

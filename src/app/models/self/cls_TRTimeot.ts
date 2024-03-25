@@ -46,4 +46,7 @@ export class cls_TRTimeotModel {
     reject_note: string = "";
 
     depart_so: string = "";
+    time_in: string = "00:00";
+    time_out: string = "00:00";
+    allow_break: boolean = false;
 }

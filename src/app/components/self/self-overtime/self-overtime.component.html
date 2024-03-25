@@ -13,11 +13,11 @@
 <hr>
 <p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
     [position]="position" (onHide)="closeManage()">
-    <div class="formgrid grid align-items-end">
+    <div class="formgrid grid align-items-end ">
         <div style="display: flex;
         align-items: end;
         gap: 15px;
-        padding-bottom: 10px;">
+        padding-bottom: 10px;" class="field col-12">
             <p>{{selectlang=="EN"?'Document approval status':'สถานะการอนุมัติเอกสาร'}} :</p>
             <p-breadcrumb class="max-w-full" [model]="itemsapprove"></p-breadcrumb>
         </div>
@@ -27,6 +27,29 @@
                 [disabled]="edit_data" (onSelect)="doLoadchecldayinleave()"></p-calendar>
             <!-- -
             <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy" inputId="date_to"></p-calendar> -->
+        </div>
+        <div style="
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            
+        " class="field col-12">
+            <div>
+                <p>{{'timein'}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm"
+                    (change)="checktimeintimeout()"></p-inputMask>
+            </div>
+            <div>
+                <p>{{'timeout'}}</p>
+                <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm"
+                    (change)="checktimeintimeout()"></p-inputMask>
+            </div>
+        </div>
+        <div class="field col-12">
+            <input type="checkbox" [(ngModel)]="otbreakall" name="otbreakalls" #otbreakalls="ngModel"
+                (change)="checktimeintimeout()">
+              <label>{{selectlang=='TH'?'ยินยอมจะทำโอทีต่อโดยไม่พัก 30 นาที':'Agree to continue doing OT without taking a 30 minute break.'}}</label>
         </div>
         <div class="reqtimeot field formgrid grid align-items-end">
             <div class="field col-12 md:col-3">

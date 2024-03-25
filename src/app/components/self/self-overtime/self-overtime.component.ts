@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { ShiftModels } from 'src/app/models/attendance/shift';
 import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
@@ -49,7 +51,10 @@ export class SelfOvertimeComponent implements OnInit {
     private approveservice: ApproveServices,
     private timleaveServices: TimeleaveServices,
     private router: Router,
+    private shiftService: ShiftServices,
   ) { }
+  timein: string = "";
+  timeout: string = "";
   indayleve: boolean = false;
   itemsapprove: MenuItem[] = [];
   mainMenuItems: MenuItem[] = [];
@@ -98,7 +103,70 @@ export class SelfOvertimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation();
+    this.doLoadShfit();
   }
+  otbreakall: boolean = false;
+  checktimeintimeout() {
+    if (this.timein) {
+      var date1 = new Date(0, 0, 0, Number(this.timein.split(":")[0]), Number(this.timein.split(":")[1]), 0)
+      var date11 = new Date(0, 0, 0, Number(this.shift_new_list[0].shift_ch3.split(":")[0]), Number(this.shift_new_list[0].shift_ch3.split(":")[1]), 0)
+      console.log('timein', this.get2digits(date1.getHours()), this.get2digits(date1.getMinutes()));
+      console.log('timeshiftin', this.get2digits(date11.getHours()), this.get2digits(date11.getMinutes()));
+      if (date1.getHours() < date11.getHours()) {
+        var datedata = this.subtractHoursAndMinutes(date11, date1.getHours(), date1.getMinutes());
+        console.log(datedata.getHours(), datedata.getMinutes())
+        this.selectedtrtimeot.timeot_beforemin_hrs = this.get2digits(datedata.getHours()) + ":" + this.get2digits(datedata.getMinutes());
+      } else {
+        this.selectedtrtimeot.timeot_beforemin_hrs = "00:00"
+      }
+    }
+    if (this.timeout) {
+      var date2 = new Date(0, 0, 0, Number(this.timeout.split(":")[0]), Number(this.timeout.split(":")[1]), 0)
+      var date22 = new Date(0, 0, 0, Number(this.shift_new_list[0].shift_ch4.split(":")[0]), Number(this.shift_new_list[0].shift_ch4.split(":")[1]), 0)
+      console.log(date2)
+      console.log(date22)
+      console.log('timeout', this.get2digits(date2.getHours()), this.get2digits(date2.getMinutes()));
+      console.log('timeshiftout', this.get2digits(date22.getHours()), this.get2digits(date22.getMinutes()));
+
+      if (date2 > date22) {
+
+        var datedata2 = this.subtractHoursAndMinutes(date2, date22.getHours(), this.otbreakall ? date22.getMinutes() : date22.getMinutes() + 30);
+        console.log(datedata2.getHours(), datedata2.getMinutes())
+        this.selectedtrtimeot.timeot_aftermin_hrs = this.get2digits(datedata2.getHours()) + ":" + this.get2digits(datedata2.getMinutes());
+      } else {
+        this.selectedtrtimeot.timeot_aftermin_hrs = "00:00"
+      }
+    }
+  }
+
+  subtractHoursAndMinutes(date: Date, hours: number, minutes: number) {
+    // Clone the date to avoid modifying the original
+    var result = new Date(date);
+
+    // Subtract hours and minutes
+    result.setHours(result.getHours() - hours);
+    result.setMinutes(result.getMinutes() - minutes);
+
+    return result;
+  }
+
+
+  get2digits(currentHours: number) {
+    return ("0" + currentHours).slice(-2)
+  }
+
+  shift_new_list: ShiftModels[] = [];
+  doLoadShfit() {
+    this.shift_new_list = [];
+    let data = new ShiftModels()
+    data.shift_code = 'Shift N1';
+    this.shiftService.shift_get(data).then(async (res) => {
+      this.shift_new_list = await res;
+      console.log(this.shift_new_list);
+    });
+  }
+
+
   doLoadStatusApprove(doc: string) {
     // this.itemsapprove = [];
     let datas: { label: any; styleClass?: string; }[] = [];
@@ -377,6 +445,9 @@ export class SelfOvertimeComponent implements OnInit {
     this.doGetfileTimeot(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
+    this.timein = this.selectedtrtimeot.time_in
+    this.timeout = this.selectedtrtimeot.time_out
+    this.otbreakall = this.selectedtrtimeot.allow_break;
     this.doLoadStatusApprove(this.selectedtrtimeot.timeot_doc);
     this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == this.selectedtrtimeot.location_code) {
@@ -406,6 +477,9 @@ export class SelfOvertimeComponent implements OnInit {
   closeManage() {
     this.selectedtrtimeot = new cls_TRTimeotModel();
     this.displayManage = false
+    this.timein = "";
+    this.timeout = "";
+    this.otbreakall = false;
 
   }
 
@@ -433,6 +507,9 @@ export class SelfOvertimeComponent implements OnInit {
       header: this.langs.get('title_ot')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.selectedtrtimeot.time_in = this.timein
+        this.selectedtrtimeot.time_out = this.timeout
+        this.selectedtrtimeot.allow_break = this.otbreakall;
         this.selectedtrtimeot.timeot_beforemin = this.getMin(this.selectedtrtimeot.timeot_beforemin_hrs)
         this.selectedtrtimeot.timeot_normalmin = this.getMin(this.selectedtrtimeot.timeot_normalmin_hrs)
         this.selectedtrtimeot.timeot_breakmin = this.getMin(this.selectedtrtimeot.timeot_break_hrs)
@@ -456,6 +533,9 @@ export class SelfOvertimeComponent implements OnInit {
             tmp.company_code = obj.company_code;
             tmp.reqdoc_data = this.selectedtrtimeot.reqdoc_data;
             tmp.depart_so = this.selectedtrtimeot.depart_so;
+            tmp.time_in = this.timein;
+            tmp.time_out = this.timeout;
+            tmp.allow_break = this.otbreakall;
             data_doc.push(tmp);
           })
           this.doRecordTimeot(data_doc);
