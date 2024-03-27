@@ -1712,4 +1712,6 @@ var reports = new Map([
     ["to", { TH: "ถึงวันที่", EN: "Todate" }],
     ["pay_year", { TH: "ปี", EN: "Year" }],
     ["payment", { TH: "วันที่จ่าย", EN: "Paymnet" }],
+    ["closepr", { TH: "กรุณาปิดงวดก่อน", EN: "Please Close Period First" }],
+
 ]);
