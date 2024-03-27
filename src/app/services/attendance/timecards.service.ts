@@ -77,7 +77,7 @@ export class TimecardService {
     };
 
 
-    return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_list', filter, this.options).toPromise()
+    return this.http.get<any>(this.config.ApiAttendanceModule + `/getTRTimecardList?com=${this.initial_current.CompCode}&emp=${worker}&fromdate=${datefrom}&todate=${datefrom}`).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         //// console.log(res)
@@ -169,7 +169,7 @@ export class TimecardService {
       emp_data: emplists,
 
     };
-     return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()
       .then((res) => {
         return res;
       });

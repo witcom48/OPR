@@ -12,6 +12,7 @@ import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
+import { TimecardService } from 'src/app/services/attendance/timecards.service';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
@@ -52,6 +53,7 @@ export class SelfOvertimeComponent implements OnInit {
     private timleaveServices: TimeleaveServices,
     private router: Router,
     private shiftService: ShiftServices,
+    private timecardService: TimecardService,
   ) { }
   timein: string = "";
   timeout: string = "";
@@ -103,8 +105,8 @@ export class SelfOvertimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation();
-    this.doLoadShfit();
   }
+  timeshift_old: string = "";
   otbreakall: boolean = false;
   checktimeintimeout() {
     if (this.timein) {
@@ -112,7 +114,7 @@ export class SelfOvertimeComponent implements OnInit {
       var date11 = new Date(0, 0, 0, Number(this.shift_new_list[0].shift_ch3.split(":")[0]), Number(this.shift_new_list[0].shift_ch3.split(":")[1]), 0)
       console.log('timein', this.get2digits(date1.getHours()), this.get2digits(date1.getMinutes()));
       console.log('timeshiftin', this.get2digits(date11.getHours()), this.get2digits(date11.getMinutes()));
-      if (date1.getHours() < date11.getHours()) {
+      if (date1 < date11) {
         var datedata = this.subtractHoursAndMinutes(date11, date1.getHours(), date1.getMinutes());
         console.log(datedata.getHours(), datedata.getMinutes())
         this.selectedtrtimeot.timeot_beforemin_hrs = this.get2digits(datedata.getHours()) + ":" + this.get2digits(datedata.getMinutes());
@@ -159,10 +161,15 @@ export class SelfOvertimeComponent implements OnInit {
   doLoadShfit() {
     this.shift_new_list = [];
     let data = new ShiftModels()
-    data.shift_code = 'Shift N1';
-    this.shiftService.shift_get(data).then(async (res) => {
-      this.shift_new_list = await res;
-      console.log(this.shift_new_list);
+    this.timecardService.timecard_get(this.initial_current.CompCode, "", this.initial_current.Username, this.selectedtrtimeot.timeot_workdate, this.selectedtrtimeot.timeot_workdate).then(async (res) => {
+      res.forEach(async (obj: ShiftModels) => {
+        this.timeshift_old = obj.shift_code
+        data.shift_code = obj.shift_code;
+        await this.shiftService.shift_get(data).then(async (res) => {
+          this.shift_new_list = await res;
+          console.log(this.shift_new_list);
+        });
+      })
     });
   }
 
@@ -327,6 +334,7 @@ export class SelfOvertimeComponent implements OnInit {
               this.account_list_source.push(obj)
             })
           }
+          this.doLoadShfit();
           this.showManage()
         }
 
@@ -459,6 +467,7 @@ export class SelfOvertimeComponent implements OnInit {
         this.reasonselected = obj;
       }
     })
+    this.doLoadShfit();
     this.edit_data = true;
     this.displayManage = true
   }
