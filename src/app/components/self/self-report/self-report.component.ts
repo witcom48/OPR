@@ -133,11 +133,14 @@ export class SelfReportComponent implements OnInit {
       this.reportjob.reportjob_paydate = this.initial_current.PR_PayDate;
       this.reportjob.reportjob_section = '';
     }
-    
-    console.log(this.reportjob)
     //-- Step 2 Task detail
     if(this.selectEmp.employee_dest.length == 0){
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('alertselect')[this.selectlang] });
+      return;
+    }
+    //-- Check Close Period
+    if(this.selected_report == 'PR6' && !this.periodSeleted.period_closepr){
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('closepr')[this.selectlang] });
       return;
     }
 
