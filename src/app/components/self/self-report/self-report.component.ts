@@ -42,24 +42,24 @@ export class SelfReportComponent implements OnInit {
   index: number = 0;
   edit_data: boolean = false;
   new_data: boolean = false;
-  
-  selected_report : string ="";
-  rptType : RptType[] = [
+
+  selected_report: string = "";
+  rptType: RptType[] = [
     //Leave
-    {name_th : 'บันทึกเวลาการลา',name_en : 'Leave time record',code:'TA002',type:'Leave'},
-    {name_th : 'สถิติการลาหยุดงาน',name_en : 'Leave statistics',code:'TA005',type:'Leave'},
-    {name_th : 'รายงานการขอลางาน',name_en : 'Request Leave Report',code:'TA011',type:'Leave'},
+    { name_th: 'บันทึกเวลาการลา', name_en: 'Leave time record', code: 'TA002', type: 'Leave' },
+    { name_th: 'สถิติการลาหยุดงาน', name_en: 'Leave statistics', code: 'TA005', type: 'Leave' },
+    { name_th: 'รายงานการขอลางาน', name_en: 'Request Leave Report', code: 'TA011', type: 'Leave' },
     //OT
-    {name_th : 'บันทึกการทำล่วงเวลา',name_en : 'Overtime record',code:'TA004',type:'OT'},
-    {name_th : 'สรุปจำนวนชั่วโมงโอที',name_en : 'Summary Overtime',code:'TA007',type:'OT'},
-    {name_th : 'รายงานการจ่ายค่าล่วงเวลาตามอัตรา',name_en : 'Over Time Record By Rate',code:'TA008',type:'OT'},
-    {name_th : 'รายงานการขอทำล่วงเวลา',name_en : 'Over Time Requisition',code:'TA015',type:'OT'},
+    { name_th: 'บันทึกการทำล่วงเวลา', name_en: 'Overtime record', code: 'TA004', type: 'OT' },
+    { name_th: 'สรุปจำนวนชั่วโมงโอที', name_en: 'Summary Overtime', code: 'TA007', type: 'OT' },
+    { name_th: 'รายงานการจ่ายค่าล่วงเวลาตามอัตรา', name_en: 'Over Time Record By Rate', code: 'TA008', type: 'OT' },
+    { name_th: 'รายงานการขอทำล่วงเวลา', name_en: 'Over Time Requisition', code: 'TA015', type: 'OT' },
     //Check-In
-    {name_th : 'บันทึกการมาปฎิบัติงาน',name_en : 'Attendance record',code:'TA001',type:'Check-in'},
-    {name_th : 'การมาปฎิบัติงานสรุปแบบรายงวด',name_en : 'Attendance Summary By Period',code:'TA006',type:'Check-in'},
-    {name_th : 'Time Attendance Record',name_en : 'Time Attendance Record',code:'TA2',type:'Check-in'},
+    { name_th: 'บันทึกการมาปฎิบัติงาน', name_en: 'Attendance record', code: 'TA001', type: 'Check-in' },
+    { name_th: 'การมาปฎิบัติงานสรุปแบบรายงวด', name_en: 'Attendance Summary By Period', code: 'TA006', type: 'Check-in' },
+    { name_th: 'Time Attendance Record', name_en: 'Time Attendance Record', code: 'TA2', type: 'Check-in' },
     //
-    {name_th : 'สลิปเงินเดือน(STD)',name_en : 'Payslip(STD)',code:'PR6',type:'Slip'},
+    { name_th: 'สลิปเงินเดือน(STD)', name_en: 'Payslip(STD)', code: 'PR6', type: 'Slip' },
 
   ];
   constructor(
@@ -69,9 +69,9 @@ export class SelfReportComponent implements OnInit {
     private router: Router,
     private accountServie: AccountServices,
     private approveservice: ApproveServices,
-    private reportjobService:ReportjobService,
-    private yearService : YearsSelfService,
-    private periodService : PeriodSelfService
+    private reportjobService: ReportjobService,
+    private yearService: YearsSelfService,
+    private periodService: PeriodSelfService
   ) { }
 
   ngOnInit(): void {
@@ -91,19 +91,19 @@ export class SelfReportComponent implements OnInit {
     this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
     this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
-   
+
     if (this.initial_current.Usertype !== 'Emp') {
       this.rptType = this.rptType.filter(item => item.code !== 'PR6');
-  }
+    }
   }
 
-  dateFrom:Date = new Date();
-  dateTo:Date = new Date();
+  dateFrom: Date = new Date();
+  dateTo: Date = new Date();
 
-  updateFromDate(event : any) {
+  updateFromDate(event: any) {
     this.dateFrom = new Date(event);
   }
-  updateToDate(event : any) {
+  updateToDate(event: any) {
     this.dateTo = new Date(event);
   }
 
@@ -111,10 +111,10 @@ export class SelfReportComponent implements OnInit {
     this.mainMenuItems = [{ label: this.langs.get('reports')[this.selectlang], routerLink: '/self/reports' },]
   }
 
-  public reportjob:ReportjobModel = new ReportjobModel();  
+  public reportjob: ReportjobModel = new ReportjobModel();
   process() {
     //-- Step 1 Task master
-    if(this.selected_report == 'PR6'){
+    if (this.selected_report == 'PR6') {
       this.reportjob.company_code = this.initial_current.CompCode;
       this.reportjob.reportjob_type = this.selected_report;
       this.reportjob.reportjob_status = "W";
@@ -123,7 +123,7 @@ export class SelfReportComponent implements OnInit {
       this.reportjob.reportjob_todate = this.periodSeleted.period_to;
       this.reportjob.reportjob_paydate = this.periodSeleted.period_payment;
       this.reportjob.reportjob_section = '';
-    }else{
+    } else {
       this.reportjob.company_code = this.initial_current.CompCode;
       this.reportjob.reportjob_type = this.selected_report;
       this.reportjob.reportjob_status = "W";
@@ -134,29 +134,29 @@ export class SelfReportComponent implements OnInit {
       this.reportjob.reportjob_section = '';
     }
     //-- Step 2 Task detail
-    if(this.selectEmp.employee_dest.length == 0){
+    if (this.selectEmp.employee_dest.length == 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('alertselect')[this.selectlang] });
       return;
     }
     //-- Check Close Period
-    if(this.selected_report == 'PR6' && !this.periodSeleted.period_closepr){
+    if (this.selected_report == 'PR6' && !this.periodSeleted.period_closepr) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('closepr')[this.selectlang] });
       return;
     }
 
-    this.reportjobService.doManage(this.reportjob, this.selectEmp.employee_dest).then((res) =>{      
-      if(res.result){
+    this.reportjobService.doManage(this.reportjob, this.selectEmp.employee_dest).then((res) => {
+      if (res.result) {
         //console.log('Success');
         //this.doPrintMessage("Success", "1");    
         this.doPreview(res.result_text);
       }
-      else{
+      else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('alerterror')[this.selectlang] });
       }
-      
-    }); 
+
+    });
   }
-  doPreview(token:string){
+  doPreview(token: string) {
     window.open(this.config.WebReporting + token, "_blank");
   }
 
@@ -195,16 +195,21 @@ export class SelfReportComponent implements OnInit {
       const currentYear = this.initial_current.PR_Year;
       this.selectedYear = currentYear.toString();
     }
-    this.periodService.getList(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.selectedYear).subscribe((response) => {
-      let resultJSON = JSON.parse(response);
+    this.periodService.getList(this.initial_current.CompCode, "PAY", this.initial_current.EmpType, this.selectedYear).subscribe(async (response) => {
+      let resultJSON = await JSON.parse(response);
       if (resultJSON.result == "1") {
-        this.periodList = resultJSON.data;
-        this.doGetPaymentDate()
+        // this.periodList = resultJSON.data;
+        await resultJSON.data.forEach((element: PeriodsModels) => {
+          if (element.period_closepr && element.period_closeta) {
+            this.periodList.push(element);
+          }
+        });
+        await this.doGetPaymentDate()
       }
     });
   }
 
-  doGetPaymentDate() {
+  async doGetPaymentDate() {
 
     for (let i = 0; i < this.periodList.length; i++) {
 
