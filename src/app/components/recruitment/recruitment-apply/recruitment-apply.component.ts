@@ -375,6 +375,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.doLoadApplywork();
             } else {
                 this.createReqID();
+                this.selectedReqworker.nationality_code = "TH";
+                this.selectedReqworker.worker_hiredate = new Date();
             }
         }, 400);
     }
@@ -653,6 +655,10 @@ export class RecruitmentApplyComponent implements OnInit {
     title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
     title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
     title_expage: { [key: string]: string } = { EN: "Workage", TH: "อายุงาน" };
+    //
+    type_D: { [key: string]: string } = { EN: "Dayly", TH: "รายวัน" };
+    type_M: { [key: string]: string } = { EN: "Monthly", TH: "รายเดือน" };
+    type_H: { [key: string]: string } = { EN: "Hourly", TH: "รายชั่วโมง" };
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
@@ -3571,18 +3577,18 @@ export class RecruitmentApplyComponent implements OnInit {
     onRowSelectfileID(event: Event) {
         // this.doGetReqAttfileID(this.selecteddocattID.document_path, this.selecteddocattID.document_type)
     }
-    delete_fileID(){
-        var tmp : ApplyMTDocattModel = new ApplyMTDocattModel();
+    delete_fileID() {
+        var tmp: ApplyMTDocattModel = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode;
         tmp.worker_code = this.selectedReqworker.worker_code;
         tmp.job_type = "IDCARD";
-        this.applyworkService.delete_file(tmp).then((res)=>{
+        this.applyworkService.delete_file(tmp).then((res) => {
             let result = JSON.parse(res);
         })
     }
     record_fileID() {
         if (this.reqdocattID.length == 0) {
-            return ;
+            return;
         }
         this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID, "IDCARD").then((res) => {
             let result = JSON.parse(res);

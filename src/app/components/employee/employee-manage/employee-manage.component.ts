@@ -522,6 +522,8 @@ export class EmployeeManageComponent implements OnInit {
       } else {
         this.doGetNewCode("", "");
         this.selectedEmployee.nationality_code = "TH";
+        this.selectedEmployee.worker_hiredate = new Date();
+        this.selectedEmployee.worker_probationdate = new Date();
       }
 
     }, 400);

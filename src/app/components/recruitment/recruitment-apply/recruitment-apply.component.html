@@ -85,7 +85,7 @@
                             <hr>
                         </div>
 
-                        <div style="grid-column: 1;">
+                        <!-- <div style="grid-column: 1;">
                             <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
                             <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.worker_type"
@@ -97,13 +97,31 @@
                                     {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                                 </ng-template>
                             </p-dropdown>
+                        </div> -->
+
+                        <div>
+                            <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
+                            <div class="radiotype">
+                                <p-radioButton name="Emptype" value="D"
+                                    [(ngModel)]="selectedReqworker.worker_type"></p-radioButton>
+                                <label>{{type_D[initial_current.Language]}}</label>
+                                &nbsp;&nbsp;
+                                <p-radioButton name="Emptype" value="M"
+                                    [(ngModel)]="selectedReqworker.worker_type"></p-radioButton>
+                                <label>{{type_M[initial_current.Language]}}</label>
+                                &nbsp;&nbsp;
+                                <p-radioButton name="Emptype" value="H"
+                                    [(ngModel)]="selectedReqworker.worker_type"></p-radioButton>
+                                <label>{{type_H[initial_current.Language]}}</label>
+                            </div>
                         </div>
 
                         <div>
                             <label for="lastname2">{{title_status}} : <span style="color: red;"> *</span></label>
                             <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.worker_status"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                filterBy="status_code,status_name_th,status_name_en">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
                                 </ng-template>
@@ -117,7 +135,8 @@
                                     style="color: red;"> *</span></label>
                             <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.nationality_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                filterBy="ethnicity_code,ethnicity_name_th,ethnicity_name_en">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
@@ -408,7 +427,8 @@
                             <label for="lastname2">{{title_religion}} :</label>
                             <p-dropdown placeholder="--" [options]="religionList" optionValue="religion_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.religion_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                filterBy="religion_code,religion_name_th,religion_name_en">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.religion_name_th : item.religion_name_en}}
                                 </ng-template>
@@ -422,7 +442,8 @@
                             <label for="lastname2">{{title_blood}} :</label>
                             <p-dropdown placeholder="--" [options]="bloodtypeList" optionValue="bloodtype_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.blood_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                filterBy="bloodtype_code,bloodtype_name_th,bloodtype_name_en">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.bloodtype_name_th : item.bloodtype_name_en}}
                                 </ng-template>
@@ -1387,7 +1408,8 @@
         <!--  -->
         <label for="lastname2">{{title_addresstype}} :</label>
         <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
-            [(ngModel)]="selectedReqAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="addresstype_code,addresstype_name_th,addresstype_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
             </ng-template>
@@ -1415,7 +1437,8 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_amphur">
         <label>{{title_province}}</label>
         <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
-            [(ngModel)]="selectedReqAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="province_code,province_name_th,province_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
             </ng-template>
@@ -1512,7 +1535,8 @@
         <div>
             <label for="lastname2">{{title_institute}} :</label>
             <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-                [(ngModel)]="selectedReqeducation.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
+                [(ngModel)]="selectedReqeducation.institute_code" [style]="{ width: '100%', overflow: 'visible' }"
+                [filter]="true" filterBy="institute_code,institute_name_th,institute_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
                 </ng-template>
@@ -1528,7 +1552,8 @@
         <div>
             <label for="lastname2">{{title_faculty}} :</label>
             <p-dropdown placeholder="--" [options]="facultyList" optionValue="faculty_code" [showClear]="true"
-                [(ngModel)]="selectedReqeducation.faculty_code" [style]="{ width: '100%', overflow: 'visible' }">
+                [(ngModel)]="selectedReqeducation.faculty_code" [style]="{ width: '100%', overflow: 'visible' }"
+                [filter]="true" filterBy="faculty_code,faculty_name_th,faculty_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.faculty_name_th : item.faculty_name_en}}
                 </ng-template>
@@ -1544,7 +1569,8 @@
         <div>
             <label for="lastname2">{{title_major}} :</label>
             <p-dropdown placeholder="--" [options]="majorList" optionValue="major_code" [showClear]="true"
-                [(ngModel)]="selectedReqeducation.major_code" [style]="{ width: '100%', overflow: 'visible' }">
+                [(ngModel)]="selectedReqeducation.major_code" [style]="{ width: '100%', overflow: 'visible' }"
+                [filter]="true" filterBy="major_code,major_name_th,major_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.major_name_th : item.major_name_en}}
                 </ng-template>
@@ -1562,7 +1588,8 @@
             <label for="lastname2">{{title_qualification}} :</label>
             <p-dropdown placeholder="--" [options]="qualificationList" optionValue="qualification_code"
                 [showClear]="true" [(ngModel)]="selectedReqeducation.qualification_code"
-                [style]="{ width: '100%', overflow: 'visible' }">
+                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                filterBy="qualification_code,qualification_name_th,qualification_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.qualification_name_th : item.qualification_name_en}}
                 </ng-template>
@@ -1599,7 +1626,8 @@
         <div>
             <label for="lastname2">{{title_course}} :</label>
             <p-dropdown placeholder="--" [options]="courseList" optionValue="course_code" [showClear]="true"
-                [(ngModel)]="selectedReqtraining.course_code" [style]="{ width: '100%', overflow: 'visible' }">
+                [(ngModel)]="selectedReqtraining.course_code" [style]="{ width: '100%', overflow: 'visible' }"
+                [filter]="true" filterBy="course_code,course_name_th,course_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
                 </ng-template>
@@ -1615,7 +1643,8 @@
         <div>
             <label for="lastname2">{{title_institute}} :</label>
             <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-                [(ngModel)]="selectedReqtraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
+                [(ngModel)]="selectedReqtraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                filterBy="institute_code,institute_name_th,institute_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
                 </ng-template>
@@ -1665,7 +1694,7 @@
 
     <!-- Form Req Assessment -->
     <div class="formatt" *ngIf="edit_reqassessment==true || new_assessment==true">
-        <label>{{title_institute}}</label>
+        <!-- <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedReqassessment.empassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1674,7 +1703,7 @@
             <ng-template let-item pTemplate="item">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
-        </p-dropdown>
+        </p-dropdown> -->
 
         <label>{{title_topic}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqassessment.empassessment_topic">
@@ -1712,7 +1741,8 @@
     <div class="formatt" *ngIf="edit_reqcriminal==true || new_criminal==true">
         <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-            [(ngModel)]="selectedReqCriminal.empcriminal_location" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqCriminal.empcriminal_location" [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="institute_code,institute_name_th,institute_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
@@ -1783,7 +1813,8 @@
         <label>{{title_position}}</label>
         <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
             [(ngModel)]="selectedReqPosition.empposition_position" (onChange)="changepos($event.value)"
-            [style]="{ width: '100%', overflow: 'visible' }">
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="position_code,position_name_th,position_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th :
                 item.request_code+" - "+item.position_name_en}}
@@ -1805,7 +1836,8 @@
     <div class="formatt" *ngIf="edit_reqproject==true || new_project==true">
         <label>{{title_project[initial_current.Language]}}</label>
         <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
-            [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="request_project,project_name_th,project_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th
                 : item.request_code+" - "+item.project_name_en}}
@@ -1858,7 +1890,8 @@
     <div class="formatt" *ngIf="edit_reqbenefit==true || new_benefit==true">
         <label>{{title_item[initial_current.Language]}}</label>
         <p-dropdown placeholder="--" [options]="itemList" optionValue="item_code" [showClear]="true"
-            [(ngModel)]="selectedReqBenefit.item_code" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqBenefit.item_code" [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="item_code,item_name_th,item_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.item_name_th : item.item_name_th}}
             </ng-template>
@@ -1927,7 +1960,8 @@
         <label>{{title_reason}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedReqBenefit.empbenefit_reason"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            [style]="{ width: '100%', overflow: 'visible' }" 
+            [filter]="true" filterBy="reason_code,reason_name_th,reason_name_en"></p-dropdown>
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedReqBenefit.empbenefit_note" pInputTextarea [autoResize]="true"></textarea>

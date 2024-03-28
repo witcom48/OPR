@@ -264,7 +264,7 @@ export class EmployeeListComponent implements OnInit {
 
       },
       {
-        label: this.title_manage[this.initial_current.Language],
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         // command: (event) => {
         //   window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Emptype.xlsx', '_blank');

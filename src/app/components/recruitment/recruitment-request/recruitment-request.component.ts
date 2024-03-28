@@ -320,6 +320,8 @@ export class RecruitmentRequestComponent implements OnInit {
   }
 
   requestCurrent: number = 0;
+  requestQuantity : number = 0;
+  requestAccepted:number = 0;
   doLoadRequest() {
     var tmp = new RequestModel();
     tmp.request_status = this.status_select.code
