@@ -33,9 +33,9 @@ export class DicRequestComponent implements OnInit {
   title_requestOvertime: { [key: string]: string } = { EN: "Request Overtime", TH: "ขอทำล่วงเวลา" };
   title_requestleave: { [key: string]: string } = { EN: "Request leave", TH: "ขอลางาน" };
 
-  title_requestShift: { [key: string]: string } = { EN: "Request Change Shift", TH: "Request Change Shift" };
-  title_requestDay: { [key: string]: string } = { EN: "Request Change Daytype", TH: "Request Change Daytype" };
-  title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลงเวลา" };
+  title_requestShift: { [key: string]: string } = { EN: "Request Change Shift", TH: "ขอเปลี่ยนกะการทำงาน" };
+  title_requestDay: { [key: string]: string } = { EN: "Request Change Daytype", TH: "ขอเปลี่ยนประเภทวัน" };
+  title_record_time: { [key: string]: string } = { EN: "Record time", TH: "บันทึกการลืมลงเวลา" };
 
   title_checkinout: { [key: string]: string } = { EN: "Check IN/OUT", TH: "การเช็คอิน / การเช็คเอาท์" };
 
